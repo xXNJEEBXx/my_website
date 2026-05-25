@@ -526,9 +526,8 @@
           }
         }
 
-        // Combobox Enter Hack: Staggered asynchronously and values set WITHOUT premature blur
+        // Combobox Native Click Hack: Oracle HCM requires physically clicking options from the listbox
         const comboboxes = Array.from(document.querySelectorAll('input[role="combobox"]'));
-        
         const oracleComboboxData = {
           'month-startDate': 'January',
           'year-startDate': '2020',
@@ -547,23 +546,36 @@
 
           if (targetValue) {
             setTimeout(() => {
+              // Step 1: Open the dropdown
               box.focus();
-              box.select();
-              try { document.execCommand('insertText', false, targetValue); } catch(e) {}
-              
-              const nativeSet = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')?.set;
-              if (nativeSet) nativeSet.call(box, targetValue);
-              else box.value = targetValue;
-              
-              if (box._valueTracker) box._valueTracker.setValue('');
-              box.dispatchEvent(new Event('input', { bubbles: true }));
-              
+              box.click();
+              box.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+
+              // Step 2: Wait for listbox to render in DOM, then find and click the option
               setTimeout(() => {
-                box.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, bubbles: true }));
-                box.blur();
-              }, 600); // Wait 600ms for React dropdown to render
+                const listboxId = box.getAttribute('aria-controls');
+                if (listboxId) {
+                  const listbox = document.getElementById(listboxId);
+                  if (listbox) {
+                    const options = Array.from(listbox.querySelectorAll('li, tr, div[role="option"]'));
+                    let targetOption = options.find(opt => (opt.innerText || opt.textContent || '').trim().toLowerCase().includes(targetValue.toLowerCase()));
+                    
+                    // Fallback for months represented as numbers
+                    if (!targetOption && targetValue === 'January') {
+                      targetOption = options.find(opt => (opt.innerText || '').trim() === '1' || (opt.innerText || '').trim() === '01');
+                    }
+
+                    if (targetOption) {
+                      targetOption.scrollIntoView({ block: 'center' });
+                      targetOption.click();
+                      targetOption.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+                      targetOption.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }));
+                    }
+                  }
+                }
+              }, 500);
             }, delay);
-            delay += 1200; // Stagger next combobox
+            delay += 1000;
           }
         }
       }
