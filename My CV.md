@@ -210,18 +210,30 @@ bulkFill({
    **Step A — Simplify Extension (الخيار الأول)**
    If the Simplify extension is available and active, trigger it first. It handles basic fields and CV upload well on supported platforms.
 
-   **Step B — JavaScript Bulk Fill (إلزامي بعد Simplify)**
-   After Simplify finishes (or if it's unavailable), the agent MUST:
-   1. Detect the platform (see Platform Detection above)
-   2. If known platform → use the matching Platform Template script
-   3. If unknown platform → scan the page DOM (`document.querySelectorAll('input, textarea, select')`) and build a custom `bulkFill({...})` mapping
-   4. Execute the JS script in the browser console to fill ALL remaining empty fields at once
-   5. Visually verify all fields are filled correctly
+   **Step B — CV AutoFill Extension (إلزامي بعد Simplify)**
+   After Simplify finishes (or if it's unavailable), the agent MUST call the CV AutoFill extension:
+   ```javascript
+   // One command — fills everything
+   const report = window.__CV_AGENT.fill();
+   ```
+   The extension will:
+   1. Auto-detect the platform (Greenhouse, Oracle HCM, SmartRecruiters, etc.)
+   2. Use the matching template if known, otherwise smart-scan all fields
+   3. Fill ALL empty fields at once with React/Vue-compatible value setting
+   4. Return a detailed report of what was filled, skipped, and failed
+
+   **Other available commands:**
+   - `window.__CV_AGENT.set(selector, value)` — fill one specific field
+   - `window.__CV_AGENT.bulk({ '#name': 'X', '#email': 'Y' })` — fill multiple fields
+   - `window.__CV_AGENT.select('select#country', 'Saudi Arabia')` — fill a `<select>` dropdown
+   - `window.__CV_AGENT.scan()` — smart-scan only (no template)
+   - `window.__CV_AGENT.files()` — list file upload fields on the page
+   - `window.__CV_AGENT.debug()` — show all fields and what the mapper sees
 
    **Step C — Click + Type (آخر حل)**
-   Use Click + Type ONLY for specific fields that failed BOTH Simplify and JS injection (e.g., iframes, shadow DOM, heavily protected inputs). Do NOT default to this method.
+   Use Click + Type ONLY for specific fields that failed BOTH Simplify and the extension (e.g., custom UI components, heavily protected inputs). Do NOT default to this method.
 
-   ⛔ **Typing field-by-field from the start is FORBIDDEN.** Always attempt Simplify → JS Bulk Fill first.
+   ⛔ **Typing field-by-field from the start is FORBIDDEN.** Always attempt Simplify → `__CV_AGENT.fill()` first.
 
 2. **File Uploads (السيرة الذاتية والخطابات)**
 

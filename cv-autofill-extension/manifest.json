@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "CV AutoFill — Agent Tool",
+  "version": "1.0.0",
+  "description": "Auto-fills job application forms. Exposes window.__CV_AGENT.fill() for browser agent use.",
+  "icons": {
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "all_frames": true,
+      "world": "MAIN",
+      "run_at": "document_idle"
+    }
+  ],
+  "permissions": []
+}
