@@ -156,6 +156,10 @@
       'input[id*="Phone"]': CV.phone,
       'input[id*="City"]': CV.city,
       'input[id*="PostalCode"]': CV.postalCode,
+      // Dynamic sections
+      'input[name="startDate"][id^="month-"]': '01',
+      'input[name="startDate"][id^="year-"]': '2020',
+      'input[name="contentItemId"]': CV.languageNative,
     },
     lever: {
       'input[name="name"]': CV.displayName,
@@ -496,18 +500,41 @@
       let report;
 
       if (PLATFORM_SELECTORS[platform]) {
-        // Known platform — use template
         report = fillByMap(PLATFORM_SELECTORS[platform]);
         report.method = 'template';
 
-        // After template, also smart-scan for any fields the template missed
         const smartReport = smartScan();
         report.filled = report.filled.concat(smartReport.filled);
         report.unmapped = smartReport.unmapped;
       } else {
-        // Unknown platform — smart scan all fields
         report = smartScan();
         report.method = 'smart_scan';
+      }
+
+      // Handle Oracle HCM specific custom components (Checkboxes, Pill buttons)
+      if (platform === 'oracle_hcm') {
+        // Current Job Checkbox
+        const currentJobLabels = document.querySelectorAll('label.apply-flow-input-checkbox');
+        for (const lbl of currentJobLabels) {
+          if (/current/i.test(lbl.innerText || lbl.textContent)) {
+            // Find the hidden checkbox to check its state
+            const cb = document.getElementById(lbl.getAttribute('for'));
+            if (cb && !cb.checked) {
+              lbl.click();
+              report.filled.push({ selector: 'Current Job Checkbox', value: 'checked', success: true });
+            }
+          }
+        }
+
+        // Language Level (Native/Fluent)
+        const languageBtns = document.querySelectorAll('ul[aria-label="Level"] button span.cx-select-pill-name');
+        for (const span of languageBtns) {
+          if (/native|fluent|عالي|أصلي/i.test((span.innerText || span.textContent).trim())) {
+            span.parentElement.click();
+            report.filled.push({ selector: 'Language Level', value: 'Native', success: true });
+            break; // Select only one
+          }
+        }
       }
 
       report.platform = platform;
