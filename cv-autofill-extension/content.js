@@ -584,10 +584,10 @@
                 setTimeout(() => {
                   box.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, bubbles: true }));
                   box.blur();
-                }, 500);
-              }, 1200); // 1.2s wait to ensure heavy Knockout filters run
+                }, 800);
+              }, 2500); // 2.5s wait to ensure heavy Knockout filters (like huge language lists) run
             }, delay);
-            delay += 3000; // Stagger heavily to avoid any overlaps
+            delay += 4000; // Stagger heavily to avoid any overlaps
           }
         }
       }
