@@ -526,56 +526,36 @@
           }
         }
 
-        // Combobox Native Click Hack: Oracle HCM requires physically clicking options from the listbox
-        const comboboxes = Array.from(document.querySelectorAll('input[role="combobox"]'));
-        const oracleComboboxData = {
-          'month-startDate': 'January',
-          'year-startDate': '2020',
-          'contentItemId': CV.languageNative,
-        };
-
-        let delay = 0;
+        // 2. Oracle HCM specific complex comboboxes (Knockout.js)
+        const comboboxes = Array.from(document.querySelectorAll('.oj-combobox-input'));
         for (const box of comboboxes) {
           let targetValue = null;
-          for (const [idPart, val] of Object.entries(oracleComboboxData)) {
-            if (box.id.includes(idPart) || box.name.includes(idPart)) {
-              targetValue = val;
+          for (const [selector, value] of Object.entries(PLATFORM_SELECTORS.oracle_hcm)) {
+            if (box.matches(selector)) {
+              targetValue = value;
               break;
             }
           }
 
-          if (targetValue) {
-            setTimeout(() => {
-              // The user's UIEvent hack
-              const nativeSet = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')?.set;
-              if (nativeSet) nativeSet.call(box, targetValue);
-              else box.value = targetValue;
-              
-              const changeEvent = new UIEvent("change", {
-                  "view": window,
-                  "bubbles": true,
-                  "cancelable": true
-              });
-              box.dispatchEvent(changeEvent);
-              
-              // Also dispatch an input event with the same properties just to be safe
-              const inputEvent = new UIEvent("input", {
-                  "view": window,
-                  "bubbles": true,
-                  "cancelable": true
-              });
-              box.dispatchEvent(inputEvent);
-
-              setTimeout(() => {
-                box.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, bubbles: true }));
-                setTimeout(() => {
-                  box.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, bubbles: true }));
-                  box.blur();
-                }, 400);
-              }, 1000);
-
-            }, delay);
-            delay += 2500;
+          if (targetValue && box.value !== targetValue) {
+            // Clean UIEvent hack as suggested by user, no random delays or ArrowDown hacks
+            const nativeSet = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')?.set;
+            if (nativeSet) nativeSet.call(box, targetValue);
+            else box.value = targetValue;
+            
+            const changeEvent = new UIEvent("change", {
+                "view": window,
+                "bubbles": true,
+                "cancelable": true
+            });
+            box.dispatchEvent(changeEvent);
+            
+            const inputEvent = new UIEvent("input", {
+                "view": window,
+                "bubbles": true,
+                "cancelable": true
+            });
+            box.dispatchEvent(inputEvent);
           }
         }
       }
