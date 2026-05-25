@@ -100,6 +100,8 @@
       [/icims\.com/, 'icims'],
       [/taleo\.net/, 'taleo'],
       [/bamboohr\.com/, 'bamboohr'],
+      [/jobapp\.jarir\.com/, 'jarir'],
+      [/pageuppeople\.com/, 'pageuppeople'],
     ];
     for (const [pattern, name] of checks) {
       if (pattern.test(url)) return name;
@@ -161,18 +163,32 @@
       'input[data-automation-id="addressSection_city"]': CV.city,
       'input[data-automation-id="addressSection_postalCode"]': CV.postalCode,
     },
+    jarir: {
+      'input[name="fn"]': CV.firstName,
+      'input[name="mn"]': 'Murtadha',
+      'input[name="ln"]': CV.lastName,
+      'input[name="em"]': CV.email,
+      'input[name="mno"]': CV.phoneClean,
+      'input[name="hcno"]': CV.nationalId,
+      'input[name="zcode"]': CV.postalCode,
+      'input[name="edu_institute_en_1"]': CV.university,
+      'input[name="edu_major_en_1"]': CV.degree,
+    },
+    pageuppeople: {
+      'input[name*="Email"]': CV.email,
+    },
   };
 
   // ============================================================
   // SMART FIELD MAPPER — For unknown platforms
   // ============================================================
   const FIELD_PATTERNS = [
-    { pattern: /first.?name|fname|given.?name|الاسم.?الأول/i, value: CV.firstName },
-    { pattern: /last.?name|lname|family.?name|surname|اسم.?العائلة/i, value: CV.lastName },
+    { pattern: /first.?name|fname|\bfn\b|given.?name|الاسم.?الأول/i, value: CV.firstName },
+    { pattern: /last.?name|lname|\bln\b|family.?name|surname|اسم.?العائلة/i, value: CV.lastName },
     { pattern: /full.?name|الاسم.?الكامل|your.?name/i, value: CV.displayName, exclude: /first|last|user|company|middle/ },
-    { pattern: /middle.?name/i, value: 'Murtadha' },
-    { pattern: /e.?mail|البريد/i, value: CV.email },
-    { pattern: /phone|mobile|tel|هاتف|جوال/i, value: CV.phone },
+    { pattern: /middle.?name|\bmn\b/i, value: 'Murtadha' },
+    { pattern: /e.?mail|\bem\b|البريد/i, value: CV.email },
+    { pattern: /phone|mobile|tel|\bmno\b|هاتف|جوال/i, value: CV.phone },
     { pattern: /city|مدينة/i, value: CV.city, exclude: /country|state/ },
     { pattern: /country|بلد|دولة/i, value: CV.country },
     { pattern: /state|province|region|منطقة|ولاية/i, value: CV.region },
