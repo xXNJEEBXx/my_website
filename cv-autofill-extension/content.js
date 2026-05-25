@@ -530,15 +530,19 @@
           }
         }
 
-        // Combobox Enter Hack: Oracle HCM requires "Enter" to commit typed values in its dropdowns
-        const comboboxes = document.querySelectorAll('input[role="combobox"]');
+        // Combobox Enter Hack: Staggered asynchronously to prevent focus overlap
+        const comboboxes = Array.from(document.querySelectorAll('input[role="combobox"]'));
+        let delay = 0;
         for (const box of comboboxes) {
           if (box.value && box.value.trim() !== '') {
-            box.focus();
             setTimeout(() => {
-              box.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, bubbles: true }));
-              box.blur();
-            }, 600); // Wait 600ms for React dropdown to render before pressing Enter
+              box.focus();
+              setTimeout(() => {
+                box.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, bubbles: true }));
+                box.blur();
+              }, 600); // Wait 600ms for React dropdown to render
+            }, delay);
+            delay += 800; // Stagger next combobox by 800ms
           }
         }
       }
