@@ -355,7 +355,8 @@ Each subagent receives:
 - Relevant tips from agent-learnings.md
 - Instruction: "Open a NEW TAB for each company. Do NOT navigate within another agent's tab."
 - Instruction: "After each fill, report the __CV_AGENT.fill() results including failed/unmapped fields."
-```
+- Instruction: "MANUAL FALLBACK: The extension does NOT check checkboxes or radios automatically. You MUST visually inspect the page and manually click any required checkboxes, radios, or dropdowns that the extension missed."
+- Instruction: "FILE UPLOADS: The extension does not upload files. You MUST use your native browser tools (e.g., set_input_files, click, or evaluate_script with Playwright) to upload the CV and Cover Letter files from the project directory."
 
 ---
 
