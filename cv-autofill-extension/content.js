@@ -546,30 +546,48 @@
 
           if (targetValue) {
             setTimeout(() => {
-              // Step 1: Insert text to filter the list
+              // The Ultimate DOM Event Barrage to force Knockout.js / React to recognize the value
               box.focus();
-              box.select();
-              try { document.execCommand('insertText', false, targetValue); } catch(e) {}
+              box.click();
               
               const nativeSet = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')?.set;
               if (nativeSet) nativeSet.call(box, targetValue);
               else box.value = targetValue;
               
               if (box._valueTracker) box._valueTracker.setValue('');
-              box.dispatchEvent(new Event('input', { bubbles: true }));
               
-              // Step 2: Wait for list to filter, then press ArrowDown to highlight the first result
+              // Fire all possible events Knockout.js or Oracle JET might be listening to
+              const events = ['keydown', 'keypress', 'input', 'textInput', 'keyup', 'change'];
+              events.forEach(eventName => {
+                let e;
+                if (eventName.includes('key')) {
+                  e = new KeyboardEvent(eventName, { key: targetValue.slice(-1), bubbles: true, cancelable: true });
+                } else {
+                  e = new Event(eventName, { bubbles: true, cancelable: true });
+                }
+                box.dispatchEvent(e);
+              });
+              
+              // Try direct Knockout update just in case it's exposed globally
+              try {
+                if (window.ko && window.ko.dataFor) {
+                  const vm = window.ko.dataFor(box);
+                  if (vm && typeof vm.value === 'function') vm.value(targetValue);
+                }
+              } catch(e) {}
+              
+              // Wait for list to filter, then press ArrowDown to highlight the first result
               setTimeout(() => {
                 box.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, bubbles: true }));
                 
-                // Step 3: Wait a moment, then press Enter to commit the selection, and finally blur
+                // Wait a moment, then press Enter to commit the selection, and finally blur
                 setTimeout(() => {
                   box.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, bubbles: true }));
                   box.blur();
-                }, 400);
-              }, 1000);
+                }, 500);
+              }, 1200); // 1.2s wait to ensure heavy Knockout filters run
             }, delay);
-            delay += 2500; // Stagger heavily to avoid any overlaps
+            delay += 3000; // Stagger heavily to avoid any overlaps
           }
         }
       }
