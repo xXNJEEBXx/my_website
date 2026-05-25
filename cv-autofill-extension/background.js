@@ -30,10 +30,17 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         // Type the target text character by character
         for (let i = 0; i < targetValue.length; i++) {
           const char = targetValue[i];
-          // Simple ASCII keycode approximation for alphanumeric
           const keyCode = char.toUpperCase().charCodeAt(0);
-          await dispatchKey("keyDown", char, char, `Key${char.toUpperCase()}`, keyCode);
-          await dispatchKey("keyUp", "", char, `Key${char.toUpperCase()}`, keyCode);
+          
+          let code = `Key${char.toUpperCase()}`;
+          if (/[0-9]/.test(char)) {
+            code = `Digit${char}`;
+          } else if (char === ' ') {
+            code = 'Space';
+          }
+          
+          await dispatchKey("keyDown", char, char, code, keyCode);
+          await dispatchKey("keyUp", "", char, code, keyCode);
         }
 
         // Wait for Knockout.js to filter the dropdown (2.5 seconds)
