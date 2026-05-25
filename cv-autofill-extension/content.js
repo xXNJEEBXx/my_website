@@ -272,8 +272,21 @@
   // ============================================================
   function setNativeValue(el, value) {
     el.focus();
-    el.dispatchEvent(new Event('focus', { bubbles: true }));
+    
+    // Attempt 1: Native browser text insertion (Bypasses React/Vue/Angular perfectly)
+    try {
+      el.select();
+      const success = document.execCommand('insertText', false, value);
+      if (success) {
+        el.dispatchEvent(new Event('change', { bubbles: true }));
+        el.blur();
+        return;
+      }
+    } catch (e) {
+      // Ignore and fallback
+    }
 
+    // Attempt 2: Direct property setter with React tracker hack
     const proto = el instanceof HTMLTextAreaElement
       ? window.HTMLTextAreaElement.prototype
       : window.HTMLInputElement.prototype;
@@ -286,17 +299,11 @@
       el.value = value;
     }
 
-    // React 15/16+ synthetic events fix: Must reset tracker BEFORE dispatching input event
     const tracker = el._valueTracker;
     if (tracker) tracker.setValue('');
 
-    el.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, cancelable: true, key: 'a' }));
-    el.dispatchEvent(new KeyboardEvent('keypress', { bubbles: true, cancelable: true, key: 'a' }));
     el.dispatchEvent(new Event('input', { bubbles: true }));
     el.dispatchEvent(new Event('change', { bubbles: true }));
-    el.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true, cancelable: true, key: 'a' }));
-    
-    el.dispatchEvent(new Event('blur', { bubbles: true }));
     el.blur();
   }
 
