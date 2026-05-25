@@ -557,7 +557,6 @@
               }, (response) => {
                 if (response && response.success) {
                   console.log("Native typing successful for", targetValue);
-                  box.blur();
                 } else {
                   console.error("Native typing failed:", response?.error);
                 }

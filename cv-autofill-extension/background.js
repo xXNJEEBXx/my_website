@@ -28,13 +28,18 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
       const executeSequence = async () => {
         try {
-          // Use Input.insertText which natively handles all characters, numbers, and symbols perfectly
-          await new Promise((resolve) => {
-            chrome.debugger.sendCommand({ tabId: tabId }, "Input.insertText", { text: targetValue }, resolve);
-          });
+          // Simulate human typing, character by character to trigger framework debouncing properly
+          for (let i = 0; i < targetValue.length; i++) {
+            const char = targetValue[i];
+            await new Promise((resolve) => {
+              chrome.debugger.sendCommand({ tabId: tabId }, "Input.insertText", { text: char }, resolve);
+            });
+            // 100ms delay between keystrokes
+            await new Promise(r => setTimeout(r, 100));
+          }
 
-          // Wait for Knockout.js to filter the dropdown (2.5 seconds)
-          await new Promise(r => setTimeout(r, 2500));
+          // Wait for Knockout.js to fetch and filter the dropdown (2 seconds)
+          await new Promise(r => setTimeout(r, 2000));
 
           // Press ArrowDown
           await dispatchKey("rawKeyDown", "", "ArrowDown", "ArrowDown", 40);
