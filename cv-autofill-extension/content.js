@@ -102,6 +102,7 @@
       [/bamboohr\.com/, 'bamboohr'],
       [/jobapp\.jarir\.com/, 'jarir'],
       [/pageuppeople\.com/, 'pageuppeople'],
+      [/apply\.workable\.com/, 'workable'],
     ];
     for (const [pattern, name] of checks) {
       if (pattern.test(url)) return name;
@@ -176,6 +177,13 @@
     },
     pageuppeople: {
       'input[name*="Email"]': CV.email,
+    },
+    workable: {
+      'input[name="firstname"]': CV.firstName,
+      'input[name="lastname"]': CV.lastName,
+      'input[name="email"]': CV.email,
+      'input[name="phone"]': CV.phone,
+      'input[name="address"]': CV.city,
     },
   };
 
@@ -263,14 +271,14 @@
       el.value = value;
     }
 
+    // React 15/16+ synthetic events fix: Must reset tracker BEFORE dispatching input event
+    const tracker = el._valueTracker;
+    if (tracker) tracker.setValue('');
+
     el.dispatchEvent(new Event('focus', { bubbles: true }));
     el.dispatchEvent(new Event('input', { bubbles: true }));
     el.dispatchEvent(new Event('change', { bubbles: true }));
     el.dispatchEvent(new Event('blur', { bubbles: true }));
-
-    // React 16+ synthetic events
-    const tracker = el._valueTracker;
-    if (tracker) tracker.setValue('');
   }
 
   function fillBySelector(selector, value) {
