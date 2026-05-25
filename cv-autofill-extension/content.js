@@ -217,7 +217,19 @@
     { pattern: /experience|خبرة/i, value: '5' },
     { pattern: /skill|مهار/i, value: CV.mainSkills },
     { pattern: /date.?of.?birth|birth.?date|تاريخ.?الميلاد|dob/i, value: CV.dob },
+    { pattern: /gender|sex|الجنس|النوع/i, value: CV.gender },
   ];
+
+  // ============================================================
+  // SELECT OPTION SYNONYMS (For fuzzy dropdown matching)
+  // ============================================================
+  const SELECT_SYNONYMS = {
+    [CV.country]: ['saudi', 'ksa', 'arabia', 'السعودية'],
+    [CV.nationality]: ['saudi', 'سعودي', 'saudian'],
+    [CV.gender]: ['male', 'm', 'ذكر'],
+    [CV.university]: ['king faisal', 'kfu', 'فيصل'],
+    [CV.degree]: ['bachelor', 'bs', 'bsc', 'undergrad', 'بكالوريوس'],
+  };
 
   function getFieldHints(el) {
     const parts = [
@@ -308,7 +320,7 @@
 
   function smartScan() {
     const inputs = document.querySelectorAll(
-      'input:not([type="hidden"]):not([type="submit"]):not([type="button"]):not([type="checkbox"]):not([type="radio"]):not([type="file"]), textarea'
+      'input:not([type="hidden"]):not([type="submit"]):not([type="button"]):not([type="checkbox"]):not([type="radio"]):not([type="file"]), textarea, select'
     );
 
     const report = { filled: [], skipped: [], failed: [], unmapped: [] };
@@ -317,7 +329,7 @@
       // Skip invisible elements
       if (el.offsetParent === null && !el.closest('[role="dialog"]')) return;
       // Skip already-filled
-      if (el.value && el.value.trim() !== '') {
+      if (el.value && el.value.trim() !== '' && el.value !== '0' && el.value !== '-1') {
         report.skipped.push({ hints: getFieldHints(el).substring(0, 50), reason: 'already_filled' });
         return;
       }
@@ -325,8 +337,17 @@
 
       const value = guessFieldValue(el);
       if (value) {
-        setNativeValue(el, value);
-        report.filled.push({ hints: getFieldHints(el).substring(0, 50), value: value.substring(0, 30) });
+        if (el.tagName === 'SELECT') {
+          const result = fillSelectElement(el, value);
+          if (result.success) {
+            report.filled.push({ hints: getFieldHints(el).substring(0, 50), value: result.selectedText });
+          } else {
+            report.unmapped.push({ hints: getFieldHints(el).substring(0, 50), tag: el.tagName, reason: 'option_not_found', target: value });
+          }
+        } else {
+          setNativeValue(el, value);
+          report.filled.push({ hints: getFieldHints(el).substring(0, 50), value: value.substring(0, 30) });
+        }
       } else {
         report.unmapped.push({ hints: getFieldHints(el).substring(0, 50), tag: el.tagName, type: el.type });
       }
@@ -338,25 +359,39 @@
   // ============================================================
   // SELECT / DROPDOWN HELPERS
   // ============================================================
+  function fillSelectElement(sel, targetValue) {
+    const options = Array.from(sel.options);
+    const targetLower = targetValue.toLowerCase();
+
+    // 1. Exact or includes match
+    let opt = options.find(o => o.value.toLowerCase() === targetLower || o.textContent.trim().toLowerCase().includes(targetLower));
+
+    // 2. Synonym match
+    if (!opt && SELECT_SYNONYMS[targetValue]) {
+      const syns = SELECT_SYNONYMS[targetValue];
+      opt = options.find(o => {
+        const text = o.textContent.toLowerCase();
+        const val = o.value.toLowerCase();
+        return syns.some(s => text.includes(s) || val.includes(s));
+      });
+    }
+
+    if (!opt) return { success: false, reason: 'option_not_found', available: options.map(o => o.textContent.trim()).slice(0, 10) };
+
+    sel.value = opt.value;
+    
+    // React 15/16+ synthetic events fix
+    const tracker = sel._valueTracker;
+    if (tracker) tracker.setValue('');
+    
+    sel.dispatchEvent(new Event('change', { bubbles: true }));
+    return { success: true, selectedText: opt.textContent.trim() };
+  }
+
   function fillSelect(selector, valueOrText) {
     const sel = document.querySelector(selector);
     if (!sel) return { success: false, reason: 'not_found' };
-
-    // Try by value first
-    const optByVal = Array.from(sel.options).find(o =>
-      o.value.toLowerCase() === valueOrText.toLowerCase()
-    );
-    // Then by text
-    const optByText = Array.from(sel.options).find(o =>
-      o.textContent.trim().toLowerCase().includes(valueOrText.toLowerCase())
-    );
-
-    const opt = optByVal || optByText;
-    if (!opt) return { success: false, reason: 'option_not_found', available: Array.from(sel.options).map(o => o.textContent.trim()).slice(0, 10) };
-
-    sel.value = opt.value;
-    sel.dispatchEvent(new Event('change', { bubbles: true }));
-    return { success: true, selectedText: opt.textContent.trim() };
+    return fillSelectElement(sel, valueOrText);
   }
 
   // ============================================================
