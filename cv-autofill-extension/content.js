@@ -546,24 +546,36 @@
 
           if (targetValue) {
             setTimeout(() => {
-              // Click the box to focus and open the dropdown initially
-              box.focus();
-              box.click();
+              // The user's UIEvent hack
+              const nativeSet = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')?.set;
+              if (nativeSet) nativeSet.call(box, targetValue);
+              else box.value = targetValue;
               
-              // Send message to background script to trigger native CDP key events
-              chrome.runtime.sendMessage({
-                action: 'NATIVE_TYPE',
-                text: targetValue
-              }, (response) => {
-                if (response && response.success) {
-                  console.log("Native typing successful for", targetValue);
-                } else {
-                  console.error("Native typing failed:", response?.error);
-                }
+              const changeEvent = new UIEvent("change", {
+                  "view": window,
+                  "bubbles": true,
+                  "cancelable": true
               });
+              box.dispatchEvent(changeEvent);
               
+              // Also dispatch an input event with the same properties just to be safe
+              const inputEvent = new UIEvent("input", {
+                  "view": window,
+                  "bubbles": true,
+                  "cancelable": true
+              });
+              box.dispatchEvent(inputEvent);
+
+              setTimeout(() => {
+                box.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, bubbles: true }));
+                setTimeout(() => {
+                  box.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, bubbles: true }));
+                  box.blur();
+                }, 400);
+              }, 1000);
+
             }, delay);
-            delay += 5000; // Increase stagger to 5s to allow the background script full async sequence (typing + 2.5s wait + 0.8s wait) to complete safely
+            delay += 2500;
           }
         }
       }
