@@ -319,35 +319,34 @@ bulkFill({
 
 ---
 
-## Parallel Subagent Coordination (تنسيق التقديم المتوازي)
+## Sequential Subagent Coordination (تنسيق التقديم التسلسلي)
 
-> When applying to multiple companies, the main agent MUST use subagents for efficiency.
+> ⚠️ **CRITICAL BROWSER LIMITATION:** The `browser` MCP uses a single shared browser instance. Running multiple browser subagents in parallel causes "DevTools focus stealing" (they click on each other's tabs and interrupt form filling). **Therefore, you MUST run browser subagents SEQUENTIALLY, never in parallel.**
 
 ### Rules for the Main Agent:
 
-1. **Batch Size:** Each subagent handles **at most 3 companies**
-2. **Assignment:** Before launching subagents, divide companies into batches and assign each batch to a subagent. No two subagents share the same company.
-3. **Tab Isolation:** Each subagent MUST work in its **own dedicated browser tab**. Before switching to a new company, complete or pause the current one.
-4. **No Page Conflicts:** Subagents must NOT navigate away from their active tab to avoid overwriting another subagent's work. If a subagent needs to open a new page, it opens a **new tab** — never navigates within an existing active tab.
-5. **Sequential within Subagent:** Each subagent processes its companies **one at a time** (not in parallel within itself).
-6. **Reporting:** Each subagent reports back to the main agent with:
+1. **Batch Size:** Each subagent handles **at most 3 companies**.
+2. **Sequential Launch:** You must launch ONE browser subagent at a time. Wait for it to finish and report back completely before launching the next one.
+3. **Tab Isolation (per batch):** The active subagent MUST work in its **own dedicated browser tab**. Before switching to a new company within its batch, it must complete or pause the current one.
+4. **No Page Conflicts:** The subagent must NOT navigate away from its active tab. If it needs to open a new page, it opens a **new tab** — never navigates within an existing active tab.
+5. **Sequential within Subagent:** Each subagent processes its assigned companies **one at a time**.
+6. **Reporting:** The subagent reports back to the main agent with:
    - Which companies were completed
    - Which fields needed manual intervention
    - Any new platform learnings (for `agent-learnings.md`)
    - Any extension updates needed (failed/unmapped fields from `__CV_AGENT.fill()` report)
 7. **Main Agent Coordination:** The main agent:
-   - Waits for all subagents to finish
-   - Collects all reports
-   - Updates `app.js` with all completed applications
-   - Updates `agent-learnings.md` with new findings
-   - **Updates `cv-autofill-extension/content.js`** with all collected selector fixes and new patterns
+   - Waits for the subagent to finish.
+   - Collects the report.
+   - Updates `app.js` with all completed applications.
+   - Updates `agent-learnings.md` with new findings.
+   - **Updates `cv-autofill-extension/content.js`** with all collected selector fixes and new patterns.
+   - **Proceeds to launch the next subagent** only after the above steps are complete.
 
 ### Launch Template for the Main Agent:
 
 ```
-Subagent 1: [Company A, Company B, Company C]
-Subagent 2: [Company D, Company E, Company F]
-Subagent 3: [Company G, Company H]
+Subagent: [Company A, Company B, Company C]
 
 Each subagent receives:
 - Full CV data from this file
