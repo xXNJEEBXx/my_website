@@ -10,7 +10,7 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["content.js"],
+      "js": ["data.js", "ui.js", "engine.js", "content.js"],
       "all_frames": true,
       "world": "MAIN",
       "run_at": "document_idle"
@@ -20,8 +20,5 @@
     "default_popup": "popup.html",
     "default_title": "CV AutoFill"
   },
-  "permissions": ["scripting", "activeTab", "debugger"],
-  "background": {
-    "service_worker": "background.js"
-  }
+  "permissions": ["scripting", "activeTab"]
 }
