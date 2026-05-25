@@ -157,7 +157,7 @@
       'input[id*="City"]': CV.city,
       'input[id*="PostalCode"]': CV.postalCode,
       // Dynamic sections
-      'input[name="startDate"][id^="month-"]': '01',
+      'input[name="startDate"][id^="month-"]': 'January',
       'input[name="startDate"][id^="year-"]': '2020',
       'input[name="contentItemId"]': CV.languageNative,
     },
@@ -511,28 +511,34 @@
         report.method = 'smart_scan';
       }
 
-      // Handle Oracle HCM specific custom components (Checkboxes, Pill buttons)
+      // Handle Oracle HCM specific custom components (Checkboxes, Pill buttons, Comboboxes)
       if (platform === 'oracle_hcm') {
         // Current Job Checkbox
-        const currentJobLabels = document.querySelectorAll('label.apply-flow-input-checkbox');
-        for (const lbl of currentJobLabels) {
-          if (/current/i.test(lbl.innerText || lbl.textContent)) {
-            // Find the hidden checkbox to check its state
-            const cb = document.getElementById(lbl.getAttribute('for'));
-            if (cb && !cb.checked) {
-              lbl.click();
-              report.filled.push({ selector: 'Current Job Checkbox', value: 'checked', success: true });
-            }
-          }
+        const currentJobCb = document.querySelector('input[type="checkbox"][id*="currentJobFlag"]');
+        if (currentJobCb && !currentJobCb.checked) {
+          currentJobCb.click();
+          report.filled.push({ selector: 'Current Job Checkbox', value: 'checked', success: true });
         }
 
         // Language Level (Native/Fluent)
-        const languageBtns = document.querySelectorAll('ul[aria-label="Level"] button span.cx-select-pill-name');
-        for (const span of languageBtns) {
+        const languageSpans = document.querySelectorAll('button span.cx-select-pill-name');
+        for (const span of languageSpans) {
           if (/native|fluent|عالي|أصلي/i.test((span.innerText || span.textContent).trim())) {
             span.parentElement.click();
             report.filled.push({ selector: 'Language Level', value: 'Native', success: true });
             break; // Select only one
+          }
+        }
+
+        // Combobox Enter Hack: Oracle HCM requires "Enter" to commit typed values in its dropdowns
+        const comboboxes = document.querySelectorAll('input[role="combobox"]');
+        for (const box of comboboxes) {
+          if (box.value && box.value.trim() !== '') {
+            box.focus();
+            setTimeout(() => {
+              box.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, bubbles: true }));
+              box.blur();
+            }, 600); // Wait 600ms for React dropdown to render before pressing Enter
           }
         }
       }
