@@ -200,7 +200,7 @@
     { pattern: /city|مدينة/i, value: CV.city, exclude: /country|state/ },
     { pattern: /country|بلد|دولة/i, value: CV.country },
     { pattern: /state|province|region|منطقة|ولاية/i, value: CV.region },
-    { pattern: /postal|zip|الرمز.?البريدي/i, value: CV.postalCode },
+    { pattern: /postal|zip|postcode|الرمز.?البريدي/i, value: CV.postalCode },
     { pattern: /address|عنوان/i, value: CV.address, exclude: /email|e.?mail|ip/ },
     { pattern: /university|جامعة|school|institution|مؤسسة/i, value: CV.university },
     { pattern: /degree|الدرجة|qualification/i, value: CV.degree },
@@ -209,7 +209,7 @@
     { pattern: /linkedin/i, value: CV.linkedin },
     { pattern: /github/i, value: CV.github },
     { pattern: /portfolio|website|موقع/i, value: CV.portfolio, exclude: /company/ },
-    { pattern: /summary|about|نبذة|ملخص|cover.?letter/i, value: CV.summary },
+    { pattern: /summary|about|why|نبذة|ملخص|cover.?letter/i, value: CV.summary },
     { pattern: /national.?id|هوية|رقم.?الهوية|id.?number/i, value: CV.nationalId },
     { pattern: /nationality|جنسية/i, value: CV.nationality },
     { pattern: /salary|راتب|مكافأة/i, value: CV.desiredSalary },
@@ -271,6 +271,9 @@
   // CORE FILL ENGINE
   // ============================================================
   function setNativeValue(el, value) {
+    el.focus();
+    el.dispatchEvent(new Event('focus', { bubbles: true }));
+
     const proto = el instanceof HTMLTextAreaElement
       ? window.HTMLTextAreaElement.prototype
       : window.HTMLInputElement.prototype;
@@ -287,10 +290,14 @@
     const tracker = el._valueTracker;
     if (tracker) tracker.setValue('');
 
-    el.dispatchEvent(new Event('focus', { bubbles: true }));
+    el.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, cancelable: true, key: 'a' }));
+    el.dispatchEvent(new KeyboardEvent('keypress', { bubbles: true, cancelable: true, key: 'a' }));
     el.dispatchEvent(new Event('input', { bubbles: true }));
     el.dispatchEvent(new Event('change', { bubbles: true }));
+    el.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true, cancelable: true, key: 'a' }));
+    
     el.dispatchEvent(new Event('blur', { bubbles: true }));
+    el.blur();
   }
 
   function fillBySelector(selector, value) {
