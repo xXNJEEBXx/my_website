@@ -16,5 +16,9 @@
       "run_at": "document_idle"
     }
   ],
-  "permissions": []
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "CV AutoFill"
+  },
+  "permissions": ["scripting", "activeTab"]
 }
