@@ -156,10 +156,6 @@
       'input[id*="Phone"]': CV.phone,
       'input[id*="City"]': CV.city,
       'input[id*="PostalCode"]': CV.postalCode,
-      // Dynamic sections
-      'input[name="startDate"][id^="month-"]': 'January',
-      'input[name="startDate"][id^="year-"]': '2020',
-      'input[name="contentItemId"]': CV.languageNative,
     },
     lever: {
       'input[name="name"]': CV.displayName,
@@ -530,19 +526,44 @@
           }
         }
 
-        // Combobox Enter Hack: Staggered asynchronously to prevent focus overlap
+        // Combobox Enter Hack: Staggered asynchronously and values set WITHOUT premature blur
         const comboboxes = Array.from(document.querySelectorAll('input[role="combobox"]'));
+        
+        const oracleComboboxData = {
+          'month-startDate': 'January',
+          'year-startDate': '2020',
+          'contentItemId': CV.languageNative,
+        };
+
         let delay = 0;
         for (const box of comboboxes) {
-          if (box.value && box.value.trim() !== '') {
+          let targetValue = null;
+          for (const [idPart, val] of Object.entries(oracleComboboxData)) {
+            if (box.id.includes(idPart) || box.name.includes(idPart)) {
+              targetValue = val;
+              break;
+            }
+          }
+
+          if (targetValue) {
             setTimeout(() => {
               box.focus();
+              box.select();
+              try { document.execCommand('insertText', false, targetValue); } catch(e) {}
+              
+              const nativeSet = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')?.set;
+              if (nativeSet) nativeSet.call(box, targetValue);
+              else box.value = targetValue;
+              
+              if (box._valueTracker) box._valueTracker.setValue('');
+              box.dispatchEvent(new Event('input', { bubbles: true }));
+              
               setTimeout(() => {
                 box.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, bubbles: true }));
                 box.blur();
               }, 600); // Wait 600ms for React dropdown to render
             }, delay);
-            delay += 800; // Stagger next combobox by 800ms
+            delay += 1200; // Stagger next combobox
           }
         }
       }
