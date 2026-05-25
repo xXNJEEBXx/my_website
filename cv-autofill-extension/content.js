@@ -546,48 +546,25 @@
 
           if (targetValue) {
             setTimeout(() => {
-              // The Ultimate DOM Event Barrage to force Knockout.js / React to recognize the value
+              // Click the box to focus and open the dropdown initially
               box.focus();
               box.click();
               
-              const nativeSet = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')?.set;
-              if (nativeSet) nativeSet.call(box, targetValue);
-              else box.value = targetValue;
-              
-              if (box._valueTracker) box._valueTracker.setValue('');
-              
-              // Fire all possible events Knockout.js or Oracle JET might be listening to
-              const events = ['keydown', 'keypress', 'input', 'textInput', 'keyup', 'change'];
-              events.forEach(eventName => {
-                let e;
-                if (eventName.includes('key')) {
-                  e = new KeyboardEvent(eventName, { key: targetValue.slice(-1), bubbles: true, cancelable: true });
+              // Send message to background script to trigger native CDP key events
+              chrome.runtime.sendMessage({
+                action: 'NATIVE_TYPE',
+                text: targetValue
+              }, (response) => {
+                if (response && response.success) {
+                  console.log("Native typing successful for", targetValue);
+                  box.blur();
                 } else {
-                  e = new Event(eventName, { bubbles: true, cancelable: true });
+                  console.error("Native typing failed:", response?.error);
                 }
-                box.dispatchEvent(e);
               });
               
-              // Try direct Knockout update just in case it's exposed globally
-              try {
-                if (window.ko && window.ko.dataFor) {
-                  const vm = window.ko.dataFor(box);
-                  if (vm && typeof vm.value === 'function') vm.value(targetValue);
-                }
-              } catch(e) {}
-              
-              // Wait for list to filter, then press ArrowDown to highlight the first result
-              setTimeout(() => {
-                box.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, bubbles: true }));
-                
-                // Wait a moment, then press Enter to commit the selection, and finally blur
-                setTimeout(() => {
-                  box.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, bubbles: true }));
-                  box.blur();
-                }, 800);
-              }, 2500); // 2.5s wait to ensure heavy Knockout filters (like huge language lists) run
             }, delay);
-            delay += 4000; // Stagger heavily to avoid any overlaps
+            delay += 5000; // Increase stagger to 5s to allow the background script full async sequence (typing + 2.5s wait + 0.8s wait) to complete safely
           }
         }
       }

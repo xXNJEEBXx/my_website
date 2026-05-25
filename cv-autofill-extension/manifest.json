@@ -20,5 +20,8 @@
     "default_popup": "popup.html",
     "default_title": "CV AutoFill"
   },
-  "permissions": ["scripting", "activeTab"]
+  "permissions": ["scripting", "activeTab", "debugger"],
+  "background": {
+    "service_worker": "background.js"
+  }
 }
