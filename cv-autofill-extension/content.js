@@ -528,6 +528,7 @@
 
         // 2. Oracle HCM specific complex comboboxes (Knockout.js)
         const comboboxes = Array.from(document.querySelectorAll('.oj-combobox-input'));
+        let delay = 0;
         for (const box of comboboxes) {
           let targetValue = null;
           for (const [selector, value] of Object.entries(PLATFORM_SELECTORS.oracle_hcm)) {
@@ -538,24 +539,27 @@
           }
 
           if (targetValue && box.value !== targetValue) {
-            // Clean UIEvent hack as suggested by user, no random delays or ArrowDown hacks
-            const nativeSet = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')?.set;
-            if (nativeSet) nativeSet.call(box, targetValue);
-            else box.value = targetValue;
-            
-            const changeEvent = new UIEvent("change", {
-                "view": window,
-                "bubbles": true,
-                "cancelable": true
-            });
-            box.dispatchEvent(changeEvent);
-            
-            const inputEvent = new UIEvent("input", {
-                "view": window,
-                "bubbles": true,
-                "cancelable": true
-            });
-            box.dispatchEvent(inputEvent);
+            setTimeout(() => {
+              // Clean UIEvent hack as suggested by user, no random delays or ArrowDown hacks
+              const nativeSet = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')?.set;
+              if (nativeSet) nativeSet.call(box, targetValue);
+              else box.value = targetValue;
+              
+              const changeEvent = new UIEvent("change", {
+                  "view": window,
+                  "bubbles": true,
+                  "cancelable": true
+              });
+              box.dispatchEvent(changeEvent);
+              
+              const inputEvent = new UIEvent("input", {
+                  "view": window,
+                  "bubbles": true,
+                  "cancelable": true
+              });
+              box.dispatchEvent(inputEvent);
+            }, delay);
+            delay += 2000; // 2 seconds delay between each field update
           }
         }
       }
