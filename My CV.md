@@ -299,6 +299,24 @@ bulkFill({
    3. Fix any empty or incorrect fields using Click + Type as fallback
    4. Take a final screenshot of the completed form
 
+10. **Extension Self-Improvement (إلزامي بعد كل تقديم)**
+
+    After EVERY application attempt, the agent MUST check the `__CV_AGENT.fill()` report and update the extension code if needed:
+
+    **If `report.failed` has items** (selectors that didn't match):
+    → Find the correct selectors on the page, then update `PLATFORM_SELECTORS` in `cv-autofill-extension/content.js`
+
+    **If `report.unmapped` has items** (fields the mapper couldn't identify):
+    → Determine the field type, then add a new pattern to `FIELD_PATTERNS` in `cv-autofill-extension/content.js`
+
+    **If `report.platform === 'unknown'`** (new platform):
+    → Add the platform to `detectPlatform()` and create a new entry in `PLATFORM_SELECTORS` in `cv-autofill-extension/content.js`
+
+    **If a selector changed** (platform redesigned their form):
+    → Update the old selector in `PLATFORM_SELECTORS` to the new one
+
+    ⚠️ The extension MUST get smarter after every use. Never ignore failures — always fix the extension code.
+
 ---
 
 ## Parallel Subagent Coordination (تنسيق التقديم المتوازي)
@@ -316,11 +334,13 @@ bulkFill({
    - Which companies were completed
    - Which fields needed manual intervention
    - Any new platform learnings (for `agent-learnings.md`)
+   - Any extension updates needed (failed/unmapped fields from `__CV_AGENT.fill()` report)
 7. **Main Agent Coordination:** The main agent:
    - Waits for all subagents to finish
    - Collects all reports
    - Updates `app.js` with all completed applications
    - Updates `agent-learnings.md` with new findings
+   - **Updates `cv-autofill-extension/content.js`** with all collected selector fixes and new patterns
 
 ### Launch Template for the Main Agent:
 
@@ -335,4 +355,61 @@ Each subagent receives:
 - All rules from this file
 - Relevant tips from agent-learnings.md
 - Instruction: "Open a NEW TAB for each company. Do NOT navigate within another agent's tab."
+- Instruction: "After each fill, report the __CV_AGENT.fill() results including failed/unmapped fields."
 ```
+
+---
+
+## Extension Self-Improvement Protocol
+
+> This section defines HOW to update `cv-autofill-extension/content.js` after learning from failures.
+
+### When to Update
+
+| Trigger | What to Update | Where in `content.js` |
+|---|---|---|
+| New platform discovered | Add detection regex + selector map | `detectPlatform()` + `PLATFORM_SELECTORS` |
+| Selector failed on known platform | Fix/add selectors | `PLATFORM_SELECTORS[platform]` |
+| Smart scan couldn't identify a field | Add field pattern | `FIELD_PATTERNS` array |
+| New field type not in CV data | Add to `CV` object | `const CV = { ... }` |
+| A selector works on multiple platforms | Add to multiple platform entries | `PLATFORM_SELECTORS` |
+
+### How to Update (Examples)
+
+**Adding a new platform:**
+```javascript
+// In detectPlatform():
+[/newplatform\.com/, 'newplatform'],
+
+// In PLATFORM_SELECTORS:
+newplatform: {
+    'input#firstName': CV.firstName,
+    'input#lastName': CV.lastName,
+    // ... discovered selectors
+},
+```
+
+**Adding a new field pattern:**
+```javascript
+// In FIELD_PATTERNS:
+{ pattern: /new_field_hint|arabic_hint/i, value: CV.someField },
+```
+
+**Fixing a broken selector:**
+```javascript
+// Before (broken):
+'#old_selector': CV.firstName,
+// After (fixed):
+'input[data-field="name"]': CV.firstName,
+```
+
+### Update Checklist (بعد كل تقديم)
+
+```
+- [ ] Read __CV_AGENT.fill() report
+- [ ] Any failed selectors? → Fix in PLATFORM_SELECTORS
+- [ ] Any unmapped fields? → Add to FIELD_PATTERNS
+- [ ] New platform? → Add to detectPlatform() + PLATFORM_SELECTORS
+- [ ] Log the update in agent-learnings.md
+```
+
