@@ -546,37 +546,30 @@
 
           if (targetValue) {
             setTimeout(() => {
-              // Step 1: Force open the dropdown using ArrowDown (universal a11y pattern)
+              // Step 1: Insert text to filter the list
               box.focus();
-              box.click();
-              box.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
-              box.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, bubbles: true }));
-
-              // Step 2: Wait for listbox to render in DOM, then find and click the option
+              box.select();
+              try { document.execCommand('insertText', false, targetValue); } catch(e) {}
+              
+              const nativeSet = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')?.set;
+              if (nativeSet) nativeSet.call(box, targetValue);
+              else box.value = targetValue;
+              
+              if (box._valueTracker) box._valueTracker.setValue('');
+              box.dispatchEvent(new Event('input', { bubbles: true }));
+              
+              // Step 2: Wait for list to filter, then press ArrowDown to highlight the first result
               setTimeout(() => {
-                const listboxId = box.getAttribute('aria-controls');
-                if (listboxId) {
-                  const listbox = document.getElementById(listboxId);
-                  if (listbox) {
-                    const options = Array.from(listbox.querySelectorAll('li, tr, div[role="option"]'));
-                    let targetOption = options.find(opt => (opt.innerText || opt.textContent || '').trim().toLowerCase().includes(targetValue.toLowerCase()));
-                    
-                    // Fallback for months represented as numbers
-                    if (!targetOption && targetValue === 'January') {
-                      targetOption = options.find(opt => (opt.innerText || '').trim() === '1' || (opt.innerText || '').trim() === '01');
-                    }
-
-                    if (targetOption) {
-                      targetOption.scrollIntoView({ block: 'center' });
-                      targetOption.click();
-                      targetOption.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
-                      targetOption.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }));
-                    }
-                  }
-                }
-              }, 500);
+                box.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, bubbles: true }));
+                
+                // Step 3: Wait a moment, then press Enter to commit the selection, and finally blur
+                setTimeout(() => {
+                  box.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, bubbles: true }));
+                  box.blur();
+                }, 400);
+              }, 1000);
             }, delay);
-            delay += 1000;
+            delay += 2500; // Stagger heavily to avoid any overlaps
           }
         }
       }
