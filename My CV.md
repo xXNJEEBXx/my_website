@@ -351,12 +351,10 @@ Subagent: [Company A, Company B, Company C]
 Each subagent receives:
 - Full CV data from this file
 - The company URLs from its assigned batch
-- All rules from this file
-- Relevant tips from agent-learnings.md
-- Instruction: "Open a NEW TAB for each company. Do NOT navigate within another agent's tab."
-- Instruction: "After each fill, report the __CV_AGENT.fill() results including failed/unmapped fields."
+- Instruction: "Use the CV AutoFill Extension by executing `window.__CV_AGENT.expandAndFill()` in the browser console. This will automatically click 'Add Experience', 'Add Education', etc., and fill them."
+- Instruction: "After each fill, report the results including failed/unmapped fields."
 - Instruction: "MANUAL FALLBACK: The extension does NOT check checkboxes or radios automatically. You MUST visually inspect the page and manually click any required checkboxes, radios, or dropdowns that the extension missed."
-- Instruction: "FILE UPLOADS: You MUST use the `uploadBase64` hack to prevent binary corruption. First, read the CV file to Base64 using a node command: `node -e \"console.log(require('fs').readFileSync('‏‏My CV NAJEEB ALMUSAWI.pdf', 'base64'))\"`. Then execute `window.__CV_AGENT.uploadBase64('INPUT_SELECTOR', 'THE_BASE64_STRING', 'My CV.pdf', 'application/pdf')` in the browser console."
+- Instruction: "FILE UPLOADS: You MUST use the `uploadBase64` hack to prevent binary corruption. First, read the CV and Cover Letter files to Base64 using node commands. Then execute `window.__CV_AGENT.uploadBase64('INPUT_SELECTOR', 'THE_BASE64_STRING', 'My CV.pdf', 'application/pdf')` and similarly for the Cover Letter."
 
 ---
 

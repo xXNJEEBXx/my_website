@@ -72,6 +72,16 @@
     // Professional Summary
     summary: '5 years of freelance web development experience (HTML, CSS, JavaScript, PHP, MySQL), 3 years with React and Laravel, and 1 year at vibcoding. Highly adaptable and eager to learn. Actively seeking a 6-month hybrid Co-op placement starting from the upcoming summer.',
 
+    // Experience & Education for dynamic forms
+    jobTitle: 'Independent Software Developer',
+    companyName: 'Freelance / Self-Employed',
+    startDate: '01/01/2020',
+    endDate: '', // Current
+    certificateName: 'Full-Stack Development',
+    issuingOrg: 'Self-Taught / Various',
+    languageNative: 'Arabic',
+    languageSecond: 'English',
+
     // Skills
     mainSkills: 'HTML5, CSS, JavaScript, PHP, React.js, Laravel, MySQL, RESTful APIs, Full-Stack, GitHub & Git',
     otherSkills: 'Microsoft Office, VibeCoding, Agile, Docker, Node.js, AWS, Automation, Next.js, TypeScript, Express.js',
@@ -213,6 +223,14 @@
     { pattern: /national.?id|هوية|رقم.?الهوية|id.?number/i, value: CV.nationalId },
     { pattern: /nationality|جنسية/i, value: CV.nationality },
     { pattern: /salary|راتب|مكافأة/i, value: CV.desiredSalary },
+    
+    // Dynamic fields (Experience, Certs)
+    { pattern: /job.?title|title|المسمى/i, value: CV.jobTitle },
+    { pattern: /employer|company|الشركة/i, value: CV.companyName },
+    { pattern: /start.?date|من.?تاريخ/i, value: CV.startDate },
+    { pattern: /certificate|شهادة/i, value: CV.certificateName },
+    { pattern: /issuing|جهة|organization/i, value: CV.issuingOrg },
+    { pattern: /language|لغة/i, value: CV.languageNative },
     { pattern: /notice.?period/i, value: CV.noticePeriod },
     { pattern: /experience|خبرة/i, value: '5' },
     { pattern: /skill|مهار/i, value: CV.mainSkills },
@@ -532,6 +550,59 @@
      * Usage: window.__CV_AGENT.scan()
      */
     scan: smartScan,
+
+    /**
+     * Expand dynamic sections (Oracle HCM, etc.) and fill them.
+     */
+    expandAndFill: async function () {
+      console.log('[CV AutoFill] Starting auto-expand & fill...');
+      
+      const singleClickPatterns = [
+        /add experience/i,
+        /add education/i,
+        /add certificate/i,
+        /add language/i
+      ];
+
+      const multiClickPatterns = [
+        /\+ add another link/i,
+        /add link/i
+      ];
+
+      // Initial fill
+      window.__CV_AGENT.fill();
+
+      const buttons = Array.from(document.querySelectorAll('button, a, div[role="button"]'));
+      
+      // Handle single-click sections (Experience, Education, etc.)
+      for (const regex of singleClickPatterns) {
+        const btn = buttons.find(b => regex.test(b.innerText || b.textContent) && b.offsetParent !== null);
+        if (btn) {
+          console.log('[CV AutoFill] Expanding:', btn.innerText || btn.textContent);
+          btn.click();
+          await new Promise(r => setTimeout(r, 800)); // Wait for render
+          window.__CV_AGENT.fill();
+        }
+      }
+
+      // Handle multi-click sections (Links)
+      for (let i = 0; i < 2; i++) { 
+        const freshBtns = Array.from(document.querySelectorAll('button, a, div[role="button"]'));
+        for (const regex of multiClickPatterns) {
+          const btn = freshBtns.find(b => regex.test(b.innerText || b.textContent) && b.offsetParent !== null);
+          if (btn) {
+             console.log('[CV AutoFill] Expanding link:', btn.innerText || btn.textContent);
+             btn.click();
+             await new Promise(r => setTimeout(r, 800));
+             window.__CV_AGENT.fill();
+             break;
+          }
+        }
+      }
+      
+      console.log('[CV AutoFill] Expand & fill complete!');
+      return window.__CV_AGENT.fill(); // Final pass
+    },
 
     /**
      * Upload file using Base64 to bypass Playwright binary corruption
