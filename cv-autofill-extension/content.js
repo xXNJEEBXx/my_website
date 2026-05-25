@@ -546,30 +546,27 @@
 
           if (targetValue) {
             setTimeout(() => {
-              // Step 1: Insert text to filter the list
-              box.focus();
-              box.select();
-              try { document.execCommand('insertText', false, targetValue); } catch(e) {}
+              // The Ultimate Hack: Bypass DOM events (which fail isTrusted checks) and call React's internal onChange directly
+              const reactPropKey = Object.keys(box).find(k => k.startsWith('__reactProps$') || k.startsWith('__reactEventHandlers$'));
               
+              if (reactPropKey && box[reactPropKey]) {
+                const props = box[reactPropKey];
+                if (props.onChange) {
+                  props.onChange({ target: { value: targetValue }, currentTarget: { value: targetValue }, type: 'change' });
+                }
+              }
+              
+              // Fallback DOM insertion just in case it's an older React version or custom wrapper
               const nativeSet = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')?.set;
               if (nativeSet) nativeSet.call(box, targetValue);
               else box.value = targetValue;
               
-              if (box._valueTracker) box._valueTracker.setValue('');
               box.dispatchEvent(new Event('input', { bubbles: true }));
+              box.dispatchEvent(new Event('change', { bubbles: true }));
+              box.blur();
               
-              // Step 2: Wait for list to filter, then press ArrowDown to highlight the first result
-              setTimeout(() => {
-                box.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, bubbles: true }));
-                
-                // Step 3: Wait a moment, then press Enter to commit the selection, and finally blur
-                setTimeout(() => {
-                  box.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, bubbles: true }));
-                  box.blur();
-                }, 400);
-              }, 1000);
             }, delay);
-            delay += 2500; // Stagger heavily to avoid any overlaps
+            delay += 1000;
           }
         }
       }
