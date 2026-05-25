@@ -109,6 +109,7 @@ window.__CV_APP.UI = {
       <div class="cv-controls">
         <button id="cv-btn-play" class="cv-btn cv-btn-play">▶ Play All</button>
         <button id="cv-btn-next" class="cv-btn cv-btn-next">⏭ Next</button>
+        <button id="cv-btn-rescan" class="cv-btn cv-btn-next" style="background: #eab308; color: #000;">🔄 Scan</button>
         <button id="cv-btn-cancel" class="cv-btn cv-btn-cancel">⏹</button>
       </div>
     `;
@@ -117,6 +118,7 @@ window.__CV_APP.UI = {
     document.getElementById('cv-btn-play').addEventListener('click', () => window.__CV_APP.Engine.play());
     document.getElementById('cv-btn-next').addEventListener('click', () => window.__CV_APP.Engine.next());
     document.getElementById('cv-btn-cancel').addEventListener('click', () => window.__CV_APP.Engine.cancel());
+    document.getElementById('cv-btn-rescan').addEventListener('click', () => window.__CV_AGENT.plan(false));
   },
 
   log: function(message, type = 'info') {

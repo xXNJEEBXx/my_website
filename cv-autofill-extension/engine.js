@@ -65,6 +65,7 @@ window.__CV_APP.Engine = (function() {
     clear: () => { queue = []; currentIndex = 0; window.__CV_APP.UI.updateProgress(0, 0); },
     enqueue: (action) => queue.push(action),
     getQueue: () => queue,
+    getCurrentIndex: () => currentIndex,
     play: () => {
       if (currentIndex >= queue.length) return;
       isPlaying = true;

@@ -119,13 +119,47 @@
     }
   }
 
+  function planExpansions() {
+    const clickPatterns = [
+      /edit personal information/i,
+      /add experience/i,
+      /add education/i,
+      /add certificate/i,
+      /add language/i,
+      /\+ add another link/i,
+      /add link/i
+    ];
+
+    const buttons = Array.from(document.querySelectorAll('button, a, div[role="button"]'));
+
+    for (const regex of clickPatterns) {
+      const btn = buttons.find(b => regex.test(b.innerText || b.textContent) && b.offsetParent !== null);
+      if (btn) {
+        Engine.enqueue({
+          el: btn, 
+          value: 'Clicked', 
+          label: `Expand Form: ${btn.innerText.trim()}`,
+          execute: async () => {
+            btn.click();
+            APP.UI.log(`Waiting for form to expand...`, "info");
+            await new Promise(r => setTimeout(r, 1500)); // Wait for Knockout/React to render the new fields
+            APP.UI.log(`Rescanning page for new fields...`, "info");
+            window.__CV_AGENT.plan(true); // True means append new empty fields to current queue!
+          }
+        });
+      }
+    }
+  }
+
   window.__CV_AGENT = {
-    plan: function() {
-      Engine.clear();
-      APP.UI.log("Scanning page to generate plan...", "info");
+    plan: function(append = false) {
+      if (!append) {
+        Engine.clear();
+        APP.UI.log("Scanning page to generate plan...", "info");
+      }
       
       const platform = detectPlatform();
-      APP.UI.log(`Platform detected: ${platform}`, "info");
+      if (!append) APP.UI.log(`Platform detected: ${platform}`, "info");
 
       planTemplate(platform);
       planSmartScan();
@@ -134,18 +168,24 @@
         planOracleSpecifics();
       }
 
+      planExpansions();
+
       const count = Engine.getQueue().length;
-      APP.UI.updateProgress(0, count);
+      APP.UI.updateProgress(Engine.getCurrentIndex(), count);
       
-      if (count > 0) {
-        APP.UI.log(`Generated ${count} actions. Click Play or Next.`, "success");
-      } else {
+      if (count > Engine.getCurrentIndex()) {
+        APP.UI.log(`Generated ${count - Engine.getCurrentIndex()} new actions.`, "success");
+      } else if (!append) {
         APP.UI.log("No actions needed. All fields filled.", "info");
       }
     }
   };
 
+  // Alias fill to plan for backwards compatibility with popup.js
+  window.__CV_AGENT.fill = () => window.__CV_AGENT.plan(false);
+  window.__CV_AGENT.expandAndFill = window.__CV_AGENT.fill;
+
   // Auto-plan on load
-  setTimeout(() => window.__CV_AGENT.plan(), 1000);
+  setTimeout(() => window.__CV_AGENT.plan(false), 1000);
 
 })();
