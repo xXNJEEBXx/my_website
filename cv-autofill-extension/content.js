@@ -534,6 +534,36 @@
     scan: smartScan,
 
     /**
+     * Upload file using Base64 to bypass Playwright binary corruption
+     * Usage: window.__CV_AGENT.uploadBase64('input[type="file"]', 'JVBERi0...', 'cv.pdf', 'application/pdf')
+     */
+    uploadBase64: function (selector, base64Data, filename = 'document.pdf', mimeType = 'application/pdf') {
+      const input = document.querySelector(selector);
+      if (!input) {
+        console.error('[CV AutoFill] File input not found:', selector);
+        return false;
+      }
+      try {
+        const byteString = atob(base64Data);
+        const ab = new ArrayBuffer(byteString.length);
+        const ia = new Uint8Array(ab);
+        for (let i = 0; i < byteString.length; i++) {
+          ia[i] = byteString.charCodeAt(i);
+        }
+        const blob = new Blob([ab], { type: mimeType });
+        const dt = new DataTransfer();
+        dt.items.add(new File([blob], filename, { type: mimeType }));
+        input.files = dt.files;
+        input.dispatchEvent(new Event('change', { bubbles: true }));
+        console.log('[CV AutoFill] Successfully uploaded file:', filename);
+        return true;
+      } catch (err) {
+        console.error('[CV AutoFill] Failed to upload Base64:', err);
+        return false;
+      }
+    },
+
+    /**
      * Get info about file upload fields on the page.
      * Usage: window.__CV_AGENT.files()
      */
