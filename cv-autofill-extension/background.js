@@ -27,37 +27,29 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       };
 
       const executeSequence = async () => {
-        // Type the target text character by character
-        for (let i = 0; i < targetValue.length; i++) {
-          const char = targetValue[i];
-          const keyCode = char.toUpperCase().charCodeAt(0);
+        try {
+          // Use Input.insertText which natively handles all characters, numbers, and symbols perfectly
+          await new Promise((resolve) => {
+            chrome.debugger.sendCommand({ tabId: tabId }, "Input.insertText", { text: targetValue }, resolve);
+          });
+
+          // Wait for Knockout.js to filter the dropdown (2.5 seconds)
+          await new Promise(r => setTimeout(r, 2500));
+
+          // Press ArrowDown
+          await dispatchKey("rawKeyDown", "", "ArrowDown", "ArrowDown", 40);
+          await dispatchKey("keyUp", "", "ArrowDown", "ArrowDown", 40);
+
+          // Press Enter
+          await new Promise(r => setTimeout(r, 800));
+          await dispatchKey("rawKeyDown", "\r", "Enter", "Enter", 13);
+          await dispatchKey("keyUp", "", "Enter", "Enter", 13);
           
-          let code = `Key${char.toUpperCase()}`;
-          if (/[0-9]/.test(char)) {
-            code = `Digit${char}`;
-          } else if (char === ' ') {
-            code = 'Space';
-          }
-          
-          await dispatchKey("keyDown", char, char, code, keyCode);
-          await dispatchKey("keyUp", "", char, code, keyCode);
+        } finally {
+          // ALWAYS detach when done, even if an error occurs
+          chrome.debugger.detach({ tabId: tabId });
+          sendResponse({ success: true });
         }
-
-        // Wait for Knockout.js to filter the dropdown (2.5 seconds)
-        await new Promise(r => setTimeout(r, 2500));
-
-        // Press ArrowDown
-        await dispatchKey("rawKeyDown", "", "ArrowDown", "ArrowDown", 40);
-        await dispatchKey("keyUp", "", "ArrowDown", "ArrowDown", 40);
-
-        // Press Enter
-        await new Promise(r => setTimeout(r, 800));
-        await dispatchKey("rawKeyDown", "\r", "Enter", "Enter", 13);
-        await dispatchKey("keyUp", "", "Enter", "Enter", 13);
-
-        // Detach when done
-        chrome.debugger.detach({ tabId: tabId });
-        sendResponse({ success: true });
       };
 
       executeSequence();
