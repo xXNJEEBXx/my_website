@@ -546,10 +546,11 @@
 
           if (targetValue) {
             setTimeout(() => {
-              // Step 1: Open the dropdown
+              // Step 1: Force open the dropdown using ArrowDown (universal a11y pattern)
               box.focus();
               box.click();
               box.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+              box.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, bubbles: true }));
 
               // Step 2: Wait for listbox to render in DOM, then find and click the option
               setTimeout(() => {
