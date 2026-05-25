@@ -197,7 +197,7 @@ const DEFAULT_COMPANIES = [
 
   // 🏗️ مقاولات ومجموعات تجارية الأحساء
   { name: 'مجموعة البيت الخليجي', field: 'تقنية / أنظمة', location: 'الأحساء', salary: 'غير مذكور', link: '', trackLink: '', status: 'none', region: 'sa', notes: '📌 مجموعة تجارية بالأحساء — تواصل مباشر.' },
-  { name: 'شركة المياه الوطنية (NWC)', field: 'تقنية معلومات / IT', location: 'الأحساء / الشرقية', salary: 'حكومي', link: 'https://www.nwc.com.sa/ar/careers', trackLink: '', status: 'none', region: 'sa', notes: '📌 الشركة الوطنية للمياه — لها مشاريع ضخمة بالأحساء.' },
+  { name: 'شركة المياه الوطنية (NWC)', field: 'تقنية معلومات / IT', location: 'الأحساء / الشرقية', salary: 'حكومي', link: 'https://www.nwc.com.sa/ar/careers', trackLink: '', status: 'applied', region: 'sa', notes: '📌 تم التسجيل بنجاح في بوابة المواهب (Talent Community) عبر Oracle HCM.' },
 ];
 
 const STATUS_MAP = {
