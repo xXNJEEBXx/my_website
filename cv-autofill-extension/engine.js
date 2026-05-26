@@ -58,6 +58,39 @@ window.__CV_APP.Engine = (function() {
     el.dispatchEvent(e);
   }
 
+  /*
+   =============================================================================
+   FAILED ATTEMPTS RECORD (Oracle JET Combobox) - DO NOT REPEAT
+   =============================================================================
+   1. Simple DOM Click
+      Reason: Clicked hidden ghost elements or framework ignored clicks on inner spans.
+      Old Code:
+      let targetItem = allElements.find(e => e.innerText === valStr);
+      targetItem.click();
+
+   2. Keyboard Simulation (ArrowDown -> Enter)
+      Reason: Programmatic ArrowDown triggered a reset of the filtered list, causing it to select the wrong item.
+      Old Code:
+      el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', ... }));
+      el.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', ... }));
+
+   3. Direct Enter + keyCode spoofing (Object.defineProperty)
+      Reason: Framework strictly checks event.isTrusted. Untrusted synthetic keys are completely ignored.
+      Old Code:
+      function dispatchKey(el, type, key, code, keyCode) { ... }
+      dispatchKey(el, 'keydown', 'Enter', 'Enter', 13);
+      
+   4. Robust Pointer Click + Strict Visibility Filter
+      Reason: Synthetic isTrusted=false clicks are blocked by security model, or target.click() steals focus causing instant abort.
+      Old Code:
+      let visiblePopups = popups.filter(p => p.getBoundingClientRect().width > 0 && ...);
+      let clickable = targetItem.closest('li, [role="option"]');
+      clickable.dispatchEvent(new PointerEvent('pointerdown', ...));
+      clickable.click();
+   =============================================================================
+   NEXT APPROACH: Programmatic Framework Hooking (Bypass UI entirely)
+   =============================================================================
+  */
   async function executeOracleOptionClick(el, value) {
     const valStr = String(value).trim().toLowerCase();
     
