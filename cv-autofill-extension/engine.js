@@ -89,10 +89,18 @@ window.__CV_APP.Engine = (function() {
 
     if (targetItem) {
         window.__CV_APP.UI.log(`Clicking dropdown option for ${valStr}...`, "info");
-        targetItem.scrollIntoView({ block: 'nearest' });
-        targetItem.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true, view: window }));
-        targetItem.dispatchEvent(new MouseEvent('mouseup', { bubbles: true, cancelable: true, view: window }));
-        targetItem.click();
+        
+        // Find the actual interactive container (like li or role="option") rather than just the text span
+        const clickTarget = targetItem.closest('li, [role="option"], .oj-listbox-item, .oj-listbox-result, oj-option') || targetItem;
+        
+        clickTarget.scrollIntoView({ block: 'nearest' });
+        
+        // Dispatch full sequence of modern pointer and mouse events
+        clickTarget.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, cancelable: true, view: window }));
+        clickTarget.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true, view: window }));
+        clickTarget.dispatchEvent(new PointerEvent('pointerup', { bubbles: true, cancelable: true, view: window }));
+        clickTarget.dispatchEvent(new MouseEvent('mouseup', { bubbles: true, cancelable: true, view: window }));
+        clickTarget.click();
     } else {
         window.__CV_APP.UI.log(`Could not find any visible text node for ${valStr}, trying Enter fallback...`, "error");
         el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, bubbles: true }));
