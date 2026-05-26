@@ -116,24 +116,36 @@ window.__CV_APP.Engine = (function() {
     await new Promise(r => setTimeout(r, 400));
     
     function findVisibleOption() {
-        const popups = Array.from(document.querySelectorAll('.oj-listbox-drop, .oj-menu, [role="listbox"], .oj-combobox-popup'));
-        const visiblePopups = popups.filter(p => {
-            const rect = p.getBoundingClientRect();
-            if (rect.width === 0 || rect.height === 0) return false;
-            if (rect.right < 0 || rect.bottom < 0 || rect.left > window.innerWidth || rect.top > window.innerHeight) return false;
-            const style = window.getComputedStyle(p);
-            return style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0';
-        });
+        const allElements = Array.from(document.querySelectorAll('*'));
+        allElements.reverse(); // Deepest elements first (perfect for body-appended dropdowns)
         
-        for (const popup of visiblePopups) {
-            const items = Array.from(popup.querySelectorAll('li, tr, td, [role="option"], .oj-listbox-result'));
-            const match = items.find(e => {
-                const text = (e.innerText !== undefined ? e.innerText : e.textContent || '').trim().toLowerCase();
-                return text === valStr || text.startsWith(valStr) || text.includes(valStr);
-            });
-            if (match) return match.closest('li, tr, td, [role="option"]') || match;
-        }
-        return null;
+        return allElements.find(e => {
+            if (e.tagName === 'INPUT' || e.tagName === 'SCRIPT' || e.tagName === 'STYLE' || e.tagName === 'NOSCRIPT' || e.tagName === 'HEAD') return false;
+            
+            const rect = e.getBoundingClientRect();
+            if (rect.width === 0 || rect.height === 0) return false;
+            // Strict off-screen check
+            if (rect.right < 0 || rect.bottom < 0 || rect.left > window.innerWidth || rect.top > window.innerHeight) return false;
+            
+            const style = window.getComputedStyle(e);
+            if (style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0') return false;
+            
+            // Check parent opacity/visibility (sometimes a wrapper hides the dropdown)
+            let parent = e.parentElement;
+            let hidden = false;
+            while(parent && parent.tagName !== 'HTML') {
+                const pStyle = window.getComputedStyle(parent);
+                if (pStyle.display === 'none' || pStyle.visibility === 'hidden' || pStyle.opacity === '0') {
+                    hidden = true;
+                    break;
+                }
+                parent = parent.parentElement;
+            }
+            if (hidden) return false;
+
+            const text = (e.innerText !== undefined ? e.innerText : e.textContent || '').trim().toLowerCase();
+            return text === valStr || text.startsWith(valStr) || text.includes(valStr);
+        });
     }
 
     let clickable = findVisibleOption();
