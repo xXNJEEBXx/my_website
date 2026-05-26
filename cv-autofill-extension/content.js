@@ -72,7 +72,13 @@
       if (value) {
         Engine.enqueue({
           el, value, label: getFieldHints(el).substring(0, 30),
-          execute: async () => Engine.executeNativeSet(el, value)
+          execute: async () => {
+            if (el.classList.contains('oj-combobox-input')) {
+              await Engine.executeOracleUIEvent(el, value);
+            } else {
+              Engine.executeNativeSet(el, value);
+            }
+          }
         });
       }
     });

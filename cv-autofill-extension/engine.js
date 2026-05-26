@@ -23,7 +23,7 @@ window.__CV_APP.Engine = (function() {
     el.dispatchEvent(new Event('change', { bubbles: true }));
   }
 
-  function executeOracleUIEvent(el, value) {
+  async function executeOracleUIEvent(el, value) {
     const nativeSet = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')?.set;
     if (nativeSet) nativeSet.call(el, value);
     else el.value = value;
@@ -33,6 +33,18 @@ window.__CV_APP.Engine = (function() {
     
     const inputEvent = new UIEvent("input", { "view": window, "bubbles": true, "cancelable": true });
     el.dispatchEvent(inputEvent);
+
+    // Wait for Knockout to filter the dropdown list
+    await new Promise(r => setTimeout(r, 600));
+    
+    // Press ArrowDown to highlight the first result
+    el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, bubbles: true }));
+    
+    await new Promise(r => setTimeout(r, 200));
+    
+    // Press Enter to confirm selection
+    el.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, bubbles: true }));
+    el.blur();
   }
 
   async function step() {
