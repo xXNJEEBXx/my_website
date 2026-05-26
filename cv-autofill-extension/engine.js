@@ -51,16 +51,24 @@ window.__CV_APP.Engine = (function() {
     el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, bubbles: true }));
   }
 
+  function dispatchKey(el, type, key, code, keyCode) {
+    const e = new KeyboardEvent(type, { key, code, bubbles: true, cancelable: true });
+    Object.defineProperty(e, 'keyCode', { get: () => keyCode });
+    Object.defineProperty(e, 'which', { get: () => keyCode });
+    el.dispatchEvent(e);
+  }
+
   async function executeOracleOptionClick(el, value) {
     window.__CV_APP.UI.log(`Confirming option via Keyboard (Enter)...`, "info");
     el.focus();
     
-    // Press Enter to confirm the highlighted filtered item directly
-    el.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, bubbles: true }));
-    el.dispatchEvent(new KeyboardEvent('keyup', { key: 'Enter', code: 'Enter', keyCode: 13, bubbles: true }));
+    // Wait slightly longer to ensure the filtered dropdown is fully rendered and active
+    await new Promise(r => setTimeout(r, 400));
     
-    // For good measure, try native Enter keypress
-    el.dispatchEvent(new KeyboardEvent('keypress', { key: 'Enter', code: 'Enter', keyCode: 13, bubbles: true }));
+    // Dispatch bulletproof Enter key events that jQuery UI / Oracle JET cannot ignore
+    dispatchKey(el, 'keydown', 'Enter', 'Enter', 13);
+    dispatchKey(el, 'keypress', 'Enter', 'Enter', 13);
+    dispatchKey(el, 'keyup', 'Enter', 'Enter', 13);
     
     await new Promise(r => setTimeout(r, 100));
     el.blur();
