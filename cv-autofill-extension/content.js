@@ -55,16 +55,21 @@
     for (const [selector, value] of Object.entries(map)) {
       const el = document.querySelector(selector);
       if (el && (!el.value || el.value.trim() === '')) {
-        Engine.enqueue({
-          el, value, label: selector,
-          execute: async () => {
-            if (el.classList.contains('oj-combobox-input')) {
-              await Engine.executeOracleUIEvent(el, value);
-            } else {
-              Engine.executeNativeSet(el, value);
-            }
-          }
-        });
+        if (el.classList.contains('oj-combobox-input')) {
+          Engine.enqueue({
+            el, value, label: `Type: ${selector}`,
+            execute: async () => Engine.executeOracleTextInput(el, value)
+          });
+          Engine.enqueue({
+            el, value: 'Clicked Option', label: `Confirm: ${value}`,
+            execute: async () => Engine.executeOracleOptionClick(el, value)
+          });
+        } else {
+          Engine.enqueue({
+            el, value, label: selector,
+            execute: async () => Engine.executeNativeSet(el, value)
+          });
+        }
       }
     }
   }
@@ -76,16 +81,21 @@
       if (el.value && el.value.trim() !== '') return;
       const value = guessFieldValue(el);
       if (value) {
-        Engine.enqueue({
-          el, value, label: getFieldHints(el).substring(0, 30),
-          execute: async () => {
-            if (el.classList.contains('oj-combobox-input')) {
-              await Engine.executeOracleUIEvent(el, value);
-            } else {
-              Engine.executeNativeSet(el, value);
-            }
-          }
-        });
+        if (el.classList.contains('oj-combobox-input')) {
+          Engine.enqueue({
+            el, value, label: `Type: ${getFieldHints(el).substring(0, 20)}`,
+            execute: async () => Engine.executeOracleTextInput(el, value)
+          });
+          Engine.enqueue({
+            el, value: 'Clicked Option', label: `Confirm: ${value}`,
+            execute: async () => Engine.executeOracleOptionClick(el, value)
+          });
+        } else {
+          Engine.enqueue({
+            el, value, label: getFieldHints(el).substring(0, 30),
+            execute: async () => Engine.executeNativeSet(el, value)
+          });
+        }
       }
     });
   }
@@ -130,8 +140,12 @@
       }
       if (targetValue && box.value !== targetValue) {
         Engine.enqueue({
-          el: box, value: targetValue, label: `Oracle Combobox (${targetValue})`,
-          execute: async () => Engine.executeOracleUIEvent(box, targetValue)
+          el: box, value: targetValue, label: `Type Oracle Combobox (${targetValue})`,
+          execute: async () => Engine.executeOracleTextInput(box, targetValue)
+        });
+        Engine.enqueue({
+          el: box, value: 'Clicked Option', label: `Confirm Oracle Combobox (${targetValue})`,
+          execute: async () => Engine.executeOracleOptionClick(box, targetValue)
         });
       }
     }

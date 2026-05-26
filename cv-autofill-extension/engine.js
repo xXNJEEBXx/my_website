@@ -23,7 +23,7 @@ window.__CV_APP.Engine = (function() {
     el.dispatchEvent(new Event('change', { bubbles: true }));
   }
 
-  async function executeOracleUIEvent(el, value) {
+  function executeOracleTextInput(el, value) {
     const nativeSet = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')?.set;
     if (nativeSet) nativeSet.call(el, value);
     else el.value = value;
@@ -33,11 +33,10 @@ window.__CV_APP.Engine = (function() {
     
     const inputEvent = new UIEvent("input", { "view": window, "bubbles": true, "cancelable": true });
     el.dispatchEvent(inputEvent);
+  }
 
-    // Wait for Knockout to filter and render the dropdown list in the DOM
-    await new Promise(r => setTimeout(r, 1200));
-    
-    // Search the entire DOM for the rendered dropdown option (Oracle usually appends this to the end of the body)
+  async function executeOracleOptionClick(el, value) {
+    // Search the entire DOM for the rendered dropdown option
     const listItems = Array.from(document.querySelectorAll('.oj-listbox-result, .oj-listbox-item, li[role="option"]'));
     const targetItem = listItems.find(li => {
         const text = (li.innerText || li.textContent || '').trim().toLowerCase();
@@ -105,6 +104,7 @@ window.__CV_APP.Engine = (function() {
       window.__CV_APP.UI.log("Execution paused/cancelled.", "error");
     },
     executeNativeSet,
-    executeOracleUIEvent
+    executeOracleTextInput,
+    executeOracleOptionClick
   };
 })();
