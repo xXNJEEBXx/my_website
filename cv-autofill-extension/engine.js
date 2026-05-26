@@ -117,35 +117,58 @@ window.__CV_APP.Engine = (function() {
     
     function findVisibleOption() {
         const allElements = Array.from(document.querySelectorAll('*'));
-        allElements.reverse(); // Deepest elements first (perfect for body-appended dropdowns)
+        allElements.reverse(); // Deepest elements first
         
-        return allElements.find(e => {
-            if (e.tagName === 'INPUT' || e.tagName === 'SCRIPT' || e.tagName === 'STYLE' || e.tagName === 'NOSCRIPT' || e.tagName === 'HEAD') return false;
+        let matches = [];
+        for (const e of allElements) {
+            if (e.tagName === 'INPUT' || e.tagName === 'SCRIPT' || e.tagName === 'STYLE' || e.tagName === 'NOSCRIPT' || e.tagName === 'HEAD') continue;
             
+            // Try to extract text, preferring innerText over textContent (innerText respects visibility somewhat)
+            let text = '';
+            if (e.innerText !== undefined) text = e.innerText;
+            else if (e.textContent !== null) text = e.textContent;
+            
+            text = text.trim().toLowerCase();
+            if (text === valStr || text.startsWith(valStr) || text.includes(valStr)) {
+                matches.push(e);
+            }
+        }
+        
+        window.__CV_APP.UI.log(`[DEBUG] Found ${matches.length} elements containing text '${valStr}'`, "info");
+        
+        for (const e of matches) {
             const rect = e.getBoundingClientRect();
-            if (rect.width === 0 || rect.height === 0) return false;
-            // Strict off-screen check
-            if (rect.right < 0 || rect.bottom < 0 || rect.left > window.innerWidth || rect.top > window.innerHeight) return false;
-            
+            if (rect.width === 0 || rect.height === 0) {
+                window.__CV_APP.UI.log(`[DEBUG] Rejected <${e.tagName}>: Zero dims (w:${rect.width}, h:${rect.height})`, "info");
+                continue;
+            }
+            if (rect.right < 0 || rect.bottom < 0 || rect.left > window.innerWidth || rect.top > window.innerHeight) {
+                window.__CV_APP.UI.log(`[DEBUG] Rejected <${e.tagName}>: Off-screen (r:${rect.right}, b:${rect.bottom}, l:${rect.left}, t:${rect.top})`, "info");
+                continue;
+            }
             const style = window.getComputedStyle(e);
-            if (style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0') return false;
+            if (style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0') {
+                window.__CV_APP.UI.log(`[DEBUG] Rejected <${e.tagName}>: CSS Hidden (d:${style.display}, v:${style.visibility}, o:${style.opacity})`, "info");
+                continue;
+            }
             
-            // Check parent opacity/visibility (sometimes a wrapper hides the dropdown)
             let parent = e.parentElement;
             let hidden = false;
             while(parent && parent.tagName !== 'HTML') {
                 const pStyle = window.getComputedStyle(parent);
                 if (pStyle.display === 'none' || pStyle.visibility === 'hidden' || pStyle.opacity === '0') {
+                    window.__CV_APP.UI.log(`[DEBUG] Rejected <${e.tagName}>: Hidden by parent <${parent.tagName}> (d:${pStyle.display}, o:${pStyle.opacity})`, "info");
                     hidden = true;
                     break;
                 }
                 parent = parent.parentElement;
             }
-            if (hidden) return false;
+            if (hidden) continue;
 
-            const text = (e.innerText !== undefined ? e.innerText : e.textContent || '').trim().toLowerCase();
-            return text === valStr || text.startsWith(valStr) || text.includes(valStr);
-        });
+            window.__CV_APP.UI.log(`[DEBUG] Accepted <${e.tagName}> as visible target!`, "success");
+            return e;
+        }
+        return null;
     }
 
     let clickable = findVisibleOption();
