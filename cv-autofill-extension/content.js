@@ -55,7 +55,7 @@
     for (const [selector, value] of Object.entries(map)) {
       const el = document.querySelector(selector);
       if (el && (!el.value || el.value.trim() === '')) {
-        if (el.classList.contains('oj-combobox-input')) {
+        if (el.matches('.oj-combobox-input, [role="combobox"]')) {
           Engine.enqueue({
             el, value, label: `Type: ${selector}`,
             execute: async () => Engine.executeOracleTextInput(el, value)
@@ -85,7 +85,7 @@
       if (el.value && el.value.trim() !== '') return;
       const value = guessFieldValue(el);
       if (value) {
-        if (el.classList.contains('oj-combobox-input')) {
+        if (el.matches('.oj-combobox-input, [role="combobox"]')) {
           const hint = getFieldHints(el).substring(0, 20);
           Engine.enqueue({
             el, value, label: `Type: ${hint}`,
