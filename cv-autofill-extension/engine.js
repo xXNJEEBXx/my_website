@@ -75,6 +75,8 @@ window.__CV_APP.Engine = (function() {
         targetItem.dispatchEvent(new MouseEvent('mouseup', { bubbles: true, cancelable: true, view: window }));
         targetItem.click();
     } else {
+        const previewTexts = visibleItems.slice(0, 10).map(el => (el.innerText || el.textContent || '').trim()).join(' | ');
+        window.__CV_APP.UI.log(`Options preview: [${previewTexts}]`, "info");
         window.__CV_APP.UI.log(`Could not find clickable option for ${valStr} (searched ${visibleItems.length} visible items), trying Enter fallback...`, "error");
         el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, bubbles: true }));
         await new Promise(r => setTimeout(r, 200));
