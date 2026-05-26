@@ -79,7 +79,7 @@
     inputs.forEach(el => {
       if (el.offsetParent === null) return;
       if (el.value && el.value.trim() !== '') return;
-      if (Engine.isProcessed(el)) return; // Don't override templates or specifics
+      if (Engine.isProcessed(el)) return;
       
       const value = guessFieldValue(el);
       if (value) {
@@ -97,6 +97,19 @@
           Engine.enqueue({
             el, value, label: getFieldHints(el).substring(0, 30),
             execute: async () => Engine.executeNativeSet(el, value)
+          });
+        }
+      } else {
+        // Track unmapped fields for future reference
+        const hints = getFieldHints(el);
+        if (hints && hints.trim()) {
+          window.__CV_APP.unmappedFields = window.__CV_APP.unmappedFields || [];
+          window.__CV_APP.unmappedFields.push({
+            tag: el.tagName,
+            type: el.type || '',
+            hints: hints.substring(0, 80),
+            id: el.id || '',
+            name: el.name || ''
           });
         }
       }
@@ -154,6 +167,51 @@
     }
   }
 
+  window.__CV_APP.linksAdded = window.__CV_APP.linksAdded || 0;
+
+  function planLinks() {
+    const CV = APP.CV;
+    if (!CV.links || CV.links.length === 0) return;
+
+    // Find all currently visible link input fields
+    const linkInputs = Array.from(document.querySelectorAll('input')).filter(el => {
+      if (el.offsetParent === null) return false;
+      if (Engine.isProcessed(el)) return false;
+      const hints = getFieldHints(el).toLowerCase();
+      return /link|url|رابط/.test(hints);
+    });
+
+    // Fill each empty link input
+    for (const input of linkInputs) {
+      if (input.value && input.value.trim() !== '') continue;
+      if (window.__CV_APP.linksAdded >= CV.links.length) break;
+
+      const linkValue = CV.links[window.__CV_APP.linksAdded];
+      Engine.enqueue({
+        el: input, value: linkValue, label: `Link ${window.__CV_APP.linksAdded + 1}`,
+        execute: async () => Engine.executeNativeSet(input, linkValue)
+      });
+      window.__CV_APP.linksAdded++;
+    }
+
+    // If we have more links to add, click "+ Add Another Link" button
+    if (window.__CV_APP.linksAdded < CV.links.length) {
+      const addLinkBtn = Array.from(document.querySelectorAll('button, a, div[role="button"]'))
+        .find(b => /\+ add another link|add link|إضافة رابط/i.test(b.innerText || b.textContent) && b.offsetParent !== null);
+      
+      if (addLinkBtn) {
+        Engine.enqueue({
+          el: addLinkBtn, value: 'Add Link', label: `Add Link ${window.__CV_APP.linksAdded + 1}`,
+          execute: async () => {
+            addLinkBtn.click();
+            await new Promise(r => setTimeout(r, 800));
+            planLinks(); // Recursively fill the new link field
+          }
+        });
+      }
+    }
+  }
+
   window.__CV_APP.expandedPatterns = window.__CV_APP.expandedPatterns || new Set();
 
   function planExpansions() {
@@ -161,10 +219,7 @@
       /edit personal information/i,
       /add experience/i,
       /add education/i,
-      /add certificate/i,
       /add language/i,
-      /\+ add another link/i,
-      /add link/i
     ];
 
     const buttons = Array.from(document.querySelectorAll('button, a, div[role="button"]'));
@@ -208,6 +263,7 @@
 
       planTemplate(platform);
       planSmartScan();
+      planLinks();
       planExpansions();
 
       const count = Engine.getQueue().length;
@@ -217,6 +273,18 @@
         APP.UI.log(`Generated ${count - Engine.getCurrentIndex()} new actions.`, "success");
       } else if (!append) {
         APP.UI.log("No actions needed. All fields filled.", "info");
+      }
+
+      // Report unmapped fields
+      if (window.__CV_APP.unmappedFields && window.__CV_APP.unmappedFields.length > 0) {
+        APP.UI.log(`⚠ ${window.__CV_APP.unmappedFields.length} unmapped fields found. Sending to logger...`, "warning");
+        fetch('http://localhost:3456/log', {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain' },
+          body: '=== UNMAPPED FIELDS ===\n' + window.__CV_APP.unmappedFields.map(f => 
+            `[${f.tag}] type=${f.type} id="${f.id}" name="${f.name}" hints="${f.hints}"`
+          ).join('\n')
+        }).catch(() => {});
       }
     }
   };
