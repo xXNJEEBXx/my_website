@@ -218,13 +218,17 @@ window.__CV_APP.Engine = (function() {
     } else {
         window.__CV_APP.UI.log(`Could not find option ${valStr} anywhere! Sending logs to local server...`, "error");
         
+        const fullLog = `=== Oracle Option Click Failed for '${valStr}' ===\n` + debugLogOutput.join('\n');
+        console.log("%c[CV AutoFill Debug Logs]", "color: yellow; font-weight: bold; background: black; padding: 4px;");
+        console.log(fullLog);
+        
         // Send the debug logs directly to the local server running in the extension folder
         fetch('http://localhost:3456/log', {
             method: 'POST',
             headers: { 'Content-Type': 'text/plain' },
-            body: `=== Oracle Option Click Failed for '${valStr}' ===\n` + debugLogOutput.join('\n')
+            body: fullLog
         }).catch(err => {
-            window.__CV_APP.UI.log(`Could not send logs to local server. Is logger.js running?`, "error");
+            window.__CV_APP.UI.log(`Could not send logs to local server. Check Developer Console (F12) for the logs!`, "error");
         });
     }
     
