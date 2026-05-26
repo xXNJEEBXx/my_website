@@ -53,6 +53,7 @@ window.__CV_APP.Engine = (function() {
 
   async function executeOracleOptionClick(el, value) {
     const valStr = String(value).trim().toLowerCase();
+    await new Promise(r => setTimeout(r, 300)); // Allow dropdown animation to settle
     
     function findTarget() {
         const allElements = Array.from(document.querySelectorAll('*'));
@@ -89,26 +90,20 @@ window.__CV_APP.Engine = (function() {
 
     if (targetItem) {
         window.__CV_APP.UI.log(`Clicking dropdown option for ${valStr}...`, "info");
-        targetItem.scrollIntoView({ block: 'nearest', inline: 'nearest' });
         
-        // Comprehensive event simulation for modern frameworks (Pointer + Mouse + Click)
-        targetItem.dispatchEvent(new PointerEvent('pointerover', { bubbles: true, cancelable: true, view: window }));
-        targetItem.dispatchEvent(new MouseEvent('mouseover', { bubbles: true, cancelable: true, view: window }));
-        targetItem.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, cancelable: true, view: window }));
-        targetItem.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true, view: window }));
-        targetItem.dispatchEvent(new FocusEvent('focus', { bubbles: true, cancelable: true, view: window }));
-        targetItem.dispatchEvent(new PointerEvent('pointerup', { bubbles: true, cancelable: true, view: window }));
-        targetItem.dispatchEvent(new MouseEvent('mouseup', { bubbles: true, cancelable: true, view: window }));
+        // Find the actual interactive wrapper (usually an li or role=option) instead of clicking the inner span text node
+        let clickable = targetItem.closest('li, tr, td, [role="option"]') || targetItem;
         
-        if (typeof targetItem.click === 'function') {
-            targetItem.click();
-        } else {
-            targetItem.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
-        }
+        clickable.scrollIntoView({ block: 'nearest' });
         
-        // Also fire Enter on the input as a backup confirmation for Oracle JET
-        el.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, bubbles: true }));
-        el.dispatchEvent(new KeyboardEvent('keyup', { key: 'Enter', code: 'Enter', keyCode: 13, bubbles: true }));
+        // Dispatch full suite of pointer and mouse events to satisfy modern frameworks like Oracle JET
+        clickable.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, cancelable: true, view: window, button: 0, buttons: 1 }));
+        clickable.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true, view: window, button: 0, buttons: 1 }));
+        
+        clickable.dispatchEvent(new PointerEvent('pointerup', { bubbles: true, cancelable: true, view: window, button: 0, buttons: 0 }));
+        clickable.dispatchEvent(new MouseEvent('mouseup', { bubbles: true, cancelable: true, view: window, button: 0, buttons: 0 }));
+        
+        clickable.click();
     } else {
         window.__CV_APP.UI.log(`Could not find any visible text node for ${valStr}, trying Enter fallback...`, "error");
         el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, bubbles: true }));
