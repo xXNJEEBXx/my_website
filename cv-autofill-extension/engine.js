@@ -4,6 +4,7 @@ window.__CV_APP.Engine = (function() {
   let queue = [];
   let isPlaying = false;
   let currentIndex = 0;
+  let processedIds = new Set();
 
   function executeNativeSet(el, value) {
     try {
@@ -150,7 +151,7 @@ window.__CV_APP.Engine = (function() {
     },
     next: () => {
       isPlaying = false;
-      step();
+      executeNext();
     },
     cancel: () => {
       isPlaying = false;
