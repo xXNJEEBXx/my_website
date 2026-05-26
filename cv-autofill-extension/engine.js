@@ -34,16 +34,29 @@ window.__CV_APP.Engine = (function() {
     const inputEvent = new UIEvent("input", { "view": window, "bubbles": true, "cancelable": true });
     el.dispatchEvent(inputEvent);
 
-    // Wait for Knockout to filter the dropdown list
-    await new Promise(r => setTimeout(r, 600));
+    // Wait for Knockout to filter and render the dropdown list in the DOM
+    await new Promise(r => setTimeout(r, 1200));
     
-    // Press ArrowDown to highlight the first result
-    el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, bubbles: true }));
+    // Search the entire DOM for the rendered dropdown option (Oracle usually appends this to the end of the body)
+    const listItems = Array.from(document.querySelectorAll('.oj-listbox-result, .oj-listbox-item, li[role="option"]'));
+    const targetItem = listItems.find(li => {
+        const text = (li.innerText || li.textContent || '').trim().toLowerCase();
+        return text === value.toLowerCase() || text.includes(value.toLowerCase());
+    });
+
+    if (targetItem) {
+        window.__CV_APP.UI.log(`Clicking dropdown option for ${value}...`, "info");
+        targetItem.scrollIntoView({ block: 'nearest' });
+        targetItem.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true, view: window }));
+        targetItem.dispatchEvent(new MouseEvent('mouseup', { bubbles: true, cancelable: true, view: window }));
+        targetItem.click();
+    } else {
+        window.__CV_APP.UI.log(`Could not find clickable option for ${value}, trying Enter fallback...`, "error");
+        el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, bubbles: true }));
+        await new Promise(r => setTimeout(r, 200));
+        el.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, bubbles: true }));
+    }
     
-    await new Promise(r => setTimeout(r, 200));
-    
-    // Press Enter to confirm selection
-    el.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, bubbles: true }));
     el.blur();
   }
 
