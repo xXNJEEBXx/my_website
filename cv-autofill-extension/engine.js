@@ -216,18 +216,16 @@ window.__CV_APP.Engine = (function() {
         clickable.dispatchEvent(new MouseEvent('mouseup', { bubbles: true, cancelable: true, view: window, button: 0, buttons: 0 }));
         clickable.click();
     } else {
-        window.__CV_APP.UI.log(`Could not find option ${valStr} anywhere! Downloading debug logs...`, "error");
+        window.__CV_APP.UI.log(`Could not find option ${valStr} anywhere! Sending logs to local server...`, "error");
         
-        // Auto-download the debug logs to the user's filesystem
-        const blob = new Blob([debugLogOutput.join('\n')], {type: 'text/plain'});
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `oracle_debug_${valStr.replace(/\s+/g, '_')}.txt`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
+        // Send the debug logs directly to the local server running in the extension folder
+        fetch('http://localhost:3456/log', {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain' },
+            body: `=== Oracle Option Click Failed for '${valStr}' ===\n` + debugLogOutput.join('\n')
+        }).catch(err => {
+            window.__CV_APP.UI.log(`Could not send logs to local server. Is logger.js running?`, "error");
+        });
     }
     
     await new Promise(r => setTimeout(r, 100));
