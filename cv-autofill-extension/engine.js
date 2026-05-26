@@ -105,26 +105,58 @@ window.__CV_APP.Engine = (function() {
     addLog(`[STEP 1] Waiting 400ms for dropdown animation...`);
     await new Promise(r => setTimeout(r, 400));
     
-    // STEP 2: Find Visible Option
-    addLog(`[STEP 2] Searching DOM for visible text matching '${valStr}'...`);
+    // STEP 2: Find visible option - search for the actual list items inside dropdown popups
+    addLog(`[STEP 2] Searching for dropdown list items matching '${valStr}'...`);
+    
     function getVisibleOption() {
+        // Strategy A: Search inside known dropdown containers first (cx-select, oj-listbox, etc.)
+        const dropdownSelectors = [
+            '.cx-select__options li',
+            '.cx-select__options [role="gridcell"]',
+            '.cx-select__options .cx-select__list-item',
+            '.oj-listbox-drop li',
+            '.oj-listbox-drop [role="option"]',
+            '[role="listbox"] [role="option"]',
+            '.oj-combobox-popup li'
+        ];
+        
+        for (const selector of dropdownSelectors) {
+            const items = Array.from(document.querySelectorAll(selector));
+            for (const item of items) {
+                // Skip items inside the extension UI
+                if (item.closest && item.closest('#cv-agent-dashboard')) continue;
+                
+                const rect = item.getBoundingClientRect();
+                if (rect.width === 0 || rect.height === 0) continue;
+                if (rect.right < 0 || rect.bottom < 0 || rect.left > window.innerWidth || rect.top > window.innerHeight) continue;
+                
+                const style = window.getComputedStyle(item);
+                if (style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0') continue;
+                
+                const text = (item.innerText || item.textContent || '').trim().toLowerCase();
+                if (text === valStr || text.startsWith(valStr)) {
+                    addLog(`[Strategy A] Found via selector '${selector}': "${text}"`);
+                    addLog(`HTML: ${item.outerHTML.substring(0, 200)}`);
+                    return item;
+                }
+            }
+        }
+        
+        // Strategy B: Broad DOM search (fallback)
+        addLog(`[Strategy A] No match. Falling back to Strategy B (broad DOM)...`);
         const elements = Array.from(document.querySelectorAll('*')).reverse();
         let matches = [];
         for (const e of elements) {
-            // IGNORE THE EXTENSION'S OWN DASHBOARD UI! (To prevent clicking self-referential log messages)
             if (e.closest && e.closest('#cv-agent-dashboard')) continue;
-            
             if (['INPUT', 'SCRIPT', 'STYLE', 'NOSCRIPT', 'HEAD'].includes(e.tagName)) continue;
             let text = (e.innerText !== undefined ? e.innerText : e.textContent || '').trim().toLowerCase();
-            
-            // Prioritize exact matches over partial matches, but accept partials if they are the only ones
             if (text === valStr) {
-                matches.unshift(e); // Put exact matches at the very front!
+                matches.unshift(e);
             } else if (text.startsWith(valStr) || text.includes(valStr)) {
                 matches.push(e);
             }
         }
-        addLog(`Found ${matches.length} elements containing text (excluding extension UI).`);
+        addLog(`[Strategy B] Found ${matches.length} elements (excluding extension UI).`);
         
         for (const e of matches) {
             const rect = e.getBoundingClientRect();
@@ -140,76 +172,69 @@ window.__CV_APP.Engine = (function() {
             }
             if (hidden) continue;
             
+            addLog(`[Strategy B] Accepted <${e.tagName} class="${e.className}">`);
+            addLog(`HTML: ${e.outerHTML.substring(0, 200)}`);
             return e;
         }
         return null;
     }
 
-    let clickable = getVisibleOption();
+    let target = getVisibleOption();
 
-    // STEP 3: Fallback ArrowDown if not found
-    if (!clickable) {
+    // STEP 3: Fallback - force popup open
+    if (!target) {
         addLog(`[STEP 3] Not found. Triggering ArrowDown to force popup...`);
         el.click(); el.focus();
         dispatchKey(el, 'keydown', 'ArrowDown', 'ArrowDown', 40);
         await new Promise(r => setTimeout(r, 800));
-        clickable = getVisibleOption();
+        target = getVisibleOption();
     }
 
-    // STEP 4: Execution
-    if (clickable) {
-        addLog(`[STEP 4] Target identified: <${clickable.tagName} class="${clickable.className}">`);
-        // Log a truncated version of the HTML to see what we are dealing with
-        const html = clickable.outerHTML;
-        addLog(`HTML Snippet: ${html.substring(0, 150)}...`);
-
+    // STEP 4: Click the target
+    if (target) {
+        addLog(`[STEP 4] Target acquired. Attempting click...`);
+        
+        // Find the best clickable wrapper
+        let clickTarget = target.closest('[role="gridcell"], [role="option"], li') || target;
+        addLog(`Click target: <${clickTarget.tagName} id="${clickTarget.id}" class="${clickTarget.className}" role="${clickTarget.getAttribute('role')}">`);
+        addLog(`Click target HTML: ${clickTarget.outerHTML.substring(0, 300)}`);
+        
+        clickTarget.scrollIntoView({ block: 'nearest' });
+        
+        // Dispatch a full event chain with composed:true (crucial for Shadow DOM / custom elements)
+        const eventOpts = { bubbles: true, cancelable: true, composed: true, view: window, button: 0, buttons: 1 };
+        const eventOptsUp = { bubbles: true, cancelable: true, composed: true, view: window, button: 0, buttons: 0 };
+        
+        clickTarget.dispatchEvent(new PointerEvent('pointerdown', eventOpts));
+        clickTarget.dispatchEvent(new MouseEvent('mousedown', eventOpts));
+        await new Promise(r => setTimeout(r, 50));
+        clickTarget.dispatchEvent(new PointerEvent('pointerup', eventOptsUp));
+        clickTarget.dispatchEvent(new MouseEvent('mouseup', eventOptsUp));
+        clickTarget.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, composed: true, view: window }));
+        addLog(`[DONE] Full event chain dispatched (with composed:true).`);
+        
+        // Also try Knockout programmatic hook as bonus
         const combobox = el.closest('oj-combobox-one, oj-combobox-many, oj-select-single, oj-select-many');
-        let hookSuccess = false;
-
         if (combobox) {
-            addLog(`Found parent Web Component: <${combobox.tagName}>`);
             try {
                 if (window.ko && window.ko.dataFor) {
-                    const koData = window.ko.dataFor(clickable);
+                    const koData = window.ko.dataFor(clickTarget);
                     if (koData) {
                         let internalValue = koData.value !== undefined ? koData.value : (koData.key !== undefined ? koData.key : null);
                         if (internalValue === null && koData.data && koData.data.value !== undefined) internalValue = koData.data.value;
-                        
                         if (internalValue !== null) {
-                            addLog(`[SUCCESS] Programmatic Hook (Knockout). Setting value to [${internalValue}]`);
+                            addLog(`[BONUS] Knockout hook: setting value to [${internalValue}]`);
                             combobox.value = internalValue;
-                            hookSuccess = true;
-                        } else {
-                            addLog(`[WARN] Knockout data found, but no 'value' or 'key' property exists.`);
                         }
-                    } else {
-                        addLog(`[WARN] ko.dataFor returned null for this element.`);
                     }
                 }
-            } catch (e) { addLog(`[ERROR] Knockout hook threw: ${e.message}`); }
-        } else {
-            addLog(`[WARN] Parent Web Component not found. Skipping programmatic hook.`);
-        }
-
-        if (!hookSuccess) {
-            addLog(`[STEP 5] Executing Physical Pointer/Mouse Click...`);
-            // Ensure we click the semantic wrapper if we found a text span
-            clickable = clickable.closest('li, tr, td, [role="option"]') || clickable;
-            addLog(`Actually clicking on: <${clickable.tagName} class="${clickable.className}">`);
-            
-            clickable.scrollIntoView({ block: 'nearest' });
-            clickable.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, cancelable: true, view: window, button: 0, buttons: 1 }));
-            clickable.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true, view: window, button: 0, buttons: 1 }));
-            clickable.dispatchEvent(new PointerEvent('pointerup', { bubbles: true, cancelable: true, view: window, button: 0, buttons: 0 }));
-            clickable.dispatchEvent(new MouseEvent('mouseup', { bubbles: true, cancelable: true, view: window, button: 0, buttons: 0 }));
-            clickable.click();
-            addLog(`[SUCCESS] Physical click dispatched.`);
+            } catch (e) { addLog(`[BONUS] Knockout hook error: ${e.message}`); }
         }
     } else {
         addLog(`[FAILED] Could not find any visible element for '${valStr}'!`);
     }
     
-    // STEP 6: Always upload logs to local server for debugging
+    // STEP 5: Always send logs
     addLog(`=== END ORACLE OPTION SELECTION ===`);
     fetch('http://localhost:3456/log', {
         method: 'POST',
