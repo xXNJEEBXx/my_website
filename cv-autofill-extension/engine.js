@@ -53,19 +53,58 @@ window.__CV_APP.Engine = (function() {
 
   async function executeOracleOptionClick(el, value) {
     const valStr = String(value).trim().toLowerCase();
-    window.__CV_APP.UI.log(`Confirming option ${valStr} via keyboard...`, "info");
     
-    el.focus();
+    function findTarget() {
+        const allElements = Array.from(document.querySelectorAll('*'));
+        // querySelectorAll returns elements in pre-order (parents before children).
+        // By reversing, we evaluate the deepest nested leaf nodes at the end of the document FIRST.
+        // This is perfect for dropdown popups which are appended to the body.
+        allElements.reverse(); 
+        
+        return allElements.find(e => {
+            // Ignore inputs and invisible metadata tags
+            if (e.tagName === 'INPUT' || e.tagName === 'SCRIPT' || e.tagName === 'STYLE' || e.tagName === 'NOSCRIPT' || e.tagName === 'HEAD') return false;
+            
+            // Element must be visually rendered on the screen
+            const rect = e.getBoundingClientRect();
+            if (rect.width === 0 || rect.height === 0) return false; 
+            
+            // Check exact text match
+            const text = (e.innerText !== undefined ? e.innerText : e.textContent || '').trim().toLowerCase();
+            return text === valStr;
+        });
+    }
+
+    let targetItem = findTarget();
+
+    if (!targetItem) {
+        window.__CV_APP.UI.log(`Options not found in DOM. Re-clicking input...`, "info");
+        el.click();
+        el.focus();
+        el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, bubbles: true }));
+        
+        await new Promise(r => setTimeout(r, 800));
+        targetItem = findTarget();
+    }
+
+    if (targetItem) {
+        window.__CV_APP.UI.log(`Clicking dropdown option for ${valStr}...`, "info");
+        
+        const interactiveItem = targetItem.closest('li, [role="option"], .oj-listbox-result, .oj-listbox-item') || targetItem;
+        interactiveItem.scrollIntoView({ block: 'nearest' });
+        
+        interactiveItem.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, cancelable: true, view: window }));
+        interactiveItem.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true, view: window }));
+        interactiveItem.dispatchEvent(new PointerEvent('pointerup', { bubbles: true, cancelable: true, view: window }));
+        interactiveItem.dispatchEvent(new MouseEvent('mouseup', { bubbles: true, cancelable: true, view: window }));
+        interactiveItem.click();
+    } else {
+        window.__CV_APP.UI.log(`Could not find any visible text node for ${valStr}, trying Enter fallback...`, "error");
+        el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, bubbles: true }));
+        await new Promise(r => setTimeout(r, 200));
+        el.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, bubbles: true }));
+    }
     
-    // Simulate ArrowDown to highlight the first filtered option
-    el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, bubbles: true }));
-    await new Promise(r => setTimeout(r, 300));
-    
-    // Simulate Enter to select the highlighted option
-    el.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, bubbles: true }));
-    await new Promise(r => setTimeout(r, 100));
-    
-    el.dispatchEvent(new Event('change', { bubbles: true }));
     el.blur();
   }
 
