@@ -104,7 +104,7 @@ window.__CV_APP.Engine = (function() {
   }
 
   async function executeNext() {
-    if (!isPlaying || currentIndex >= queue.length) {
+    if (currentIndex >= queue.length) {
       isPlaying = false;
       return;
     }
@@ -124,9 +124,11 @@ window.__CV_APP.Engine = (function() {
     currentIndex++;
     window.__CV_APP.UI.updateProgress(currentIndex, queue.length);
 
-    setTimeout(() => {
-      if (isPlaying) executeNext();
-    }, 1200); // Wait 1.2s between actions for UI to catch up
+    if (isPlaying) {
+      setTimeout(() => {
+        executeNext();
+      }, 1200); // Wait 1.2s between actions for UI to catch up
+    }
   }
 
   return {
