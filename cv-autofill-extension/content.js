@@ -49,14 +49,12 @@
     return null;
   }
 
-  const isEnqueued = (el) => Engine.getQueue().some(a => a.el === el);
-
   function planTemplate(platform) {
     const map = APP.PLATFORM_SELECTORS[platform];
     if (!map) return;
     for (const [selector, value] of Object.entries(map)) {
       const el = document.querySelector(selector);
-      if (el && (!el.value || el.value.trim() === '') && !isEnqueued(el)) {
+      if (el && (!el.value || el.value.trim() === '') && !Engine.isProcessed(el)) {
         if (el.matches('.oj-combobox-input, [role="combobox"]')) {
           Engine.enqueue({
             el, value, label: `Type: ${selector}`,
@@ -81,7 +79,7 @@
     inputs.forEach(el => {
       if (el.offsetParent === null) return;
       if (el.value && el.value.trim() !== '') return;
-      if (isEnqueued(el)) return; // Don't override templates or specifics
+      if (Engine.isProcessed(el)) return; // Don't override templates or specifics
       
       const value = guessFieldValue(el);
       if (value) {
@@ -143,7 +141,7 @@
           break;
         }
       }
-      if (targetValue && box.value !== targetValue) {
+      if (targetValue && (!box.value || box.value.trim() === '') && !Engine.isProcessed(box)) {
         Engine.enqueue({
           el: box, value: targetValue, label: `Type Oracle Combobox (${targetValue})`,
           execute: async () => Engine.executeOracleTextInput(box, targetValue)

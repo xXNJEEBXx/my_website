@@ -102,41 +102,51 @@ window.__CV_APP.Engine = (function() {
     el.blur();
   }
 
-  async function step() {
-    if (currentIndex >= queue.length) {
-      window.__CV_APP.UI.log("All actions completed!", "success");
+  async function executeNext() {
+    if (!isPlaying || currentIndex >= queue.length) {
       isPlaying = false;
       return;
     }
-    
+
     const action = queue[currentIndex];
-    window.__CV_APP.UI.log(`Processing: ${action.label}`);
-    window.__CV_APP.UI.highlight(action.el);
-    window.__CV_APP.UI.updateProgress(currentIndex + 1, queue.length);
-    
+    window.__CV_APP.UI.log(`Processing: ${action.label}`, "info");
+
     try {
-      await action.execute();
+      if (action.execute) {
+        await action.execute();
+      }
       window.__CV_APP.UI.log(`Filled: ${action.value}`, "success");
     } catch (err) {
       window.__CV_APP.UI.log(`Error: ${err.message}`, "error");
     }
-    
+
     currentIndex++;
-    
-    if (isPlaying) {
-      setTimeout(step, 800); // 800ms delay between automatic steps
-    }
+    window.__CV_APP.UI.updateProgress(currentIndex, queue.length);
+
+    setTimeout(() => {
+      if (isPlaying) executeNext();
+    }, 1200); // Wait 1.2s between actions for UI to catch up
   }
 
   return {
-    clear: () => { queue = []; currentIndex = 0; window.__CV_APP.UI.updateProgress(0, 0); },
-    enqueue: (action) => queue.push(action),
+    clear: () => { queue = []; currentIndex = 0; processedIds.clear(); window.__CV_APP.UI.updateProgress(0, 0); },
+    enqueue: (action) => {
+      if (action.el && action.el.id) {
+        processedIds.add(action.el.id);
+      }
+      queue.push(action);
+    },
+    isProcessed: (el) => {
+      if (queue.some(a => a.el === el)) return true;
+      if (el.id && processedIds.has(el.id)) return true;
+      return false;
+    },
     getQueue: () => queue,
     getCurrentIndex: () => currentIndex,
     play: () => {
       if (currentIndex >= queue.length) return;
       isPlaying = true;
-      step();
+      executeNext();
     },
     next: () => {
       isPlaying = false;
