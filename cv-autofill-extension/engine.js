@@ -45,25 +45,28 @@ window.__CV_APP.Engine = (function() {
   async function executeOracleOptionClick(el, value) {
     const valStr = String(value).trim().toLowerCase();
     
-    // Targeted selectors so we don't accidentally grab the entire page layout!
-    const selectors = [
-      '.oj-listbox-drop li',
-      '.oj-listbox-result',
-      '.oj-listbox-item',
-      'oj-option',
-      '.oj-dropdown-item',
-      '.oj-listitem',
-      'ul[role="listbox"] li',
-      'div.oj-listbox-drop [role="option"]'
-    ].join(', ');
+    function findTarget() {
+        const allElements = Array.from(document.querySelectorAll('*'));
+        // querySelectorAll returns elements in pre-order (parents before children).
+        // By reversing, we evaluate the deepest nested leaf nodes at the end of the document FIRST.
+        // This is perfect for dropdown popups which are appended to the body.
+        allElements.reverse(); 
+        
+        return allElements.find(e => {
+            // Ignore inputs and invisible metadata tags
+            if (e.tagName === 'INPUT' || e.tagName === 'SCRIPT' || e.tagName === 'STYLE' || e.tagName === 'NOSCRIPT' || e.tagName === 'HEAD') return false;
+            
+            // Element must be visually rendered on the screen
+            const rect = e.getBoundingClientRect();
+            if (rect.width === 0 || rect.height === 0) return false; 
+            
+            // Check exact text match
+            const text = (e.innerText !== undefined ? e.innerText : e.textContent || '').trim().toLowerCase();
+            return text === valStr;
+        });
+    }
 
-    let listItems = Array.from(document.querySelectorAll(selectors));
-    
-    // Find exact match without bounding client rect checks (sometimes popups have 0 width in flexbox)
-    let targetItem = listItems.find(li => {
-        const text = (li.innerText || li.textContent || '').trim().toLowerCase();
-        return text === valStr;
-    });
+    let targetItem = findTarget();
 
     if (!targetItem) {
         window.__CV_APP.UI.log(`Options not found in DOM. Re-clicking input...`, "info");
@@ -72,19 +75,7 @@ window.__CV_APP.Engine = (function() {
         el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, bubbles: true }));
         
         await new Promise(r => setTimeout(r, 800));
-        
-        listItems = Array.from(document.querySelectorAll(selectors));
-        targetItem = listItems.find(li => {
-            const text = (li.innerText || li.textContent || '').trim().toLowerCase();
-            return text === valStr;
-        });
-    }
-
-    if (!targetItem) {
-        targetItem = listItems.find(li => {
-            const text = (li.innerText || li.textContent || '').trim().toLowerCase();
-            return text.includes(valStr);
-        });
+        targetItem = findTarget();
     }
 
     if (targetItem) {
@@ -94,9 +85,7 @@ window.__CV_APP.Engine = (function() {
         targetItem.dispatchEvent(new MouseEvent('mouseup', { bubbles: true, cancelable: true, view: window }));
         targetItem.click();
     } else {
-        const previewTexts = listItems.slice(0, 15).map(el => (el.innerText || el.textContent || '').trim()).filter(Boolean).join(' | ').substring(0, 150);
-        window.__CV_APP.UI.log(`Preview: [${previewTexts}]`, "info");
-        window.__CV_APP.UI.log(`Could not find clickable option for ${valStr}, trying Enter fallback...`, "error");
+        window.__CV_APP.UI.log(`Could not find any visible text node for ${valStr}, trying Enter fallback...`, "error");
         el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, bubbles: true }));
         await new Promise(r => setTimeout(r, 200));
         el.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, bubbles: true }));
