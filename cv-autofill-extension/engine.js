@@ -93,144 +93,123 @@ window.__CV_APP.Engine = (function() {
   */
   async function executeOracleOptionClick(el, value) {
     const valStr = String(value).trim().toLowerCase();
-    const combobox = el.closest('oj-combobox-one, oj-combobox-many, oj-select-single, oj-select-many');
-    
-    // METHOD 1: Programmatic Hook via <oj-option> Web Components
-    if (combobox) {
-        const ojOptions = Array.from(combobox.querySelectorAll('oj-option'));
-        if (ojOptions.length > 0) {
-            const targetOption = ojOptions.find(opt => {
-                const text = (opt.innerText || opt.textContent || '').trim().toLowerCase();
-                return text === valStr || text.startsWith(valStr) || text.includes(valStr);
-            });
-            if (targetOption) {
-                window.__CV_APP.UI.log(`Programmatic Hook (oj-option): Set value to [${targetOption.value}]`, "success");
-                combobox.value = targetOption.value;
-                el.blur();
-                return; // Success!
-            }
-        }
-    }
-
-    // Wait for dropdown animation to finish to inspect the popup DOM
-    await new Promise(r => setTimeout(r, 400));
-    
     let debugLogOutput = [];
-    function addDebugLog(msg) {
+    const addLog = (msg) => {
         debugLogOutput.push(msg);
         window.__CV_APP.UI.log(msg, "info");
-    }
+    };
 
-    function findVisibleOption() {
-        const allElements = Array.from(document.querySelectorAll('*'));
-        allElements.reverse(); // Deepest elements first
-        
+    addLog(`=== START ORACLE OPTION SELECTION FOR [${valStr}] ===`);
+    
+    // STEP 1: Wait for UI
+    addLog(`[STEP 1] Waiting 400ms for dropdown animation...`);
+    await new Promise(r => setTimeout(r, 400));
+    
+    // STEP 2: Find Visible Option
+    addLog(`[STEP 2] Searching DOM for visible text matching '${valStr}'...`);
+    function getVisibleOption() {
+        const elements = Array.from(document.querySelectorAll('*')).reverse();
         let matches = [];
-        for (const e of allElements) {
-            if (e.tagName === 'INPUT' || e.tagName === 'SCRIPT' || e.tagName === 'STYLE' || e.tagName === 'NOSCRIPT' || e.tagName === 'HEAD') continue;
-            
-            let text = '';
-            if (e.innerText !== undefined) text = e.innerText;
-            else if (e.textContent !== null) text = e.textContent;
-            
-            text = text.trim().toLowerCase();
+        for (const e of elements) {
+            if (['INPUT', 'SCRIPT', 'STYLE', 'NOSCRIPT', 'HEAD'].includes(e.tagName)) continue;
+            let text = (e.innerText !== undefined ? e.innerText : e.textContent || '').trim().toLowerCase();
             if (text === valStr || text.startsWith(valStr) || text.includes(valStr)) {
                 matches.push(e);
             }
         }
-        
-        addDebugLog(`[DEBUG] Found ${matches.length} elements containing text '${valStr}'`);
+        addLog(`Found ${matches.length} elements containing text.`);
         
         for (const e of matches) {
             const rect = e.getBoundingClientRect();
-            if (rect.width === 0 || rect.height === 0) {
-                addDebugLog(`[DEBUG] Rejected <${e.tagName}>: Zero dims (w:${rect.width}, h:${rect.height})`);
-                continue;
-            }
-            if (rect.right < 0 || rect.bottom < 0 || rect.left > window.innerWidth || rect.top > window.innerHeight) {
-                addDebugLog(`[DEBUG] Rejected <${e.tagName}>: Off-screen (r:${rect.right}, b:${rect.bottom}, l:${rect.left}, t:${rect.top})`);
-                continue;
-            }
+            if (rect.width === 0 || rect.height === 0 || rect.right < 0 || rect.bottom < 0 || rect.left > window.innerWidth || rect.top > window.innerHeight) continue;
             const style = window.getComputedStyle(e);
-            if (style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0') {
-                addDebugLog(`[DEBUG] Rejected <${e.tagName}>: CSS Hidden (d:${style.display}, v:${style.visibility}, o:${style.opacity})`);
-                continue;
-            }
+            if (style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0') continue;
             
-            let parent = e.parentElement;
-            let hidden = false;
+            let parent = e.parentElement, hidden = false;
             while(parent && parent.tagName !== 'HTML') {
                 const pStyle = window.getComputedStyle(parent);
-                if (pStyle.display === 'none' || pStyle.visibility === 'hidden' || pStyle.opacity === '0') {
-                    addDebugLog(`[DEBUG] Rejected <${e.tagName}>: Hidden by parent <${parent.tagName}> (d:${pStyle.display}, o:${pStyle.opacity})`);
-                    hidden = true;
-                    break;
-                }
+                if (pStyle.display === 'none' || pStyle.visibility === 'hidden' || pStyle.opacity === '0') { hidden = true; break; }
                 parent = parent.parentElement;
             }
             if (hidden) continue;
-
-            addDebugLog(`[DEBUG] Accepted <${e.tagName}> as visible target!`);
+            
             return e;
         }
         return null;
     }
 
-    let clickable = findVisibleOption();
+    let clickable = getVisibleOption();
 
+    // STEP 3: Fallback ArrowDown if not found
     if (!clickable) {
-        window.__CV_APP.UI.log(`Options not found in active dropdown. Retrying...`, "info");
-        el.click();
-        el.focus();
+        addLog(`[STEP 3] Not found. Triggering ArrowDown to force popup...`);
+        el.click(); el.focus();
         dispatchKey(el, 'keydown', 'ArrowDown', 'ArrowDown', 40);
         await new Promise(r => setTimeout(r, 800));
-        clickable = findVisibleOption();
+        clickable = getVisibleOption();
     }
 
+    // STEP 4: Execution
     if (clickable) {
+        addLog(`[STEP 4] Target identified: <${clickable.tagName} class="${clickable.className}">`);
+        // Log a truncated version of the HTML to see what we are dealing with
+        const html = clickable.outerHTML;
+        addLog(`HTML Snippet: ${html.substring(0, 150)}...`);
+
+        const combobox = el.closest('oj-combobox-one, oj-combobox-many, oj-select-single, oj-select-many');
+        let hookSuccess = false;
+
         if (combobox) {
+            addLog(`Found parent Web Component: <${combobox.tagName}>`);
             try {
                 if (window.ko && window.ko.dataFor) {
                     const koData = window.ko.dataFor(clickable);
                     if (koData) {
                         let internalValue = koData.value !== undefined ? koData.value : (koData.key !== undefined ? koData.key : null);
-                        if (internalValue === null && koData.data && koData.data.value !== undefined) {
-                            internalValue = koData.data.value;
-                        }
+                        if (internalValue === null && koData.data && koData.data.value !== undefined) internalValue = koData.data.value;
+                        
                         if (internalValue !== null) {
-                            window.__CV_APP.UI.log(`Programmatic Hook (Knockout): Set value to [${internalValue}]`, "success");
+                            addLog(`[SUCCESS] Programmatic Hook (Knockout). Setting value to [${internalValue}]`);
                             combobox.value = internalValue;
-                            el.blur();
-                            return; // Success!
+                            hookSuccess = true;
+                        } else {
+                            addLog(`[WARN] Knockout data found, but no 'value' or 'key' property exists.`);
                         }
+                    } else {
+                        addLog(`[WARN] ko.dataFor returned null for this element.`);
                     }
                 }
-            } catch (e) {
-                addDebugLog(`Knockout hook failed: ${e.message}`);
-            }
+            } catch (e) { addLog(`[ERROR] Knockout hook threw: ${e.message}`); }
         } else {
-            addDebugLog(`[DEBUG] 'combobox' parent Web Component is null. Skipping programmatic value setter.`);
+            addLog(`[WARN] Parent Web Component not found. Skipping programmatic hook.`);
         }
 
-        window.__CV_APP.UI.log(`Triggering physical fallback click on <${clickable.tagName}>...`, "warning");
-        clickable.scrollIntoView({ block: 'nearest' });
-        clickable.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, cancelable: true, view: window, button: 0, buttons: 1 }));
-        clickable.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true, view: window, button: 0, buttons: 1 }));
-        clickable.dispatchEvent(new PointerEvent('pointerup', { bubbles: true, cancelable: true, view: window, button: 0, buttons: 0 }));
-        clickable.dispatchEvent(new MouseEvent('mouseup', { bubbles: true, cancelable: true, view: window, button: 0, buttons: 0 }));
-        clickable.click();
+        if (!hookSuccess) {
+            addLog(`[STEP 5] Executing Physical Pointer/Mouse Click...`);
+            // Ensure we click the semantic wrapper if we found a text span
+            clickable = clickable.closest('li, tr, td, [role="option"]') || clickable;
+            addLog(`Actually clicking on: <${clickable.tagName} class="${clickable.className}">`);
+            
+            clickable.scrollIntoView({ block: 'nearest' });
+            clickable.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, cancelable: true, view: window, button: 0, buttons: 1 }));
+            clickable.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true, view: window, button: 0, buttons: 1 }));
+            clickable.dispatchEvent(new PointerEvent('pointerup', { bubbles: true, cancelable: true, view: window, button: 0, buttons: 0 }));
+            clickable.dispatchEvent(new MouseEvent('mouseup', { bubbles: true, cancelable: true, view: window, button: 0, buttons: 0 }));
+            clickable.click();
+            addLog(`[SUCCESS] Physical click dispatched.`);
+        }
     } else {
-        window.__CV_APP.UI.log(`Could not find option ${valStr} anywhere! Sending logs to local server...`, "error");
-        
-        fetch('http://localhost:3456/log', {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain' },
-            body: `=== Oracle Option Click Failed for '${valStr}' ===\n` + debugLogOutput.join('\n')
-        }).catch(err => {
-            window.__CV_APP.UI.log(`Could not send logs to local server. Is logger.js running?`, "error");
-        });
+        addLog(`[FAILED] Could not find any visible element for '${valStr}'!`);
     }
     
+    // STEP 6: Always upload logs to local server for debugging
+    addLog(`=== END ORACLE OPTION SELECTION ===`);
+    fetch('http://localhost:3456/log', {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body: debugLogOutput.join('\n')
+    }).catch(() => console.error("Logger server not running"));
+
     await new Promise(r => setTimeout(r, 100));
     el.blur();
   }
