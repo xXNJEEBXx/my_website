@@ -43,21 +43,39 @@ window.__CV_APP.Engine = (function() {
   }
 
   async function executeOracleOptionClick(el, value) {
-    // Search the entire DOM for the rendered dropdown option
-    const listItems = Array.from(document.querySelectorAll('.oj-listbox-result, .oj-listbox-item, li[role="option"]'));
-    const targetItem = listItems.find(li => {
-        const text = (li.innerText || li.textContent || '').trim().toLowerCase();
-        return text === value.toLowerCase() || text.includes(value.toLowerCase());
+    const valStr = String(value).trim().toLowerCase();
+    
+    // Broad selector to catch any Oracle/Knockout dropdown item
+    const listItems = Array.from(document.querySelectorAll('li, [role="option"], [role="treeitem"], .oj-listbox-result, .oj-listbox-item, oj-option, .oj-listitem, .oj-dropdown-item'));
+    
+    // We only care about items that are actually visible on screen (dropdown must be open)
+    const visibleItems = listItems.filter(item => {
+      const rect = item.getBoundingClientRect();
+      return rect.width > 0 && rect.height > 0;
     });
 
+    // Find exact match first
+    let targetItem = visibleItems.find(li => {
+        const text = (li.innerText || li.textContent || '').trim().toLowerCase();
+        return text === valStr;
+    });
+
+    // Find partial match second
+    if (!targetItem) {
+        targetItem = visibleItems.find(li => {
+            const text = (li.innerText || li.textContent || '').trim().toLowerCase();
+            return text.includes(valStr);
+        });
+    }
+
     if (targetItem) {
-        window.__CV_APP.UI.log(`Clicking dropdown option for ${value}...`, "info");
+        window.__CV_APP.UI.log(`Clicking dropdown option for ${valStr}...`, "info");
         targetItem.scrollIntoView({ block: 'nearest' });
         targetItem.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true, view: window }));
         targetItem.dispatchEvent(new MouseEvent('mouseup', { bubbles: true, cancelable: true, view: window }));
         targetItem.click();
     } else {
-        window.__CV_APP.UI.log(`Could not find clickable option for ${value}, trying Enter fallback...`, "error");
+        window.__CV_APP.UI.log(`Could not find clickable option for ${valStr} (searched ${visibleItems.length} visible items), trying Enter fallback...`, "error");
         el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, bubbles: true }));
         await new Promise(r => setTimeout(r, 200));
         el.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, bubbles: true }));
