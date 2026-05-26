@@ -93,25 +93,36 @@ window.__CV_APP.Engine = (function() {
   */
   async function executeOracleOptionClick(el, value) {
     const valStr = String(value).trim().toLowerCase();
+    const combobox = el.closest('oj-combobox-one, oj-combobox-many, oj-select-single, oj-select-many');
     
-    // Wait for the dropdown animation to finish
+    // METHOD 1: Programmatic Hook via <oj-option> Web Components
+    if (combobox) {
+        const ojOptions = Array.from(combobox.querySelectorAll('oj-option'));
+        if (ojOptions.length > 0) {
+            const targetOption = ojOptions.find(opt => {
+                const text = (opt.innerText || opt.textContent || '').trim().toLowerCase();
+                return text === valStr || text.startsWith(valStr) || text.includes(valStr);
+            });
+            if (targetOption) {
+                window.__CV_APP.UI.log(`Programmatic Hook (oj-option): Set value to [${targetOption.value}]`, "success");
+                combobox.value = targetOption.value;
+                el.blur();
+                return; // Success!
+            }
+        }
+    }
+
+    // Wait for dropdown animation to finish to inspect the popup DOM
     await new Promise(r => setTimeout(r, 400));
     
-    function findTarget() {
-        // Find all possible dropdown containers
+    function findVisibleOption() {
         const popups = Array.from(document.querySelectorAll('.oj-listbox-drop, .oj-menu, [role="listbox"], .oj-combobox-popup'));
-        
-        // Strictly filter to only the one currently visible ON SCREEN
         const visiblePopups = popups.filter(p => {
             const rect = p.getBoundingClientRect();
-            // Check zero dimensions
             if (rect.width === 0 || rect.height === 0) return false;
-            // Check off-screen positioning (which Oracle JET uses to hide ghost elements)
             if (rect.right < 0 || rect.bottom < 0 || rect.left > window.innerWidth || rect.top > window.innerHeight) return false;
-            // Check CSS visibility
             const style = window.getComputedStyle(p);
-            if (style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0') return false;
-            return true;
+            return style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0';
         });
         
         for (const popup of visiblePopups) {
@@ -120,30 +131,50 @@ window.__CV_APP.Engine = (function() {
                 const text = (e.innerText !== undefined ? e.innerText : e.textContent || '').trim().toLowerCase();
                 return text === valStr || text.startsWith(valStr) || text.includes(valStr);
             });
-            if (match) return match;
+            if (match) return match.closest('li, tr, td, [role="option"]') || match;
         }
         return null;
     }
 
-    let targetItem = findTarget();
+    let clickable = findVisibleOption();
 
-    if (!targetItem) {
+    if (!clickable) {
         window.__CV_APP.UI.log(`Options not found in active dropdown. Retrying...`, "info");
         el.click();
         el.focus();
         dispatchKey(el, 'keydown', 'ArrowDown', 'ArrowDown', 40);
         await new Promise(r => setTimeout(r, 800));
-        targetItem = findTarget();
+        clickable = findVisibleOption();
     }
 
-    if (targetItem) {
-        window.__CV_APP.UI.log(`Clicking exact dropdown option for ${valStr}...`, "info");
-        
-        // Find the actual interactive wrapper
-        let clickable = targetItem.closest('li, tr, td, [role="option"]') || targetItem;
+    if (clickable && combobox) {
+        // METHOD 2: Extract internal ID directly from Knockout JS context (Bypasses UI security)
+        try {
+            if (window.ko && window.ko.dataFor) {
+                const koData = window.ko.dataFor(clickable);
+                if (koData) {
+                    // Oracle JET data providers usually store the ID in value, key, or nested data
+                    let internalValue = koData.value !== undefined ? koData.value : (koData.key !== undefined ? koData.key : null);
+                    if (internalValue === null && koData.data && koData.data.value !== undefined) {
+                        internalValue = koData.data.value;
+                    }
+                    
+                    if (internalValue !== null) {
+                        window.__CV_APP.UI.log(`Programmatic Hook (Knockout): Set value to [${internalValue}]`, "success");
+                        combobox.value = internalValue;
+                        el.blur();
+                        return; // Success!
+                    }
+                }
+            }
+        } catch (e) {
+            window.__CV_APP.UI.log(`Knockout hook failed: ${e.message}`, "error");
+        }
+
+        // METHOD 3: Fallback to the strict visibility click if programmatic hooks missed
+        window.__CV_APP.UI.log(`Programmatic hooks missed. Triggering physical fallback click...`, "warning");
         clickable.scrollIntoView({ block: 'nearest' });
         
-        // Dispatch robust events
         clickable.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, cancelable: true, view: window, button: 0, buttons: 1 }));
         clickable.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true, view: window, button: 0, buttons: 1 }));
         
@@ -152,7 +183,7 @@ window.__CV_APP.Engine = (function() {
         
         clickable.click();
     } else {
-        window.__CV_APP.UI.log(`Could not find option ${valStr} in active dropdown!`, "error");
+        window.__CV_APP.UI.log(`Could not find option ${valStr} anywhere!`, "error");
     }
     
     await new Promise(r => setTimeout(r, 100));
