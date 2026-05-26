@@ -115,6 +115,12 @@ window.__CV_APP.Engine = (function() {
     // Wait for dropdown animation to finish to inspect the popup DOM
     await new Promise(r => setTimeout(r, 400));
     
+    let debugLogOutput = [];
+    function addDebugLog(msg) {
+        debugLogOutput.push(msg);
+        window.__CV_APP.UI.log(msg, "info");
+    }
+
     function findVisibleOption() {
         const allElements = Array.from(document.querySelectorAll('*'));
         allElements.reverse(); // Deepest elements first
@@ -123,7 +129,6 @@ window.__CV_APP.Engine = (function() {
         for (const e of allElements) {
             if (e.tagName === 'INPUT' || e.tagName === 'SCRIPT' || e.tagName === 'STYLE' || e.tagName === 'NOSCRIPT' || e.tagName === 'HEAD') continue;
             
-            // Try to extract text, preferring innerText over textContent (innerText respects visibility somewhat)
             let text = '';
             if (e.innerText !== undefined) text = e.innerText;
             else if (e.textContent !== null) text = e.textContent;
@@ -134,21 +139,21 @@ window.__CV_APP.Engine = (function() {
             }
         }
         
-        window.__CV_APP.UI.log(`[DEBUG] Found ${matches.length} elements containing text '${valStr}'`, "info");
+        addDebugLog(`[DEBUG] Found ${matches.length} elements containing text '${valStr}'`);
         
         for (const e of matches) {
             const rect = e.getBoundingClientRect();
             if (rect.width === 0 || rect.height === 0) {
-                window.__CV_APP.UI.log(`[DEBUG] Rejected <${e.tagName}>: Zero dims (w:${rect.width}, h:${rect.height})`, "info");
+                addDebugLog(`[DEBUG] Rejected <${e.tagName}>: Zero dims (w:${rect.width}, h:${rect.height})`);
                 continue;
             }
             if (rect.right < 0 || rect.bottom < 0 || rect.left > window.innerWidth || rect.top > window.innerHeight) {
-                window.__CV_APP.UI.log(`[DEBUG] Rejected <${e.tagName}>: Off-screen (r:${rect.right}, b:${rect.bottom}, l:${rect.left}, t:${rect.top})`, "info");
+                addDebugLog(`[DEBUG] Rejected <${e.tagName}>: Off-screen (r:${rect.right}, b:${rect.bottom}, l:${rect.left}, t:${rect.top})`);
                 continue;
             }
             const style = window.getComputedStyle(e);
             if (style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0') {
-                window.__CV_APP.UI.log(`[DEBUG] Rejected <${e.tagName}>: CSS Hidden (d:${style.display}, v:${style.visibility}, o:${style.opacity})`, "info");
+                addDebugLog(`[DEBUG] Rejected <${e.tagName}>: CSS Hidden (d:${style.display}, v:${style.visibility}, o:${style.opacity})`);
                 continue;
             }
             
@@ -157,7 +162,7 @@ window.__CV_APP.Engine = (function() {
             while(parent && parent.tagName !== 'HTML') {
                 const pStyle = window.getComputedStyle(parent);
                 if (pStyle.display === 'none' || pStyle.visibility === 'hidden' || pStyle.opacity === '0') {
-                    window.__CV_APP.UI.log(`[DEBUG] Rejected <${e.tagName}>: Hidden by parent <${parent.tagName}> (d:${pStyle.display}, o:${pStyle.opacity})`, "info");
+                    addDebugLog(`[DEBUG] Rejected <${e.tagName}>: Hidden by parent <${parent.tagName}> (d:${pStyle.display}, o:${pStyle.opacity})`);
                     hidden = true;
                     break;
                 }
@@ -165,7 +170,7 @@ window.__CV_APP.Engine = (function() {
             }
             if (hidden) continue;
 
-            window.__CV_APP.UI.log(`[DEBUG] Accepted <${e.tagName}> as visible target!`, "success");
+            addDebugLog(`[DEBUG] Accepted <${e.tagName}> as visible target!`);
             return e;
         }
         return null;
@@ -183,17 +188,14 @@ window.__CV_APP.Engine = (function() {
     }
 
     if (clickable && combobox) {
-        // METHOD 2: Extract internal ID directly from Knockout JS context (Bypasses UI security)
         try {
             if (window.ko && window.ko.dataFor) {
                 const koData = window.ko.dataFor(clickable);
                 if (koData) {
-                    // Oracle JET data providers usually store the ID in value, key, or nested data
                     let internalValue = koData.value !== undefined ? koData.value : (koData.key !== undefined ? koData.key : null);
                     if (internalValue === null && koData.data && koData.data.value !== undefined) {
                         internalValue = koData.data.value;
                     }
-                    
                     if (internalValue !== null) {
                         window.__CV_APP.UI.log(`Programmatic Hook (Knockout): Set value to [${internalValue}]`, "success");
                         combobox.value = internalValue;
@@ -203,22 +205,29 @@ window.__CV_APP.Engine = (function() {
                 }
             }
         } catch (e) {
-            window.__CV_APP.UI.log(`Knockout hook failed: ${e.message}`, "error");
+            addDebugLog(`Knockout hook failed: ${e.message}`);
         }
 
-        // METHOD 3: Fallback to the strict visibility click if programmatic hooks missed
         window.__CV_APP.UI.log(`Programmatic hooks missed. Triggering physical fallback click...`, "warning");
         clickable.scrollIntoView({ block: 'nearest' });
-        
         clickable.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, cancelable: true, view: window, button: 0, buttons: 1 }));
         clickable.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true, view: window, button: 0, buttons: 1 }));
-        
         clickable.dispatchEvent(new PointerEvent('pointerup', { bubbles: true, cancelable: true, view: window, button: 0, buttons: 0 }));
         clickable.dispatchEvent(new MouseEvent('mouseup', { bubbles: true, cancelable: true, view: window, button: 0, buttons: 0 }));
-        
         clickable.click();
     } else {
-        window.__CV_APP.UI.log(`Could not find option ${valStr} anywhere!`, "error");
+        window.__CV_APP.UI.log(`Could not find option ${valStr} anywhere! Downloading debug logs...`, "error");
+        
+        // Auto-download the debug logs to the user's filesystem
+        const blob = new Blob([debugLogOutput.join('\n')], {type: 'text/plain'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `oracle_debug_${valStr.replace(/\s+/g, '_')}.txt`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
     }
     
     await new Promise(r => setTimeout(r, 100));
