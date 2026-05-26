@@ -358,6 +358,29 @@ Each subagent receives:
 
 ---
 
+## Local Server & Self-Learning (السيرفر المحلي والتعلم الذاتي)
+
+> ⚠️ **إلزامي لتتبع الأخطاء والتعلم الذاتي:** الإضافة تحتاج سيرفر محلي شغال عشان تحفظ الحقول المجهولة وتتعلم منها.
+
+### 1. تشغيل السيرفر المحلي
+قبل لا تبدأ أي عملية تقديم أو تفتح متصفح جديد، لازم تشغل السيرفر المحلي الخاص بالإضافة:
+```bash
+node "cv-autofill-extension/logger.js"
+```
+السيرفر راح يشتغل على `http://localhost:3456` ويخزن كل الـ logs في ملف `cv-autofill-extension/debug_logs.txt`.
+
+### 2. ميزة التعلم الذاتي (Self-Learning)
+الإضافة فيها نظام ذكي للتعلم:
+1. إذا واجهت الإضافة حقل مجهول (مو موجود في `FIELD_PATTERNS`)، راح تحط عليه "مراقب" (Watcher).
+2. إذا قام المستخدم أو الوكيل بتعبئة الحقل **يدوياً** وانتقل لحقل ثاني (Blur event)، الإضافة راح تحفظ القيمة اللي انكتبت مع خصائص الحقل (Hints) في `localStorage` وفي السيرفر المحلي.
+3. في المرات القادمة (في أي موقع ثاني)، إذا لقت الإضافة حقل مشابه، راح تعبيه **تلقائياً** من الذاكرة اللي تعلمتها.
+
+**أوامر مفيدة للوكيل (تُنفذ في الـ Console):**
+- `window.__CV_AGENT.learned()`: لعرض كل الحقول اللي تعلمتها الإضافة.
+- `window.__CV_AGENT.clearLearned()`: لمسح ذاكرة التعلم الذاتي بالكامل.
+
+---
+
 ## Extension Self-Improvement Protocol
 
 > This section defines HOW to update `cv-autofill-extension/content.js` after learning from failures.
