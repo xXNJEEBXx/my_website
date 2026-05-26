@@ -57,7 +57,13 @@
       if (el && (!el.value || el.value.trim() === '')) {
         Engine.enqueue({
           el, value, label: selector,
-          execute: async () => Engine.executeNativeSet(el, value)
+          execute: async () => {
+            if (el.classList.contains('oj-combobox-input')) {
+              await Engine.executeOracleUIEvent(el, value);
+            } else {
+              Engine.executeNativeSet(el, value);
+            }
+          }
         });
       }
     }
@@ -103,24 +109,6 @@
           execute: async () => span.parentElement.click()
         });
         break;
-      }
-    }
-
-    // Knockout Comboboxes
-    const comboboxes = Array.from(document.querySelectorAll('.oj-combobox-input'));
-    for (const box of comboboxes) {
-      let targetValue = null;
-      for (const [selector, value] of Object.entries(APP.PLATFORM_SELECTORS.oracle_hcm)) {
-        if (box.matches(selector)) {
-          targetValue = value;
-          break;
-        }
-      }
-      if (targetValue && box.value !== targetValue) {
-        Engine.enqueue({
-          el: box, value: targetValue, label: `Oracle Combobox (${targetValue})`,
-          execute: async () => Engine.executeOracleUIEvent(box, targetValue)
-        });
       }
     }
   }
