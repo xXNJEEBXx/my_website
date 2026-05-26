@@ -119,6 +119,8 @@
     }
   }
 
+  window.__CV_APP.expandedPatterns = window.__CV_APP.expandedPatterns || new Set();
+
   function planExpansions() {
     const clickPatterns = [
       /edit personal information/i,
@@ -133,8 +135,11 @@
     const buttons = Array.from(document.querySelectorAll('button, a, div[role="button"]'));
 
     for (const regex of clickPatterns) {
+      if (window.__CV_APP.expandedPatterns.has(regex.toString())) continue;
+
       const btn = buttons.find(b => regex.test(b.innerText || b.textContent) && b.offsetParent !== null);
       if (btn) {
+        window.__CV_APP.expandedPatterns.add(regex.toString());
         Engine.enqueue({
           el: btn, 
           value: 'Clicked', 
@@ -155,6 +160,7 @@
     plan: function(append = false) {
       if (!append) {
         Engine.clear();
+        window.__CV_APP.expandedPatterns.clear();
         APP.UI.log("Scanning page to generate plan...", "info");
       }
       
