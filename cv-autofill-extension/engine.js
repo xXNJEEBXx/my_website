@@ -23,16 +23,24 @@ window.__CV_APP.Engine = (function() {
     el.dispatchEvent(new Event('change', { bubbles: true }));
   }
 
-  function executeOracleTextInput(el, value) {
-    const nativeSet = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')?.set;
-    if (nativeSet) nativeSet.call(el, value);
-    else el.value = value;
+  async function executeOracleTextInput(el, value) {
+    el.focus();
     
-    const changeEvent = new UIEvent("change", { "view": window, "bubbles": true, "cancelable": true });
-    el.dispatchEvent(changeEvent);
+    // Clear the field natively first
+    const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
+    nativeInputValueSetter.call(el, "");
+    el.dispatchEvent(new Event('input', { bubbles: true }));
     
-    const inputEvent = new UIEvent("input", { "view": window, "bubbles": true, "cancelable": true });
-    el.dispatchEvent(inputEvent);
+    // Simulate typing character by character to trigger Oracle's search filter
+    for (let i = 0; i < value.length; i++) {
+        nativeInputValueSetter.call(el, el.value + value[i]);
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+        el.dispatchEvent(new KeyboardEvent('keydown', { key: value[i], bubbles: true }));
+        el.dispatchEvent(new KeyboardEvent('keyup', { key: value[i], bubbles: true }));
+        await new Promise(r => setTimeout(r, 10)); // small delay to allow framework to catch up
+    }
+    
+    el.dispatchEvent(new Event('change', { bubbles: true }));
   }
 
   async function executeOracleDropdownOpen(el) {
