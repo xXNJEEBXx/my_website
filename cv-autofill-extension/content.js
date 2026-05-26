@@ -61,6 +61,10 @@
             execute: async () => Engine.executeOracleTextInput(el, value)
           });
           Engine.enqueue({
+            el, value: 'Clicked Input', label: `Open Dropdown: ${selector}`,
+            execute: async () => Engine.executeOracleDropdownOpen(el)
+          });
+          Engine.enqueue({
             el, value: 'Clicked Option', label: `Confirm: ${value}`,
             execute: async () => Engine.executeOracleOptionClick(el, value)
           });
@@ -82,9 +86,14 @@
       const value = guessFieldValue(el);
       if (value) {
         if (el.classList.contains('oj-combobox-input')) {
+          const hint = getFieldHints(el).substring(0, 20);
           Engine.enqueue({
-            el, value, label: `Type: ${getFieldHints(el).substring(0, 20)}`,
+            el, value, label: `Type: ${hint}`,
             execute: async () => Engine.executeOracleTextInput(el, value)
+          });
+          Engine.enqueue({
+            el, value: 'Clicked Input', label: `Open Dropdown: ${hint}`,
+            execute: async () => Engine.executeOracleDropdownOpen(el)
           });
           Engine.enqueue({
             el, value: 'Clicked Option', label: `Confirm: ${value}`,
@@ -142,6 +151,10 @@
         Engine.enqueue({
           el: box, value: targetValue, label: `Type Oracle Combobox (${targetValue})`,
           execute: async () => Engine.executeOracleTextInput(box, targetValue)
+        });
+        Engine.enqueue({
+          el: box, value: 'Clicked Input', label: `Open Oracle Dropdown (${targetValue})`,
+          execute: async () => Engine.executeOracleDropdownOpen(box)
         });
         Engine.enqueue({
           el: box, value: 'Clicked Option', label: `Confirm Oracle Combobox (${targetValue})`,
