@@ -111,6 +111,30 @@
         break;
       }
     }
+
+    // Knockout Comboboxes (Month, Year, Language Dropdown)
+    const oracleComboboxSelectors = {
+      'input[name="startDate"][id^="month-"]': 'January',
+      'input[name="startDate"][id^="year-"]': '2020',
+      'input[name="contentItemId"]': 'Arabic',
+    };
+    
+    const comboboxes = Array.from(document.querySelectorAll('.oj-combobox-input, input[role="combobox"]'));
+    for (const box of comboboxes) {
+      let targetValue = null;
+      for (const [selector, value] of Object.entries(oracleComboboxSelectors)) {
+        if (box.matches(selector)) {
+          targetValue = value;
+          break;
+        }
+      }
+      if (targetValue && box.value !== targetValue) {
+        Engine.enqueue({
+          el: box, value: targetValue, label: `Oracle Combobox (${targetValue})`,
+          execute: async () => Engine.executeOracleUIEvent(box, targetValue)
+        });
+      }
+    }
   }
 
   window.__CV_APP.expandedPatterns = window.__CV_APP.expandedPatterns || new Set();

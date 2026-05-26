@@ -78,9 +78,6 @@ window.__CV_APP.PLATFORM_SELECTORS = {
   oracle_hcm: {
     'input[id*="FirstName"]': CV.firstName, 'input[id*="LastName"]': CV.lastName, 'input[id*="Email"]': CV.email,
     'input[id*="Phone"]': CV.phone, 'input[id*="City"]': CV.city, 'input[id*="PostalCode"]': CV.postalCode,
-    'input[name="startDate"][id^="month-"]': 'January',
-    'input[name="startDate"][id^="year-"]': '2020',
-    'input[name="contentItemId"]': 'Arabic',
   },
   lever: {
     'input[name="name"]': CV.displayName, 'input[name="email"]': CV.email, 'input[name="phone"]': CV.phone,
