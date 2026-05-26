@@ -111,13 +111,20 @@ window.__CV_APP.Engine = (function() {
         const elements = Array.from(document.querySelectorAll('*')).reverse();
         let matches = [];
         for (const e of elements) {
+            // IGNORE THE EXTENSION'S OWN DASHBOARD UI! (To prevent clicking self-referential log messages)
+            if (e.closest && e.closest('#cv-agent-dashboard')) continue;
+            
             if (['INPUT', 'SCRIPT', 'STYLE', 'NOSCRIPT', 'HEAD'].includes(e.tagName)) continue;
             let text = (e.innerText !== undefined ? e.innerText : e.textContent || '').trim().toLowerCase();
-            if (text === valStr || text.startsWith(valStr) || text.includes(valStr)) {
+            
+            // Prioritize exact matches over partial matches, but accept partials if they are the only ones
+            if (text === valStr) {
+                matches.unshift(e); // Put exact matches at the very front!
+            } else if (text.startsWith(valStr) || text.includes(valStr)) {
                 matches.push(e);
             }
         }
-        addLog(`Found ${matches.length} elements containing text.`);
+        addLog(`Found ${matches.length} elements containing text (excluding extension UI).`);
         
         for (const e of matches) {
             const rect = e.getBoundingClientRect();
