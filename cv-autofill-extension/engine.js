@@ -37,11 +37,27 @@ window.__CV_APP.Engine = (function() {
 
   async function executeOracleOptionClick(el, value) {
     // Search the entire DOM for the rendered dropdown option
-    const listItems = Array.from(document.querySelectorAll('.oj-listbox-result, .oj-listbox-item, li[role="option"]'));
-    const targetItem = listItems.find(li => {
+    let listItems = Array.from(document.querySelectorAll('.oj-listbox-result, .oj-listbox-item, li[role="option"]'));
+    let targetItem = listItems.find(li => {
         const text = (li.innerText || li.textContent || '').trim().toLowerCase();
         return text === value.toLowerCase() || text.includes(value.toLowerCase());
     });
+
+    // Fallback: If not found, click the input and press ArrowDown to force it open
+    if (!targetItem) {
+        window.__CV_APP.UI.log(`Options hidden. Clicking input to open dropdown...`, "info");
+        el.click();
+        el.focus();
+        el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, bubbles: true }));
+        
+        await new Promise(r => setTimeout(r, 800)); // Wait for Knockout to render it
+        
+        listItems = Array.from(document.querySelectorAll('.oj-listbox-result, .oj-listbox-item, li[role="option"]'));
+        targetItem = listItems.find(li => {
+            const text = (li.innerText || li.textContent || '').trim().toLowerCase();
+            return text === value.toLowerCase() || text.includes(value.toLowerCase());
+        });
+    }
 
     if (targetItem) {
         window.__CV_APP.UI.log(`Clicking dropdown option for ${value}...`, "info");
