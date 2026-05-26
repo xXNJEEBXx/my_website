@@ -1,0 +1,208 @@
+--- Debug logs cleared ---
+
+
+=========================================
+--- LOG AT 2026-05-26T11:26:20.047Z ---
+=== START ORACLE OPTION SELECTION FOR [january] ===
+[STEP 1] Waiting 400ms for dropdown animation...
+[STEP 2] Searching for dropdown list items matching 'january'...
+[Strategy A] Found via selector '.cx-select__options [role="gridcell"]': "january"
+HTML: <div tabindex="-1" role="gridcell" id="month-startDate-17-listitem-0" aria-selected="false" class="cx-select__list-item  "><div class="cx-select__list-item-container"><span class="cx-select__list-item
+[STEP 4] Target acquired. Attempting click...
+Click target: <DIV id="month-startDate-17-listitem-0" class="cx-select__list-item  " role="gridcell">
+Click target HTML: <div tabindex="-1" role="gridcell" id="month-startDate-17-listitem-0" aria-selected="false" class="cx-select__list-item  "><div class="cx-select__list-item-container"><span class="cx-select__list-item--content"><span class="highlight">January</span><span></span></span></div></div>
+[DONE] Full event chain dispatched (with composed:true).
+=== END ORACLE OPTION SELECTION ===
+=========================================
+
+
+=========================================
+--- LOG AT 2026-05-26T11:26:23.276Z ---
+=== START ORACLE OPTION SELECTION FOR [2020] ===
+[STEP 1] Waiting 400ms for dropdown animation...
+[STEP 2] Searching for dropdown list items matching '2020'...
+[Strategy A] Found via selector '.cx-select__options [role="gridcell"]': "2020"
+HTML: <div tabindex="-1" role="gridcell" id="year-startDate-17-listitem-0" aria-selected="false" class="cx-select__list-item  "><div class="cx-select__list-item-container"><span class="cx-select__list-item-
+[STEP 4] Target acquired. Attempting click...
+Click target: <DIV id="year-startDate-17-listitem-0" class="cx-select__list-item  " role="gridcell">
+Click target HTML: <div tabindex="-1" role="gridcell" id="year-startDate-17-listitem-0" aria-selected="false" class="cx-select__list-item  "><div class="cx-select__list-item-container"><span class="cx-select__list-item--content"><span class="highlight">2020</span><span></span></span></div></div>
+[DONE] Full event chain dispatched (with composed:true).
+=== END ORACLE OPTION SELECTION ===
+=========================================
+
+
+=========================================
+--- LOG AT 2026-05-26T11:26:30.429Z ---
+=== START ORACLE OPTION SELECTION FOR [saudi arabia] ===
+[STEP 1] Waiting 400ms for dropdown animation...
+[STEP 2] Searching for dropdown list items matching 'saudi arabia'...
+[Strategy A] Found via selector '.cx-select__options [role="gridcell"]': "saudi arabia"
+HTML: <div tabindex="-1" role="gridcell" id="countryCode-20-listitem-0" aria-selected="false" class="cx-select__list-item  "><div class="cx-select__list-item-container"><span class="cx-select__list-item--co
+[STEP 4] Target acquired. Attempting click...
+Click target: <DIV id="countryCode-20-listitem-0" class="cx-select__list-item  " role="gridcell">
+Click target HTML: <div tabindex="-1" role="gridcell" id="countryCode-20-listitem-0" aria-selected="false" class="cx-select__list-item  "><div class="cx-select__list-item-container"><span class="cx-select__list-item--content"><span class="highlight">Saudi Arabia</span><span></span></span></div></div>
+[DONE] Full event chain dispatched (with composed:true).
+=== END ORACLE OPTION SELECTION ===
+=========================================
+
+
+=========================================
+--- LOG AT 2026-05-26T11:26:37.557Z ---
+=== START ORACLE OPTION SELECTION FOR [saudi arabia] ===
+[STEP 1] Waiting 400ms for dropdown animation...
+[STEP 2] Searching for dropdown list items matching 'saudi arabia'...
+[Strategy A] Found via selector '.cx-select__options [role="gridcell"]': "saudi arabia"
+HTML: <div tabindex="-1" role="gridcell" id="countryCode-25-listitem-0" aria-selected="false" class="cx-select__list-item  "><div class="cx-select__list-item-container"><span class="cx-select__list-item--co
+[STEP 4] Target acquired. Attempting click...
+Click target: <DIV id="countryCode-25-listitem-0" class="cx-select__list-item  " role="gridcell">
+Click target HTML: <div tabindex="-1" role="gridcell" id="countryCode-25-listitem-0" aria-selected="false" class="cx-select__list-item  "><div class="cx-select__list-item-container"><span class="cx-select__list-item--content"><span class="highlight">Saudi Arabia</span><span></span></span></div></div>
+[DONE] Full event chain dispatched (with composed:true).
+=== END ORACLE OPTION SELECTION ===
+=========================================
+
+
+=========================================
+--- LOG AT 2026-05-26T11:26:43.223Z ---
+=== START ORACLE OPTION SELECTION FOR [arabic] ===
+[STEP 1] Waiting 400ms for dropdown animation...
+[STEP 2] Searching for dropdown list items matching 'arabic'...
+[Strategy A] Found via selector '.cx-select__options [role="gridcell"]': "arabic"
+HTML: <div tabindex="-1" role="gridcell" id="contentItemId-27-listitem-0" aria-selected="false" class="cx-select__list-item  "><div class="cx-select__list-item-container"><span class="cx-select__list-item--
+[STEP 4] Target acquired. Attempting click...
+Click target: <DIV id="contentItemId-27-listitem-0" class="cx-select__list-item  " role="gridcell">
+Click target HTML: <div tabindex="-1" role="gridcell" id="contentItemId-27-listitem-0" aria-selected="false" class="cx-select__list-item  "><div class="cx-select__list-item-container"><span class="cx-select__list-item--content"><span class="highlight">Arabic</span><span></span></span></div></div>
+[DONE] Full event chain dispatched (with composed:true).
+=== END ORACLE OPTION SELECTION ===
+=========================================
+
+
+=========================================
+--- LOG AT 2026-05-26T11:38:23.361Z ---
+=== UNMAPPED FIELDS ===
+[INPUT] type=text id="preferredJobFamilies" name="preferredJobFamilies" hints="preferredJobFamilies preferredJobFamilies"
+[INPUT] type=text id="preferredLocations" name="preferredJobFamilies" hints="preferredJobFamilies preferredLocations"
+=========================================
+
+
+=========================================
+--- LOG AT 2026-05-26T11:38:31.261Z ---
+=== UNMAPPED FIELDS ===
+[INPUT] type=text id="preferredJobFamilies" name="preferredJobFamilies" hints="preferredJobFamilies preferredJobFamilies"
+[INPUT] type=text id="preferredLocations" name="preferredJobFamilies" hints="preferredJobFamilies preferredLocations"
+[INPUT] type=text id="preferredJobFamilies" name="preferredJobFamilies" hints="preferredJobFamilies preferredJobFamilies"
+[INPUT] type=text id="preferredLocations" name="preferredJobFamilies" hints="preferredJobFamilies preferredLocations"
+=========================================
+
+
+=========================================
+--- LOG AT 2026-05-26T11:38:34.028Z ---
+=== UNMAPPED FIELDS ===
+[INPUT] type=text id="preferredJobFamilies" name="preferredJobFamilies" hints="preferredJobFamilies preferredJobFamilies"
+[INPUT] type=text id="preferredLocations" name="preferredJobFamilies" hints="preferredJobFamilies preferredLocations"
+[INPUT] type=text id="preferredJobFamilies" name="preferredJobFamilies" hints="preferredJobFamilies preferredJobFamilies"
+[INPUT] type=text id="preferredLocations" name="preferredJobFamilies" hints="preferredJobFamilies preferredLocations"
+[INPUT] type=text id="month-endDate-18" name="endDate" hints="endDate month-endDate-18"
+[INPUT] type=text id="year-endDate-18" name="endDate" hints="endDate year-endDate-18"
+[INPUT] type=text id="preferredJobFamilies" name="preferredJobFamilies" hints="preferredJobFamilies preferredJobFamilies"
+[INPUT] type=text id="preferredLocations" name="preferredJobFamilies" hints="preferredJobFamilies preferredLocations"
+=========================================
+
+
+=========================================
+--- LOG AT 2026-05-26T11:38:36.772Z ---
+=== UNMAPPED FIELDS ===
+[INPUT] type=text id="preferredJobFamilies" name="preferredJobFamilies" hints="preferredJobFamilies preferredJobFamilies"
+[INPUT] type=text id="preferredLocations" name="preferredJobFamilies" hints="preferredJobFamilies preferredLocations"
+[INPUT] type=text id="preferredJobFamilies" name="preferredJobFamilies" hints="preferredJobFamilies preferredJobFamilies"
+[INPUT] type=text id="preferredLocations" name="preferredJobFamilies" hints="preferredJobFamilies preferredLocations"
+[INPUT] type=text id="month-endDate-18" name="endDate" hints="endDate month-endDate-18"
+[INPUT] type=text id="year-endDate-18" name="endDate" hints="endDate year-endDate-18"
+[INPUT] type=text id="preferredJobFamilies" name="preferredJobFamilies" hints="preferredJobFamilies preferredJobFamilies"
+[INPUT] type=text id="preferredLocations" name="preferredJobFamilies" hints="preferredJobFamilies preferredLocations"
+[INPUT] type=text id="month-endDate-18" name="endDate" hints="endDate month-endDate-18"
+[INPUT] type=text id="year-endDate-18" name="endDate" hints="endDate year-endDate-18"
+[INPUT] type=text id="preferredJobFamilies" name="preferredJobFamilies" hints="preferredJobFamilies preferredJobFamilies"
+[INPUT] type=text id="preferredLocations" name="preferredJobFamilies" hints="preferredJobFamilies preferredLocations"
+=========================================
+
+
+=========================================
+--- LOG AT 2026-05-26T11:38:39.510Z ---
+=== UNMAPPED FIELDS ===
+[INPUT] type=text id="preferredJobFamilies" name="preferredJobFamilies" hints="preferredJobFamilies preferredJobFamilies"
+[INPUT] type=text id="preferredLocations" name="preferredJobFamilies" hints="preferredJobFamilies preferredLocations"
+[INPUT] type=text id="preferredJobFamilies" name="preferredJobFamilies" hints="preferredJobFamilies preferredJobFamilies"
+[INPUT] type=text id="preferredLocations" name="preferredJobFamilies" hints="preferredJobFamilies preferredLocations"
+[INPUT] type=text id="month-endDate-18" name="endDate" hints="endDate month-endDate-18"
+[INPUT] type=text id="year-endDate-18" name="endDate" hints="endDate year-endDate-18"
+[INPUT] type=text id="preferredJobFamilies" name="preferredJobFamilies" hints="preferredJobFamilies preferredJobFamilies"
+[INPUT] type=text id="preferredLocations" name="preferredJobFamilies" hints="preferredJobFamilies preferredLocations"
+[INPUT] type=text id="month-endDate-18" name="endDate" hints="endDate month-endDate-18"
+[INPUT] type=text id="year-endDate-18" name="endDate" hints="endDate year-endDate-18"
+[INPUT] type=text id="preferredJobFamilies" name="preferredJobFamilies" hints="preferredJobFamilies preferredJobFamilies"
+[INPUT] type=text id="preferredLocations" name="preferredJobFamilies" hints="preferredJobFamilies preferredLocations"
+[INPUT] type=text id="month-endDate-18" name="endDate" hints="endDate month-endDate-18"
+[INPUT] type=text id="year-endDate-18" name="endDate" hints="endDate year-endDate-18"
+[INPUT] type=text id="preferredJobFamilies" name="preferredJobFamilies" hints="preferredJobFamilies preferredJobFamilies"
+[INPUT] type=text id="preferredLocations" name="preferredJobFamilies" hints="preferredJobFamilies preferredLocations"
+=========================================
+
+
+=========================================
+--- LOG AT 2026-05-26T11:38:43.936Z ---
+=== START ORACLE OPTION SELECTION FOR [january] ===
+[STEP 1] Waiting 400ms for dropdown animation...
+[STEP 2] Searching for dropdown list items matching 'january'...
+[Strategy A] Found via selector '.cx-select__options [role="gridcell"]': "january"
+HTML: <div tabindex="-1" role="gridcell" id="month-startDate-17-listitem-0" aria-selected="false" class="cx-select__list-item  "><div class="cx-select__list-item-container"><span class="cx-select__list-item
+[STEP 4] Target acquired. Attempting click...
+Click target: <DIV id="month-startDate-17-listitem-0" class="cx-select__list-item  " role="gridcell">
+Click target HTML: <div tabindex="-1" role="gridcell" id="month-startDate-17-listitem-0" aria-selected="false" class="cx-select__list-item  "><div class="cx-select__list-item-container"><span class="cx-select__list-item--content"><span class="highlight">January</span><span></span></span></div></div>
+[DONE] Full event chain dispatched (with composed:true).
+=== END ORACLE OPTION SELECTION ===
+=========================================
+
+
+=========================================
+--- LOG AT 2026-05-26T11:38:47.143Z ---
+=== START ORACLE OPTION SELECTION FOR [2020] ===
+[STEP 1] Waiting 400ms for dropdown animation...
+[STEP 2] Searching for dropdown list items matching '2020'...
+[Strategy A] Found via selector '.cx-select__options [role="gridcell"]': "2020"
+HTML: <div tabindex="-1" role="gridcell" id="year-startDate-17-listitem-0" aria-selected="false" class="cx-select__list-item  "><div class="cx-select__list-item-container"><span class="cx-select__list-item-
+[STEP 4] Target acquired. Attempting click...
+Click target: <DIV id="year-startDate-17-listitem-0" class="cx-select__list-item  " role="gridcell">
+Click target HTML: <div tabindex="-1" role="gridcell" id="year-startDate-17-listitem-0" aria-selected="false" class="cx-select__list-item  "><div class="cx-select__list-item-container"><span class="cx-select__list-item--content"><span class="highlight">2020</span><span></span></span></div></div>
+[DONE] Full event chain dispatched (with composed:true).
+=== END ORACLE OPTION SELECTION ===
+=========================================
+
+
+=========================================
+--- LOG AT 2026-05-26T11:38:54.192Z ---
+=== START ORACLE OPTION SELECTION FOR [saudi arabia] ===
+[STEP 1] Waiting 400ms for dropdown animation...
+[STEP 2] Searching for dropdown list items matching 'saudi arabia'...
+[Strategy A] Found via selector '.cx-select__options [role="gridcell"]': "saudi arabia"
+HTML: <div tabindex="-1" role="gridcell" id="countryCode-20-listitem-0" aria-selected="false" class="cx-select__list-item  "><div class="cx-select__list-item-container"><span class="cx-select__list-item--co
+[STEP 4] Target acquired. Attempting click...
+Click target: <DIV id="countryCode-20-listitem-0" class="cx-select__list-item  " role="gridcell">
+Click target HTML: <div tabindex="-1" role="gridcell" id="countryCode-20-listitem-0" aria-selected="false" class="cx-select__list-item  "><div class="cx-select__list-item-container"><span class="cx-select__list-item--content"><span class="highlight">Saudi Arabia</span><span></span></span></div></div>
+[DONE] Full event chain dispatched (with composed:true).
+=== END ORACLE OPTION SELECTION ===
+=========================================
+
+
+=========================================
+--- LOG AT 2026-05-26T11:39:02.313Z ---
+=== START ORACLE OPTION SELECTION FOR [arabic] ===
+[STEP 1] Waiting 400ms for dropdown animation...
+[STEP 2] Searching for dropdown list items matching 'arabic'...
+[Strategy A] Found via selector '.cx-select__options [role="gridcell"]': "arabic"
+HTML: <div tabindex="-1" role="gridcell" id="contentItemId-24-listitem-0" aria-selected="false" class="cx-select__list-item  "><div class="cx-select__list-item-container"><span class="cx-select__list-item--
+[STEP 4] Target acquired. Attempting click...
+Click target: <DIV id="contentItemId-24-listitem-0" class="cx-select__list-item  " role="gridcell">
+Click target HTML: <div tabindex="-1" role="gridcell" id="contentItemId-24-listitem-0" aria-selected="false" class="cx-select__list-item  "><div class="cx-select__list-item-container"><span class="cx-select__list-item--content"><span class="highlight">Arabic</span><span></span></span></div></div>
+[DONE] Full event chain dispatched (with composed:true).
+=== END ORACLE OPTION SELECTION ===
+=========================================

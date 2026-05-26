@@ -139,11 +139,8 @@
     }
 
     // Knockout Comboboxes (Month, Year, Language Dropdown)
-    const oracleComboboxSelectors = {
-      'input[name="startDate"][id^="month-"]': 'January',
-      'input[name="startDate"][id^="year-"]': '2020',
-      'input[name="contentItemId"]': 'Arabic',
-    };
+    // Mappings defined in site-rules.js → ORACLE_COMBOBOX_MAP
+    const oracleComboboxSelectors = window.__CV_APP.ORACLE_COMBOBOX_MAP || {};
     
     const comboboxes = Array.from(document.querySelectorAll('.oj-combobox-input, input[role="combobox"]'));
     for (const box of comboboxes) {
