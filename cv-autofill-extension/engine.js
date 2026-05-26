@@ -45,24 +45,43 @@ window.__CV_APP.Engine = (function() {
   async function executeOracleOptionClick(el, value) {
     const valStr = String(value).trim().toLowerCase();
     
-    // Broad selector to catch any Oracle/Knockout dropdown item
-    const listItems = Array.from(document.querySelectorAll('li, [role="option"], [role="treeitem"], .oj-listbox-result, .oj-listbox-item, oj-option, .oj-listitem, .oj-dropdown-item'));
-    
-    // We only care about items that are actually visible on screen (dropdown must be open)
-    const visibleItems = listItems.filter(item => {
-      const rect = item.getBoundingClientRect();
-      return rect.width > 0 && rect.height > 0;
-    });
+    // Targeted selectors so we don't accidentally grab the entire page layout!
+    const selectors = [
+      '.oj-listbox-drop li',
+      '.oj-listbox-result',
+      '.oj-listbox-item',
+      'oj-option',
+      '.oj-dropdown-item',
+      '.oj-listitem',
+      'ul[role="listbox"] li',
+      'div.oj-listbox-drop [role="option"]'
+    ].join(', ');
 
-    // Find exact match first
-    let targetItem = visibleItems.find(li => {
+    let listItems = Array.from(document.querySelectorAll(selectors));
+    
+    // Find exact match without bounding client rect checks (sometimes popups have 0 width in flexbox)
+    let targetItem = listItems.find(li => {
         const text = (li.innerText || li.textContent || '').trim().toLowerCase();
         return text === valStr;
     });
 
-    // Find partial match second
     if (!targetItem) {
-        targetItem = visibleItems.find(li => {
+        window.__CV_APP.UI.log(`Options not found in DOM. Re-clicking input...`, "info");
+        el.click();
+        el.focus();
+        el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, bubbles: true }));
+        
+        await new Promise(r => setTimeout(r, 800));
+        
+        listItems = Array.from(document.querySelectorAll(selectors));
+        targetItem = listItems.find(li => {
+            const text = (li.innerText || li.textContent || '').trim().toLowerCase();
+            return text === valStr;
+        });
+    }
+
+    if (!targetItem) {
+        targetItem = listItems.find(li => {
             const text = (li.innerText || li.textContent || '').trim().toLowerCase();
             return text.includes(valStr);
         });
@@ -75,9 +94,9 @@ window.__CV_APP.Engine = (function() {
         targetItem.dispatchEvent(new MouseEvent('mouseup', { bubbles: true, cancelable: true, view: window }));
         targetItem.click();
     } else {
-        const previewTexts = visibleItems.slice(0, 10).map(el => (el.innerText || el.textContent || '').trim()).join(' | ');
-        window.__CV_APP.UI.log(`Options preview: [${previewTexts}]`, "info");
-        window.__CV_APP.UI.log(`Could not find clickable option for ${valStr} (searched ${visibleItems.length} visible items), trying Enter fallback...`, "error");
+        const previewTexts = listItems.slice(0, 15).map(el => (el.innerText || el.textContent || '').trim()).filter(Boolean).join(' | ').substring(0, 150);
+        window.__CV_APP.UI.log(`Preview: [${previewTexts}]`, "info");
+        window.__CV_APP.UI.log(`Could not find clickable option for ${valStr}, trying Enter fallback...`, "error");
         el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, bubbles: true }));
         await new Promise(r => setTimeout(r, 200));
         el.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, bubbles: true }));
