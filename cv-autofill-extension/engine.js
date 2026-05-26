@@ -55,11 +55,7 @@ window.__CV_APP.Engine = (function() {
     window.__CV_APP.UI.log(`Confirming option via Keyboard (Enter)...`, "info");
     el.focus();
     
-    // Press ArrowDown to ensure the dropdown is open and the first filtered item is highlighted
-    el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, bubbles: true }));
-    await new Promise(r => setTimeout(r, 200));
-    
-    // Press Enter to confirm the highlighted item
+    // Press Enter to confirm the highlighted filtered item directly
     el.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, bubbles: true }));
     el.dispatchEvent(new KeyboardEvent('keyup', { key: 'Enter', code: 'Enter', keyCode: 13, bubbles: true }));
     
