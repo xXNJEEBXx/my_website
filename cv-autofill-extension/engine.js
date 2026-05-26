@@ -187,28 +187,32 @@ window.__CV_APP.Engine = (function() {
         clickable = findVisibleOption();
     }
 
-    if (clickable && combobox) {
-        try {
-            if (window.ko && window.ko.dataFor) {
-                const koData = window.ko.dataFor(clickable);
-                if (koData) {
-                    let internalValue = koData.value !== undefined ? koData.value : (koData.key !== undefined ? koData.key : null);
-                    if (internalValue === null && koData.data && koData.data.value !== undefined) {
-                        internalValue = koData.data.value;
-                    }
-                    if (internalValue !== null) {
-                        window.__CV_APP.UI.log(`Programmatic Hook (Knockout): Set value to [${internalValue}]`, "success");
-                        combobox.value = internalValue;
-                        el.blur();
-                        return; // Success!
+    if (clickable) {
+        if (combobox) {
+            try {
+                if (window.ko && window.ko.dataFor) {
+                    const koData = window.ko.dataFor(clickable);
+                    if (koData) {
+                        let internalValue = koData.value !== undefined ? koData.value : (koData.key !== undefined ? koData.key : null);
+                        if (internalValue === null && koData.data && koData.data.value !== undefined) {
+                            internalValue = koData.data.value;
+                        }
+                        if (internalValue !== null) {
+                            window.__CV_APP.UI.log(`Programmatic Hook (Knockout): Set value to [${internalValue}]`, "success");
+                            combobox.value = internalValue;
+                            el.blur();
+                            return; // Success!
+                        }
                     }
                 }
+            } catch (e) {
+                addDebugLog(`Knockout hook failed: ${e.message}`);
             }
-        } catch (e) {
-            addDebugLog(`Knockout hook failed: ${e.message}`);
+        } else {
+            addDebugLog(`[DEBUG] 'combobox' parent Web Component is null. Skipping programmatic value setter.`);
         }
 
-        window.__CV_APP.UI.log(`Programmatic hooks missed. Triggering physical fallback click...`, "warning");
+        window.__CV_APP.UI.log(`Triggering physical fallback click on <${clickable.tagName}>...`, "warning");
         clickable.scrollIntoView({ block: 'nearest' });
         clickable.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, cancelable: true, view: window, button: 0, buttons: 1 }));
         clickable.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true, view: window, button: 0, buttons: 1 }));
@@ -218,17 +222,12 @@ window.__CV_APP.Engine = (function() {
     } else {
         window.__CV_APP.UI.log(`Could not find option ${valStr} anywhere! Sending logs to local server...`, "error");
         
-        const fullLog = `=== Oracle Option Click Failed for '${valStr}' ===\n` + debugLogOutput.join('\n');
-        console.log("%c[CV AutoFill Debug Logs]", "color: yellow; font-weight: bold; background: black; padding: 4px;");
-        console.log(fullLog);
-        
-        // Send the debug logs directly to the local server running in the extension folder
         fetch('http://localhost:3456/log', {
             method: 'POST',
             headers: { 'Content-Type': 'text/plain' },
-            body: fullLog
+            body: `=== Oracle Option Click Failed for '${valStr}' ===\n` + debugLogOutput.join('\n')
         }).catch(err => {
-            window.__CV_APP.UI.log(`Could not send logs to local server. Check Developer Console (F12) for the logs!`, "error");
+            window.__CV_APP.UI.log(`Could not send logs to local server. Is logger.js running?`, "error");
         });
     }
     
