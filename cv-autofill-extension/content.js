@@ -49,12 +49,14 @@
     return null;
   }
 
+  const isEnqueued = (el) => Engine.getQueue().some(a => a.el === el);
+
   function planTemplate(platform) {
     const map = APP.PLATFORM_SELECTORS[platform];
     if (!map) return;
     for (const [selector, value] of Object.entries(map)) {
       const el = document.querySelector(selector);
-      if (el && (!el.value || el.value.trim() === '')) {
+      if (el && (!el.value || el.value.trim() === '') && !isEnqueued(el)) {
         if (el.matches('.oj-combobox-input, [role="combobox"]')) {
           Engine.enqueue({
             el, value, label: `Type: ${selector}`,
@@ -83,6 +85,8 @@
     inputs.forEach(el => {
       if (el.offsetParent === null) return;
       if (el.value && el.value.trim() !== '') return;
+      if (isEnqueued(el)) return; // Don't override templates or specifics
+      
       const value = guessFieldValue(el);
       if (value) {
         if (el.matches('.oj-combobox-input, [role="combobox"]')) {
@@ -212,13 +216,12 @@
       const platform = detectPlatform();
       if (!append) APP.UI.log(`Platform detected: ${platform}`, "info");
 
-      planTemplate(platform);
-      planSmartScan();
-
       if (platform === 'oracle_hcm') {
         planOracleSpecifics();
       }
 
+      planTemplate(platform);
+      planSmartScan();
       planExpansions();
 
       const count = Engine.getQueue().length;
