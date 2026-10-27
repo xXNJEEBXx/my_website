@@ -67,12 +67,12 @@
     }
 
     .container {
-      max-width: 1440px;
+      max-width: 1720px;
       margin: 0 auto;
       padding: 24px;
       position: relative;
       z-index: 1;
-      width: 100%;
+      width: 96%;
     }
 
     /* ============================================================
@@ -386,19 +386,24 @@
     .table-wrap {
       width: 100%;
       overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     table {
       width: 100%;
+      min-width: 1480px;
       border-collapse: collapse;
-      table-layout: fixed;
+      table-layout: auto;
       text-align: right;
       font-size: 0.92rem;
     }
 
     thead {
-      background: rgba(255, 255, 255, 0.02);
+      background: #0f172a;
       border-bottom: 2px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 5;
     }
 
     th {
@@ -406,8 +411,9 @@
       color: var(--text-muted);
       font-weight: 700;
       font-size: 0.85rem;
-      text-transform: uppercase;
       letter-spacing: 0.5px;
+      white-space: nowrap;
+      background: rgba(255, 255, 255, 0.02);
     }
 
     tbody tr {
@@ -420,36 +426,44 @@
     }
 
     td {
-      padding: 14px 16px;
+      padding: 13px 16px;
       vertical-align: middle;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      line-height: 1.45;
     }
 
-    /* Column Widths (Prevents Table Overflow & Alignment Issues) */
-    th.col-idx, td.col-idx { width: 45px; text-align: center; }
-    th.col-company, td.col-company { width: 220px; }
-    th.col-date, td.col-date { width: 125px; text-align: center; }
-    th.col-role, td.col-role { width: 180px; }
-    th.col-location, td.col-location { width: 140px; }
-    th.col-salary, td.col-salary { width: 130px; }
-    th.col-status, td.col-status { width: 120px; text-align: center; }
-    th.col-links, td.col-links { width: 90px; text-align: center; }
-    th.col-notes, td.col-notes { width: 240px; }
-    th.col-actions, td.col-actions { width: 110px; text-align: center; }
+    /* Column Widths (Balanced, Generous & Responsive) */
+    th.col-idx, td.col-idx { width: 50px; min-width: 45px; text-align: center; white-space: nowrap; }
+    th.col-company, td.col-company { min-width: 240px; max-width: 320px; }
+    th.col-date, td.col-date { width: 135px; min-width: 130px; text-align: center; white-space: nowrap; }
+    th.col-role, td.col-role { min-width: 190px; max-width: 260px; }
+    th.col-location, td.col-location { min-width: 150px; max-width: 210px; }
+    th.col-salary, td.col-salary { width: 140px; min-width: 130px; text-align: center; white-space: nowrap; }
+    th.col-status, td.col-status { width: 130px; min-width: 125px; text-align: center; white-space: nowrap; }
+    th.col-links, td.col-links { width: 85px; min-width: 80px; text-align: center; white-space: nowrap; }
+    th.col-notes, td.col-notes { min-width: 280px; max-width: 420px; }
+    th.col-actions, td.col-actions { width: 110px; min-width: 105px; text-align: center; white-space: nowrap; }
 
     .company-title {
       font-weight: 700;
       color: var(--text);
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 8px;
+      line-height: 1.4;
+      word-break: break-word;
+      white-space: normal;
+    }
+
+    .col-role, .col-location {
+      word-break: break-word;
+      white-space: normal;
+      line-height: 1.4;
     }
 
     .company-flag {
       font-size: 1.15rem;
       flex-shrink: 0;
+      margin-top: 2px;
     }
 
     .badge-salary {
@@ -541,15 +555,20 @@
 
     .notes-preview {
       color: var(--text-muted);
-      font-size: 0.85rem;
+      font-size: 0.86rem;
       cursor: pointer;
+      line-height: 1.45;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
       overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      word-break: break-word;
+      white-space: normal;
+      transition: color 0.15s ease;
     }
 
     .notes-preview:hover {
-      color: var(--text);
+      color: var(--accent-blue);
       text-decoration: underline;
     }
 
