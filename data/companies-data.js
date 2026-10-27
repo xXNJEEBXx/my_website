@@ -2668,9 +2668,9 @@ window.__CURRENT_COMPANIES = [
     "salary": "غير مذكور",
     "link": "mailto:aforward29@gmail.com",
     "trackLink": "",
-    "status": "pending",
+    "status": "applied",
     "region": "sa",
-    "notes": "فرصة تدريبية 6 أشهر بحي النرجس بالرياض في الذكاء الاصطناعي وAI Agents وفنتك",
+    "notes": "فرصة تدريبية 6 أشهر بحي النرجس بالرياض في الذكاء الاصطناعي وAI Agents وفنتك | تم التقديم في 2026-10-27: تم إرسال الإيميل الرسمي مع السيرة الذاتية وخطاب الجامعة إلى aforward29@gmail.com بنجاح",
     "postDate": "2026-10-26"
   },
   {
