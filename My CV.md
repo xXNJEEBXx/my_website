@@ -123,15 +123,11 @@ Two-tool system: first converts course files into flashcards (summarize, transla
 6. **Never Submit**
    Do NOT click Submit or Apply under any circumstances. Once all fields are filled, take a screenshot and wait for the user's final confirmation.
 
-8. **Email Applications & Drafting Guidelines (قواعد كتابة وتخصيص الإيميلات)**
-   - When asked to apply via email, use the `send-emails.js` script.
-   - **المرجعية الصارمة (Strict Grounding):** All personal and academic data in the email MUST be drawn 100% from this file (`My CV.md`) without hallucination (Name: Najeeb Almusawi, KFU, Bachelor of Computer Information Systems, Co-op Period: 6 months starting January 17, 2027, Phone: 0568199827).
-   - **تحديد المسار المناسب (Domain Mapping):** The agent must select the appropriate domain in `send-emails.js`:
-     • `'tech_web'`: For web and software companies (focus on React, Laravel, PHP, MySQL, REST APIs, 5 years coding experience).
-     • `'tech_ai'`: For AI, data, and machine learning companies (focus on Faheem AI, Flashcards ecosystem, LLM APIs, MCP tools, Google Labs challenge winner, NVIDIA Deep Learning cert).
-     • `'admin_systems'`: For administration, legal, general systems, and operations (focus on computer information systems, IT support, office workflow automation, electronic database & record organization).
-   - **عنوان الرسالة (Subject Line):** Strictly follow any employer requirement stated in the job announcement (such as specifying the major or exact phrases like "تدريب - قانون او إدارة"). Default: `طلب تدريب تعاوني — [المسار] — نجيب الموسوي`.
-   - **المعاينة قبل الإرسال (Draft Preview):** When drafting, run `node send-emails.js --preview` to print the complete draft for user review whenever needed.
+8. **Email Applications (التقديم عبر الإيميل)**
+   - When asked to apply via email, use `send-emails.js`.
+   - **القالب المعتمد والمرن (Flexible Template):** The email is grounded in Najeeb's core profile: Senior Computer Information Systems student at King Faisal University with 5 years of practical web & software development experience (React, Laravel, PHP, JS, MySQL), seeking a 6-month Co-op placement starting January 17, 2027.
+   - **المواءمة بدون تأليف:** If the company requests a specific role (e.g. AI or Systems/Support), adapt the bullet points directly from this CV without inventing. If no role is specified, follow the default web development template.
+   - **المعاينة قبل الإرسال:** Run `node send-emails.js --preview` to display the exact draft for review.
    - Attachments: `My CV NAJEEB ALMUSAWI.pdf` and `KFU COOP Letter.pdf` are attached automatically from `documents/`.
 
 ## Documents and tracking
