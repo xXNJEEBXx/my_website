@@ -58,7 +58,7 @@
           if (el && (await APP.Learning.approve(el)).status === 'verified') count++;
         }
         UI.log(`تم اعتماد ${count} قاعدة لهذه الاستمارة`, 'info'); APP.Agent.plan();
-      }), button('مسح قواعد الموقع', async () => { await APP.Learning.clear(); APP.Agent.plan(); }), button('إعدادات الملف', () => globalThis.chrome?.runtime?.sendMessage({ action: 'open_options' })));
+      }), button('مسح قواعد الموقع', async () => { await APP.Learning.clear(); APP.Agent.plan(); }), button('إعدادات الملف', () => globalThis.chrome?.runtime?.sendMessage({ action: 'open_options' })), button('🔄 تحديث الإضافة', () => globalThis.chrome?.runtime?.sendMessage({ action: 'reload_extension' })));
       body.append(summary('القواعد والملف الشخصي', tools));
       body.append(node('div', 'الإرسال النهائي يتطلب مراجعة مستقلة. لا تُرسل هذه الأداة طلبًا أثناء التعبئة.', 'footer'));
       panel.append(header, body); root.append(panel); document.documentElement.append(host);

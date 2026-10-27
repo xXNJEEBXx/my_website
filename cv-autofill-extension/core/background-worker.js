@@ -50,8 +50,8 @@ importScripts(chrome.runtime.getURL('core/knowledge-store.js'));
       attachment(request.key).then(respond, error => respond({ ok: false, code: error.message })); return true;
     }
     if (request.action === 'open_options') { chrome.runtime.openOptionsPage(); respond({ ok: true }); return; }
-    if (!trustedUI(sender)) return;
     if (request.action === 'reload_extension') { respond({ ok: true }); setTimeout(() => chrome.runtime.reload(), 100); return; }
+    if (!trustedUI(sender)) return;
     if (request.action !== 'run_in_tab' || !['plan', 'fill', 'play', 'cancel', 'inspect', 'validate'].includes(request.method)) return;
     (async () => {
       const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
