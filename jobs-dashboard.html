@@ -1,0 +1,1909 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🚀 لوحة متابعة وتتبع فرص التدريب التعاوني | Co-op Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <script src="./data/companies-data.js"></script>
+  
+  <style>
+    /* ============================================================
+       THEME & VARIABLES
+    ============================================================ */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #0b0f19;
+      --bg-card: #111827;
+      --bg-card-hover: #1f2937;
+      --bg-input: #1e293b;
+      --border: #334155;
+      --border-light: #1e293b;
+      --accent-blue: #3b82f6;
+      --accent-cyan: #06b6d4;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-rose: #f43f5e;
+      --accent-purple: #8b5cf6;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --radius-lg: 16px;
+      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+      --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+      font-family: 'Tajawal', system-ui, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Ambient background gradient */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -20%;
+      left: 20%;
+      width: 60vw;
+      height: 60vh;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 24px;
+      position: relative;
+      z-index: 1;
+      width: 100%;
+    }
+
+    /* ============================================================
+       HEADER & NAVIGATION
+    ============================================================ */
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-bottom: 24px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-info h1 {
+      font-size: 1.85rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: linear-gradient(135deg, #ffffff 30%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .header-info p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-top: 4px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* Semester Tabs */
+    .semester-tabs {
+      display: flex;
+      background: var(--bg-input);
+      padding: 4px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+
+    .tab-btn {
+      padding: 8px 18px;
+      border-radius: var(--radius-sm);
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+    }
+
+    .tab-btn.active {
+      background: var(--accent-blue);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.35);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 18px;
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      border: 1px solid transparent;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-emerald) 0%, #059669 100%);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--border);
+      color: var(--text);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--text-muted);
+    }
+
+    /* ============================================================
+       STATS CARDS
+    ============================================================ */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 4px;
+      height: 100%;
+    }
+
+    .stat-card.total::after { background: var(--accent-blue); }
+    .stat-card.applied::after { background: var(--accent-emerald); }
+    .stat-card.pending::after { background: var(--accent-amber); }
+    .stat-card.interview::after { background: var(--accent-purple); }
+    .stat-card.high-salary::after { background: #ec4899; }
+
+    .stat-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      background: rgba(255, 255, 255, 0.04);
+      flex-shrink: 0;
+    }
+
+    .stat-details {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stat-num {
+      font-size: 1.7rem;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text);
+      line-height: 1.1;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* ============================================================
+       CONTROLS & FILTERS TOOLBAR
+    ============================================================ */
+    .toolbar-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .search-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .search-box {
+      flex: 1;
+      min-width: 280px;
+      position: relative;
+    }
+
+    .search-box input {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px 42px 12px 16px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.95rem;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .search-box input:focus {
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+
+    .search-box .search-icon {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-dim);
+      pointer-events: none;
+    }
+
+    .filter-select {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0 16px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.9rem;
+      cursor: pointer;
+      outline: none;
+      min-width: 170px;
+    }
+
+    .filter-select:focus {
+      border-color: var(--accent-blue);
+    }
+
+    /* Region Buttons */
+    .region-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      border-top: 1px solid var(--border-light);
+      padding-top: 14px;
+    }
+
+    .region-label {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      font-weight: 600;
+      margin-left: 6px;
+    }
+
+    .chip-btn {
+      padding: 6px 14px;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition);
+    }
+
+    .chip-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text);
+      border-color: var(--text-muted);
+    }
+
+    .chip-btn.active {
+      background: rgba(59, 130, 246, 0.15);
+      border-color: var(--accent-blue);
+      color: #60a5fa;
+      font-weight: 700;
+    }
+
+    .chip-btn.toggle-active {
+      background: rgba(236, 72, 153, 0.18);
+      border-color: #ec4899;
+      color: #f472b6;
+      font-weight: 700;
+    }
+
+    /* ============================================================
+       COMPANIES TABLE
+    ============================================================ */
+    .table-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      text-align: right;
+      font-size: 0.92rem;
+    }
+
+    thead {
+      background: rgba(255, 255, 255, 0.02);
+      border-bottom: 2px solid var(--border);
+    }
+
+    th {
+      padding: 14px 16px;
+      color: var(--text-muted);
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid var(--border-light);
+      transition: background 0.15s ease;
+    }
+
+    tbody tr:hover {
+      background: var(--bg-card-hover);
+    }
+
+    td {
+      padding: 14px 16px;
+      vertical-align: middle;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* Column Widths (Prevents Table Overflow & Alignment Issues) */
+    th.col-idx, td.col-idx { width: 50px; text-align: center; }
+    th.col-company, td.col-company { width: 230px; }
+    th.col-role, td.col-role { width: 190px; }
+    th.col-location, td.col-location { width: 150px; }
+    th.col-salary, td.col-salary { width: 140px; }
+    th.col-status, td.col-status { width: 130px; text-align: center; }
+    th.col-links, td.col-links { width: 100px; text-align: center; }
+    th.col-notes, td.col-notes { width: 260px; }
+    th.col-actions, td.col-actions { width: 120px; text-align: center; }
+
+    .company-title {
+      font-weight: 700;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .company-flag {
+      font-size: 1.15rem;
+      flex-shrink: 0;
+    }
+
+    .badge-salary {
+      font-size: 0.8rem;
+      padding: 3px 8px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 600;
+    }
+
+    .badge-salary.high {
+      background: rgba(236, 72, 153, 0.15);
+      color: #f472b6;
+      border: 1px solid rgba(236, 72, 153, 0.3);
+    }
+
+    .badge-salary.normal {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-muted);
+      border: 1px solid var(--border-light);
+    }
+
+    /* Status Pills */
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 99px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+      transition: var(--transition);
+      border: 1px solid transparent;
+    }
+
+    .status-applied {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border-color: rgba(16, 185, 129, 0.3);
+    }
+
+    .status-pending {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border-color: rgba(245, 158, 11, 0.3);
+    }
+
+    .status-interview {
+      background: rgba(139, 92, 246, 0.15);
+      color: #a78bfa;
+      border-color: rgba(139, 92, 246, 0.3);
+    }
+
+    .status-rejected {
+      background: rgba(244, 63, 94, 0.15);
+      color: #fb7185;
+      border-color: rgba(244, 63, 94, 0.3);
+    }
+
+    .status-failed {
+      background: rgba(100, 116, 139, 0.15);
+      color: #94a3b8;
+      border-color: rgba(100, 116, 139, 0.3);
+    }
+
+    .action-icon-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .action-icon-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: var(--text);
+    }
+
+    .notes-preview {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      cursor: pointer;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .notes-preview:hover {
+      color: var(--text);
+      text-decoration: underline;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-dim);
+    }
+
+    .empty-state-icon {
+      font-size: 3rem;
+      margin-bottom: 12px;
+      opacity: 0.6;
+    }
+
+    /* ============================================================
+       MODAL (ADD / EDIT COMPANY)
+    ============================================================ */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 720px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transform: scale(0.95);
+      transition: transform 0.25s ease;
+    }
+
+    .modal-overlay.active .modal-card {
+      transform: scale(1);
+    }
+
+    .modal-header {
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: var(--text-dim);
+      font-size: 1.4rem;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .modal-body {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      max-height: 75vh;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .form-section-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--accent-blue);
+      padding-bottom: 6px;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.12);
+      margin-top: 4px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 9px 12px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.92rem;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.15);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .form-row-3 {
+      grid-template-columns: 1.2fr 1.2fr 1fr;
+    }
+
+    @media (max-width: 640px) {
+      .form-row, .form-row-3 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .preview-box {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .preview-label {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+    }
+
+    .preview-val {
+      font-weight: 700;
+      color: var(--text);
+      font-size: 0.85rem;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .preview-val.highlight {
+      color: #38bdf8;
+    }
+
+    .modal-footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+    }
+
+    /* Notification Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 24px;
+      background: #1e293b;
+      border: 1px solid var(--accent-blue);
+      color: white;
+      padding: 12px 20px;
+      border-radius: var(--radius-sm);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 10000;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: var(--transition);
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Header -->
+    <header class="dashboard-header">
+      <div class="header-info">
+        <h1>🚀 متابعة فرص التدريب التعاوني</h1>
+        <p>الداشبورد الموحد لإدارة وتتبع فرص الـ Co-op وتقديمات الشركات (2026 / 2027)</p>
+      </div>
+
+      <div class="header-actions">
+        <!-- Semester Switcher -->
+        <div class="semester-tabs" role="tablist">
+          <button id="tabCurrent" class="tab-btn active" onclick="switchSemester('current')">
+            🌟 السمستر الحالي
+          </button>
+          <button id="tabArchive" class="tab-btn" onclick="switchSemester('archive')">
+            📦 أرشيف السمستر الماضي
+          </button>
+        </div>
+
+        <button class="btn btn-primary" onclick="openAddModal()">
+          <span>➕</span> إضافة فرصة جديدة
+        </button>
+        <button class="btn btn-outline" onclick="exportDataJson()">
+          <span>📥</span> تصدير JSON
+        </button>
+      </div>
+    </header>
+
+    <!-- Stats Cards -->
+    <div class="stats-grid">
+      <div class="stat-card total">
+        <div class="stat-icon">🏢</div>
+        <div class="stat-details">
+          <span class="stat-num" id="statTotal">0</span>
+          <span class="stat-label">إجمالي الفرص</span>
+        </div>
+      </div>
+      <div class="stat-card applied">
+        <div class="stat-icon">✅</div>
+        <div class="stat-details">
+          <span class="stat-num" id="statApplied">0</span>
+          <span class="stat-label">تم التقديم بنجاح</span>
+        </div>
+      </div>
+      <div class="stat-card pending">
+        <div class="stat-icon">⏳</div>
+        <div class="stat-details">
+          <span class="stat-num" id="statPending">0</span>
+          <span class="stat-label">بانتظار التقديم</span>
+        </div>
+      </div>
+      <div class="stat-card interview">
+        <div class="stat-icon">📞</div>
+        <div class="stat-details">
+          <span class="stat-num" id="statInterview">0</span>
+          <span class="stat-label">مقابلات / ردود</span>
+        </div>
+      </div>
+      <div class="stat-card high-salary">
+        <div class="stat-icon">💰</div>
+        <div class="stat-details">
+          <span class="stat-num" id="statHighSalary">0</span>
+          <span class="stat-label">رواتب عالية ومجزية</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filters & Toolbar -->
+    <div class="toolbar-container">
+      <div class="search-row">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="searchInput" placeholder="ابحث باسم الشركة، المسمى، المدينة، أو الملاحظات..." oninput="handleSearch()" />
+        </div>
+
+        <select id="statusFilter" class="filter-select" onchange="handleFilterChange()">
+          <option value="all">كل الحالات (All)</option>
+          <option value="applied">✅ تم التقديم (Applied)</option>
+          <option value="pending">⏳ قيد الانتظار (Pending)</option>
+          <option value="interview">📞 مقابلة (Interview)</option>
+          <option value="rejected">❌ مرفوض (Rejected)</option>
+          <option value="failed">⚠️ ملغي / معطل (Failed)</option>
+        </select>
+      </div>
+
+      <!-- Region & Special Chips -->
+      <div class="region-row">
+        <span class="region-label">المنطقة الجغرافية:</span>
+        <button class="chip-btn active" data-region="all" onclick="selectRegion('all')">🌐 الكل</button>
+        <button class="chip-btn" data-region="sa" onclick="selectRegion('sa')">🇸🇦 السعودية</button>
+        <button class="chip-btn" data-region="gulf" onclick="selectRegion('gulf')">🌴 الخليج</button>
+        <button class="chip-btn" data-region="eu" onclick="selectRegion('eu')">🇪🇺 أوروبا</button>
+        <button class="chip-btn" data-region="na" onclick="selectRegion('na')">🌎 أمريكا</button>
+        <button class="chip-btn" data-region="asia" onclick="selectRegion('asia')">🌏 آسيا</button>
+        <button class="chip-btn" data-region="remote" onclick="selectRegion('remote')">💻 عن بعد</button>
+
+        <span style="border-left: 1px solid var(--border); height: 20px; margin: 0 4px;"></span>
+
+        <button id="toggleHighSalaryBtn" class="chip-btn" onclick="toggleHighSalaryFilter()">
+          💰 رواتب عالية ومجزية فقط
+        </button>
+      </div>
+    </div>
+
+    <!-- Companies Table -->
+    <div class="table-container">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th class="col-idx">#</th>
+              <th class="col-company">الشركة</th>
+              <th class="col-role">المسمى الوظيفي / المجال</th>
+              <th class="col-location">الموقع</th>
+              <th class="col-salary">المكافأة</th>
+              <th class="col-status">الحالة</th>
+              <th class="col-links">الروابط</th>
+              <th class="col-notes">ملاحظات</th>
+              <th class="col-actions">إجراءات</th>
+            </tr>
+          </thead>
+          <tbody id="companiesTbody">
+            <!-- Dynamic rows will be inserted here -->
+          </tbody>
+        </table>
+      </div>
+      <div id="emptyState" class="empty-state" style="display: none;">
+        <div class="empty-state-icon">📋</div>
+        <h3>لا توجد فرص تطابق خيارات البحث الحالية</h3>
+        <p style="margin-top: 6px;">جرب تغيير فلتر المنطقة أو مسح نص البحث.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add / Edit Modal -->
+  <div id="companyModal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modalTitle">➕ إضافة فرصة تدريب جديدة</h3>
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="fEditIndex" value="" />
+        
+        <!-- القسم الأول: الشركة والمجال -->
+        <div class="form-section-header">
+          <span>🏢</span> معلومات الشركة والمجال
+        </div>
+        <div class="form-row">
+          <div class="form-group" style="flex: 1.2;">
+            <label>اسم الشركة *</label>
+            <input type="text" id="fName" placeholder="مثال: Tabby, STC, Elm, Lucid" required />
+          </div>
+          <div class="form-group" style="flex: 1.5;">
+            <label>المجال / التخصص *</label>
+            <select id="fFieldSelect" onchange="onFieldChange()">
+              <option value="Full-Stack Web Developer">💻 Full-Stack Developer (Laravel / React / Vue)</option>
+              <option value="Frontend Developer">🎨 Frontend Developer (React / Next.js / Tailwind)</option>
+              <option value="Backend Developer">⚙️ Backend Developer (PHP / Laravel / Node.js / Python)</option>
+              <option value="Software Engineer Intern">🚀 Software Engineer Intern (مهندس برمجيات متدرب)</option>
+              <option value="Mobile App Developer">📱 Mobile Developer (Flutter / React Native)</option>
+              <option value="Data Analyst / BI">📊 Data Analyst / BI (تحليل بيانات وذكاء أعمال)</option>
+              <option value="Cybersecurity Analyst">🛡️ Cybersecurity Analyst (أمن سيبراني / SOC)</option>
+              <option value="AI / Machine Learning Engineer">🤖 AI / Machine Learning (ذكاء اصطناعي وتعلم آلي)</option>
+              <option value="Cloud & DevOps Engineer">☁️ Cloud & DevOps Engineer (بنية تحتية وسحابي)</option>
+              <option value="IT Support & Network Specialist">🔌 IT Support & Systems (دعم فني وشبكات)</option>
+              <option value="UI/UX Designer">✨ UI/UX Designer (تصميم واجهات وتجربة)</option>
+              <option value="custom">✏️ مجال مخصص آخر (إدخال يدوي)...</option>
+            </select>
+            <input type="text" id="fFieldCustom" placeholder="اكتب المسمى الوظيفي المخصص..." style="display: none; margin-top: 6px;" />
+          </div>
+        </div>
+
+        <!-- القسم الثاني: الموقع ونمط العمل -->
+        <div class="form-section-header">
+          <span>📍</span> الدولة والموقع الجغرافي
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>الدولة *</label>
+            <select id="fCountry" onchange="onCountryChange()">
+              <option value="sa" selected>🇸🇦 السعودية (KSA)</option>
+              <option value="ae">🇦🇪 الإمارات (UAE)</option>
+              <option value="qa">🇶🇦 قطر (Qatar)</option>
+              <option value="kw">🇰🇼 الكويت (Kuwait)</option>
+              <option value="bh">🇧🇭 البحرين (Bahrain)</option>
+              <option value="om">🇴🇲 عمان (Oman)</option>
+              <option value="us">🇺🇸 أمريكا (USA)</option>
+              <option value="de">🇩🇪 ألمانيا (Germany)</option>
+              <option value="ee">🇪🇪 إستونيا (Estonia)</option>
+              <option value="pl">🇵🇱 بولندا (Poland)</option>
+              <option value="uk">🇬🇧 بريطانيا (UK)</option>
+              <option value="sg">🇸🇬 سنغافورة (Singapore)</option>
+              <option value="remote_global">🌐 عن بعد عالمياً (Global Remote)</option>
+              <option value="other">🌍 دولة أخرى...</option>
+            </select>
+            <input type="text" id="fCountryCustom" placeholder="اكتب اسم الدولة..." style="display: none; margin-top: 6px;" oninput="updateLocationPreview()" />
+          </div>
+
+          <div class="form-group">
+            <label>نمط الحضور والعمل</label>
+            <select id="fWorkMode" onchange="updateLocationPreview()">
+              <option value="حضوري">🏢 حضوري بالمقر</option>
+              <option value="عن بعد">💻 عن بعد (Remote)</option>
+              <option value="هجين">🔄 هجين (Hybrid)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>المدينة / النطاق *</label>
+            <select id="fCity" onchange="onCityChange()">
+              <!-- تُعبأ المدن تلقائياً حسب الدولة المحددة -->
+            </select>
+            <input type="text" id="fCityCustom" placeholder="اكتب اسم المدينة..." style="display: none; margin-top: 6px;" oninput="updateLocationPreview()" />
+          </div>
+
+          <div class="form-group">
+            <label>فلتر المنطقة التلقائي</label>
+            <select id="fRegion">
+              <option value="sa">🇸🇦 السعودية (sa)</option>
+              <option value="gulf">🌴 الخليج (gulf)</option>
+              <option value="eu">🇪🇺 أوروبا (eu)</option>
+              <option value="na">🌎 أمريكا (na)</option>
+              <option value="asia">🌏 آسيا (asia)</option>
+              <option value="remote">💻 عن بعد (remote)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="preview-box" style="margin-top: -4px;">
+          <span class="preview-label">الموقع المسجل تلقائياً:</span>
+          <span class="preview-val highlight" id="locationPreviewBadge">الأحساء، السعودية</span>
+        </div>
+
+        <!-- القسم الثالث: المكافأة والتعويض -->
+        <div class="form-section-header">
+          <span>💰</span> المكافأة المالية والبدلات
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>نوع المكافأة *</label>
+            <select id="fSalaryType" onchange="onSalaryTypeChange()">
+              <option value="monthly">💵 مكافأة شهرية محددة</option>
+              <option value="hourly">⏱️ مكافأة بالساعة (Hourly)</option>
+              <option value="competitive">🌟 مكافأة مجزية / تنافسية</option>
+              <option value="unspecified">❓ غير مذكور في الإعلان</option>
+              <option value="unpaid">🤝 تدريب تطوعي / غير مدفوع</option>
+            </select>
+          </div>
+
+          <!-- تفاصيل المكافأة الشهرية -->
+          <div id="salaryMonthlyDetails" class="form-group">
+            <label>المبلغ والعملة</label>
+            <div style="display: flex; gap: 8px;">
+              <select id="fSalaryCurrency" style="width: 110px; flex-shrink: 0;" onchange="updateSalaryPreview()">
+                <option value="SAR" selected>ريال (SAR)</option>
+                <option value="USD">دولار ($ USD)</option>
+                <option value="EUR">يورو (€ EUR)</option>
+                <option value="AED">درهم (AED)</option>
+                <option value="BHD">دينار (BHD)</option>
+                <option value="QAR">ريال (QAR)</option>
+              </select>
+              <select id="fSalaryPreset" style="flex: 1;" onchange="onSalaryPresetChange()">
+                <option value="1500">1,500 (الحد الأكاديمي)</option>
+                <option value="2000">2,000</option>
+                <option value="2500">2,500</option>
+                <option value="3000" selected>3,000 (متوسط الشركات)</option>
+                <option value="3500">3,500</option>
+                <option value="4000">4,000 (مجزي)</option>
+                <option value="5000">5,000 (ممتاز - بنوك/اتصالات)</option>
+                <option value="6000">6,000</option>
+                <option value="7000">7,000</option>
+                <option value="8000">8,000</option>
+                <option value="10000">10,000+</option>
+                <option value="custom">✏️ إدخال مبلغ مخصص...</option>
+              </select>
+            </div>
+            <input type="number" id="fSalaryCustom" placeholder="المبلغ المخصص بالأرقام..." style="display: none; margin-top: 6px;" min="0" step="50" oninput="updateSalaryPreview()" />
+          </div>
+
+          <!-- تفاصيل المكافأة بالساعة -->
+          <div id="salaryHourlyDetails" class="form-group" style="display: none;">
+            <label>معدل الساعة والعملة</label>
+            <div style="display: flex; gap: 8px;">
+              <select id="fHourlyCurrency" style="width: 110px; flex-shrink: 0;" onchange="updateSalaryPreview()">
+                <option value="USD" selected>دولار ($ USD)</option>
+                <option value="EUR">يورو (€ EUR)</option>
+                <option value="SAR">ريال (SAR)</option>
+              </select>
+              <select id="fHourlyPreset" style="flex: 1;" onchange="onHourlyPresetChange()">
+                <option value="15">$15 / ساعة</option>
+                <option value="20" selected>$20 / ساعة</option>
+                <option value="25">$25 / ساعة</option>
+                <option value="30">$30 / ساعة</option>
+                <option value="40">$40 / ساعة</option>
+                <option value="50">$50 / ساعة</option>
+                <option value="custom">✏️ معدل مخصص...</option>
+              </select>
+            </div>
+            <input type="number" id="fHourlyCustom" placeholder="المعدل بالأرقام..." style="display: none; margin-top: 6px;" min="1" step="1" oninput="updateSalaryPreview()" />
+          </div>
+        </div>
+
+        <div class="preview-box" style="margin-top: -4px;">
+          <span class="preview-label">المكافأة المسجلة تلقائياً:</span>
+          <span class="preview-val highlight" id="salaryPreviewBadge">3,000 ريال/شهر</span>
+        </div>
+
+        <!-- القسم الرابع: الحالة والرابط والملاحظات -->
+        <div class="form-section-header">
+          <span>📋</span> حالة التقديم والروابط
+        </div>
+        <div class="form-row">
+          <div class="form-group" style="flex: 1;">
+            <label>حالة التقديم *</label>
+            <select id="fStatus">
+              <option value="pending">⏳ قيد الانتظار (لم يتم التقديم بعد)</option>
+              <option value="applied">✅ تم التقديم بنجاح (Applied)</option>
+              <option value="interview">📞 تم تحديد مقابلة (Interview)</option>
+              <option value="rejected">❌ اعتذار / تم الرفض (Rejected)</option>
+              <option value="failed">⚠️ الإعلان منتهي أو ملغي (Failed)</option>
+            </select>
+          </div>
+          <div class="form-group" style="flex: 1.5;">
+            <label>رابط الإعلان أو صفحة التقديم</label>
+            <input type="url" id="fLink" placeholder="https://..." />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>ملاحظات إضافية</label>
+          <textarea id="fNotes" rows="2" placeholder="اكتب شروط التقديم، متطلبات خاصة، أو تاريخ التقديم..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeModal()">إلغاء</button>
+        <button class="btn btn-primary" onclick="saveModalCompany()">حفظ الفرصة</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast">
+    <span id="toastIcon">✅</span>
+    <span id="toastMsg">تم الإجراء بنجاح</span>
+  </div>
+
+  <script>
+    // ============================================================
+    // APPLICATION STATE & DATA
+    // ============================================================
+    const REGIONS = {
+      sa: { flag: '🇸🇦', name: 'السعودية' },
+      gulf: { flag: '🌴', name: 'الخليج' },
+      eu: { flag: '🇪🇺', name: 'أوروبا' },
+      na: { flag: '🌎', name: 'أمريكا' },
+      asia: { flag: '🌏', name: 'آسيا' },
+      remote: { flag: '💻', name: 'عن بعد' }
+    };
+
+    let activeSemester = 'current'; // 'current' or 'archive'
+    let currentCompanies = [];
+    let previousCompanies = [];
+    let selectedRegion = 'all';
+    let highSalaryOnly = false;
+
+    // Toast helper
+    function showToast(msg, icon = '✅') {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastIcon').textContent = icon;
+      document.getElementById('toastMsg').textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2600);
+    }
+
+    // High salary detector
+    function isHighSalary(salary) {
+      if (!salary) return false;
+      const s = String(salary).toLowerCase();
+      if (/تنافسية|مجزية|عالية|salaried|competitive|\$60k|\$70k|\$80k|\$100k/i.test(s)) return true;
+      const hourly = s.match(/\$(\d+(\.\d+)?)/);
+      if (hourly && parseFloat(hourly[1]) >= 20) return true;
+      const sar = s.match(/(\d+[\d,]*)\s*(sar|ر\.س|ريال)?/i);
+      if (sar && parseFloat(sar[1].replace(/,/g, '')) >= 4000) return true;
+      const eur = s.match(/€\s*(\d+)|(\d+)\s*eur/i);
+      if (eur && parseFloat(eur[1] || eur[2]) >= 800) return true;
+      return false;
+    }
+
+    // Load data from offline JS or fetch
+    async function loadAllData() {
+      // 1. Initial data from global script
+      if (window.__CURRENT_COMPANIES && Array.isArray(window.__CURRENT_COMPANIES)) {
+        currentCompanies = window.__CURRENT_COMPANIES;
+      }
+      if (window.__PREVIOUS_COMPANIES && Array.isArray(window.__PREVIOUS_COMPANIES)) {
+        previousCompanies = window.__PREVIOUS_COMPANIES;
+      }
+
+      // 2. Check localStorage: do NOT let a cached empty array override valid company data
+      const localCurrent = localStorage.getItem('__coop_current_companies');
+      if (localCurrent) {
+        try {
+          const parsed = JSON.parse(localCurrent);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            // Use localStorage if it has data
+            currentCompanies = parsed;
+          } else if (Array.isArray(parsed) && parsed.length === 0 && window.__CURRENT_COMPANIES && window.__CURRENT_COMPANIES.length > 0) {
+            // Stale empty array in cache: clear and restore from verified data file
+            currentCompanies = window.__CURRENT_COMPANIES;
+            persistCurrent();
+          }
+        } catch(e) {}
+      }
+
+      // 3. Try fetching latest JSON if running over HTTP/HTTPS
+      if (window.location.protocol.startsWith('http')) {
+        try {
+          const resCurr = await fetch('./data/current-applied-companies.json?t=' + Date.now());
+          if (resCurr.ok) {
+            const fetched = await resCurr.json();
+            if (Array.isArray(fetched) && fetched.length > 0) {
+              currentCompanies = fetched;
+            }
+          }
+          const resPrev = await fetch('./data/previous-applied-companies.json?t=' + Date.now());
+          if (resPrev.ok) previousCompanies = await resPrev.json();
+        } catch(e) {}
+      }
+
+      render();
+    }
+
+    // Save current companies to localStorage and notify
+    function persistCurrent() {
+      localStorage.setItem('__coop_current_companies', JSON.stringify(currentCompanies));
+    }
+
+    // Switch between current semester and archive
+    function switchSemester(target) {
+      activeSemester = target;
+      document.getElementById('tabCurrent').classList.toggle('active', target === 'current');
+      document.getElementById('tabArchive').classList.toggle('active', target === 'archive');
+      render();
+    }
+
+    // Region chip selection
+    function selectRegion(reg) {
+      selectedRegion = reg;
+      document.querySelectorAll('.chip-btn[data-region]').forEach(b => {
+        b.classList.toggle('active', b.dataset.region === reg);
+      });
+      render();
+    }
+
+    function toggleHighSalaryFilter() {
+      highSalaryOnly = !highSalaryOnly;
+      const btn = document.getElementById('toggleHighSalaryBtn');
+      btn.classList.toggle('toggle-active', highSalaryOnly);
+      render();
+    }
+
+    function handleSearch() {
+      render();
+    }
+
+    function handleFilterChange() {
+      render();
+    }
+
+    // Render stats & table
+    function render() {
+      const dataset = activeSemester === 'current' ? currentCompanies : previousCompanies;
+      
+      // Update Stats
+      const totalCount = dataset.length;
+      const appliedCount = dataset.filter(c => c.status === 'applied').length;
+      const pendingCount = dataset.filter(c => c.status === 'pending').length;
+      const interviewCount = dataset.filter(c => c.status === 'interview').length;
+      const highSalaryCount = dataset.filter(c => isHighSalary(c.salary)).length;
+
+      document.getElementById('statTotal').textContent = totalCount;
+      document.getElementById('statApplied').textContent = appliedCount;
+      document.getElementById('statPending').textContent = pendingCount;
+      document.getElementById('statInterview').textContent = interviewCount;
+      document.getElementById('statHighSalary').textContent = highSalaryCount;
+
+      // Filter dataset
+      const query = document.getElementById('searchInput').value.trim().toLowerCase();
+      const statusVal = document.getElementById('statusFilter').value;
+
+      const filtered = dataset.filter((c, idx) => {
+        // Query filter
+        if (query) {
+          const match = (c.name && c.name.toLowerCase().includes(query)) ||
+                        (c.field && c.field.toLowerCase().includes(query)) ||
+                        (c.location && c.location.toLowerCase().includes(query)) ||
+                        (c.notes && c.notes.toLowerCase().includes(query));
+          if (!match) return false;
+        }
+
+        // Status filter
+        if (statusVal !== 'all' && c.status !== statusVal) return false;
+
+        // Region filter
+        if (selectedRegion !== 'all' && c.region !== selectedRegion) return false;
+
+        // High salary filter
+        if (highSalaryOnly && !isHighSalary(c.salary)) return false;
+
+        return true;
+      });
+
+      // Render table rows
+      const tbody = document.getElementById('companiesTbody');
+      const emptyState = document.getElementById('emptyState');
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = '';
+        emptyState.style.display = 'block';
+        return;
+      }
+
+      emptyState.style.display = 'none';
+      tbody.innerHTML = filtered.map((c, idx) => {
+        const flag = REGIONS[c.region]?.flag || '🌐';
+        const isHigh = isHighSalary(c.salary);
+        const originalIndex = dataset.indexOf(c);
+
+        let statusClass = 'status-pending';
+        let statusLabel = 'قيد الانتظار';
+        if (c.status === 'applied') { statusClass = 'status-applied'; statusLabel = 'تم التقديم'; }
+        if (c.status === 'interview') { statusClass = 'status-interview'; statusLabel = 'مقابلة'; }
+        if (c.status === 'rejected') { statusClass = 'status-rejected'; statusLabel = 'مرفوض'; }
+        if (c.status === 'failed') { statusClass = 'status-failed'; statusLabel = 'معطل'; }
+
+        return `
+          <tr>
+            <td class="col-idx" style="font-family: 'JetBrains Mono', monospace; color: var(--text-dim);">${idx + 1}</td>
+            <td class="col-company">
+              <div class="company-title" title="${c.name}">
+                <span class="company-flag">${flag}</span>
+                <span>${c.name}</span>
+              </div>
+            </td>
+            <td class="col-role" title="${c.field || ''}">${c.field || '-'}</td>
+            <td class="col-location" title="${c.location || ''}">📍 ${c.location || '-'}</td>
+            <td class="col-salary">
+              <span class="badge-salary ${isHigh ? 'high' : 'normal'}" title="${c.salary || ''}">
+                ${isHigh ? '🔥 ' : ''}${c.salary || 'غير مذكور'}
+              </span>
+            </td>
+            <td class="col-status">
+              <span class="status-pill ${statusClass}" onclick="toggleStatus(${originalIndex})">
+                ${statusLabel}
+              </span>
+            </td>
+            <td class="col-links">
+              ${c.link ? `<a href="${c.link}" target="_blank" rel="noopener noreferrer" class="action-icon-btn" title="فتح الرابط">🔗</a>` : '-'}
+            </td>
+            <td class="col-notes">
+              <span class="notes-preview" onclick="alert('${(c.notes || 'لا توجد ملاحظات').replace(/'/g, "\\'")}')" title="انقر لعرض الملاحظة كاملة">
+                💡 ${c.notes || 'لا توجد ملاحظات'}
+              </span>
+            </td>
+            <td class="col-actions">
+              ${activeSemester === 'archive' 
+                ? `<button class="action-icon-btn" onclick="copyToCurrent(${originalIndex})" title="نقل للسمستر الجديد للتقديم">🚀</button>`
+                : `<button class="action-icon-btn" onclick="openEditModal(${originalIndex})" title="تعديل">✏️</button>
+                   <button class="action-icon-btn" onclick="deleteCompany(${originalIndex})" title="حذف">🗑️</button>`
+              }
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // Toggle status cycle (pending -> applied -> interview -> pending)
+    function toggleStatus(idx) {
+      if (activeSemester === 'archive') {
+        showToast('هذه الشركة في الأرشيف؛ انقر على 🚀 لنقلها للسمستر الجديد أولاً.', 'ℹ️');
+        return;
+      }
+      const c = currentCompanies[idx];
+      const cycle = ['pending', 'applied', 'interview', 'rejected'];
+      const next = cycle[(cycle.indexOf(c.status) + 1) % cycle.length];
+      c.status = next;
+      persistCurrent();
+      render();
+      showToast(`تم تغيير حالة "${c.name}" إلى ${next}`);
+    }
+
+    // Copy company from archive to current semester
+    function copyToCurrent(idx) {
+      const target = previousCompanies[idx];
+      const exists = currentCompanies.find(c => c.name.toLowerCase() === target.name.toLowerCase());
+      if (exists) {
+        showToast(`الشركة "${target.name}" مضافة بالفعل في السمستر الحالي!`, '⚠️');
+        return;
+      }
+      const cloned = {
+        ...target,
+        status: 'pending',
+        notes: `نقلت من أرشيف السمستر الماضي للتقديم مجدداً.`
+      };
+      currentCompanies.push(cloned);
+      persistCurrent();
+      showToast(`تم تفعيل "${cloned.name}" ونقلها للسمستر الحالي بنجاح!`, '🚀');
+    }
+
+    function deleteCompany(idx) {
+      const c = currentCompanies[idx];
+      if (!confirm(`هل أنت متأكد من حذف شركة "${c.name}" من تقديمات السمستر الحالي؟`)) return;
+      currentCompanies.splice(idx, 1);
+      persistCurrent();
+      render();
+      showToast(`تم حذف "${c.name}"`);
+    }
+
+    // ============================================================
+    // STRUCTURED INPUT DEFINITIONS & HELPERS
+    // ============================================================
+    const CITIES_BY_COUNTRY = {
+      sa: [
+        { label: 'الأحساء (محلي - جامعة الملك فيصل / الهفوف)', val: 'الأحساء' },
+        { label: 'الرياض (العاصمة ومقر كبرى الشركات)', val: 'الرياض' },
+        { label: 'الدمام / الخبر / الظهران (المنطقة الشرقية)', val: 'الدمام / الخبر' },
+        { label: 'الجبيل الصناعية', val: 'الجبيل' },
+        { label: 'جدة / مكة المكرمة', val: 'جدة' },
+        { label: 'المدينة المنورة', val: 'المدينة المنورة' },
+        { label: 'نيوم / تبوك', val: 'نيوم' },
+        { label: 'عن بعد داخل المملكة (Remote KSA)', val: 'السعودية (عن بعد)' },
+        { label: '✏️ مدينة سعودية أخرى...', val: 'custom' }
+      ],
+      ae: [
+        { label: 'دبي (Dubai - مركز التقنية والابتكار)', val: 'دبي' },
+        { label: 'أبوظبي (Abu Dhabi)', val: 'أبوظبي' },
+        { label: 'الشارقة (Sharjah)', val: 'الشارقة' },
+        { label: 'عن بعد في الإمارات', val: 'الإمارات (عن بعد)' },
+        { label: '✏️ إمارة / مدينة أخرى...', val: 'custom' }
+      ],
+      qa: [
+        { label: 'الدوحة (Doha)', val: 'الدوحة' },
+        { label: 'عن بعد في قطر', val: 'قطر (عن بعد)' },
+        { label: '✏️ مدينة أخرى...', val: 'custom' }
+      ],
+      kw: [
+        { label: 'مدينة الكويت (Kuwait)', val: 'مدينة الكويت' },
+        { label: 'عن بعد في الكويت', val: 'الكويت (عن بعد)' },
+        { label: '✏️ مدينة أخرى...', val: 'custom' }
+      ],
+      bh: [
+        { label: 'المنامة (Manama)', val: 'المنامة' },
+        { label: 'عن بعد في البحرين', val: 'البحرين (عن بعد)' },
+        { label: '✏️ مدينة أخرى...', val: 'custom' }
+      ],
+      om: [
+        { label: 'مسقط (Muscat)', val: 'مسقط' },
+        { label: 'عن بعد في عمان', val: 'عمان (عن بعد)' },
+        { label: '✏️ مدينة أخرى...', val: 'custom' }
+      ],
+      us: [
+        { label: 'عن بعد بالكامل (Remote USA - Silicon Valley)', val: 'USA (Remote)' },
+        { label: 'سان فرانسيسكو / كاليفورنيا (SF Bay Area)', val: 'San Francisco, CA' },
+        { label: 'نيويورك (New York, NY)', val: 'New York, NY' },
+        { label: 'أوستن / تكساس (Austin, TX)', val: 'Austin, TX' },
+        { label: 'سياتل / واشنطن (Seattle, WA)', val: 'Seattle, WA' },
+        { label: '✏️ ولاية / مدينة أخرى...', val: 'custom' }
+      ],
+      de: [
+        { label: 'عن بعد بالكامل (Remote Germany)', val: 'Germany (Remote)' },
+        { label: 'برلين (Berlin)', val: 'Berlin' },
+        { label: 'ميونخ (Munich)', val: 'Munich' },
+        { label: 'فرانكفورت (Frankfurt)', val: 'Frankfurt' },
+        { label: '✏️ مدينة أخرى...', val: 'custom' }
+      ],
+      ee: [
+        { label: 'عن بعد بالكامل (Remote Estonia - e-Residency Hub)', val: 'Estonia (Remote)' },
+        { label: 'تالين (Tallinn)', val: 'Tallinn' },
+        { label: 'تارتو (Tartu)', val: 'Tartu' },
+        { label: '✏️ مدينة أخرى...', val: 'custom' }
+      ],
+      pl: [
+        { label: 'عن بعد بالكامل (Remote Poland)', val: 'Poland (Remote)' },
+        { label: 'وارسو (Warsaw)', val: 'Warsaw' },
+        { label: 'كراكوف (Kraków)', val: 'Kraków' },
+        { label: 'فروتسواف (Wrocław)', val: 'Wrocław' },
+        { label: '✏️ مدينة أخرى...', val: 'custom' }
+      ],
+      uk: [
+        { label: 'عن بعد بالكامل (Remote UK)', val: 'UK (Remote)' },
+        { label: 'لندن (London)', val: 'London' },
+        { label: 'مانشستر (Manchester)', val: 'Manchester' },
+        { label: '✏️ مدينة أخرى...', val: 'custom' }
+      ],
+      sg: [
+        { label: 'سنغافورة (Singapore Hub)', val: 'Singapore' },
+        { label: 'عن بعد (Remote Singapore)', val: 'Singapore (Remote)' },
+        { label: '✏️ مدينة أخرى...', val: 'custom' }
+      ],
+      remote_global: [
+        { label: 'عن بعد عالمياً (Anywhere / Worldwide)', val: 'عن بعد (عالمياً)' },
+        { label: 'عن بعد (نطاق الخليج والشرق الأوسط)', val: 'عن بعد (الشرق الأوسط)' },
+        { label: 'عن بعد (نطاق أوروبا CET)', val: 'عن بعد (توقيت أوروبا)' },
+        { label: 'عن بعد (نطاق أمريكا EST/PST)', val: 'عن بعد (توقيت أمريكا)' }
+      ],
+      other: [
+        { label: 'عن بعد بالكامل (Remote)', val: 'عن بعد' },
+        { label: 'مقر الشركة الرئيسي (On-Site HQ)', val: 'المقر الرئيسي' },
+        { label: '✏️ تحديد يدوي...', val: 'custom' }
+      ]
+    };
+
+    const COUNTRY_TO_REGION = {
+      sa: 'sa',
+      ae: 'gulf',
+      qa: 'gulf',
+      kw: 'gulf',
+      bh: 'gulf',
+      om: 'gulf',
+      us: 'na',
+      de: 'eu',
+      ee: 'eu',
+      pl: 'eu',
+      uk: 'eu',
+      sg: 'asia',
+      remote_global: 'remote',
+      other: 'remote'
+    };
+
+    // UI Event Handlers
+    function onFieldChange() {
+      const select = document.getElementById('fFieldSelect');
+      const customInput = document.getElementById('fFieldCustom');
+      if (select.value === 'custom') {
+        customInput.style.display = 'block';
+        customInput.focus();
+      } else {
+        customInput.style.display = 'none';
+      }
+    }
+
+    function populateCitiesForCountry(countryCode, selectedCityVal = '') {
+      const citySelect = document.getElementById('fCity');
+      const cities = CITIES_BY_COUNTRY[countryCode] || CITIES_BY_COUNTRY['other'];
+      citySelect.innerHTML = cities.map(c => `<option value="${c.val}">${c.label}</option>`).join('');
+      
+      if (selectedCityVal) {
+        const found = cities.find(c => c.val === selectedCityVal);
+        if (found) {
+          citySelect.value = selectedCityVal;
+        } else {
+          citySelect.value = 'custom';
+          const customInput = document.getElementById('fCityCustom');
+          customInput.style.display = 'block';
+          customInput.value = selectedCityVal;
+        }
+      } else {
+        citySelect.selectedIndex = 0;
+      }
+      onCityChange();
+    }
+
+    function onCountryChange() {
+      const countryCode = document.getElementById('fCountry').value;
+      const customCountryInput = document.getElementById('fCountryCustom');
+      if (countryCode === 'other') {
+        customCountryInput.style.display = 'block';
+        customCountryInput.focus();
+      } else {
+        customCountryInput.style.display = 'none';
+      }
+
+      // Auto set region
+      const autoRegion = COUNTRY_TO_REGION[countryCode] || 'sa';
+      document.getElementById('fRegion').value = autoRegion;
+
+      // Populate cities
+      populateCitiesForCountry(countryCode);
+    }
+
+    function onCityChange() {
+      const citySelect = document.getElementById('fCity');
+      const customInput = document.getElementById('fCityCustom');
+      if (citySelect.value === 'custom') {
+        customInput.style.display = 'block';
+        customInput.focus();
+      } else {
+        customInput.style.display = 'none';
+      }
+      updateLocationPreview();
+    }
+
+    function updateLocationPreview() {
+      const countryCode = document.getElementById('fCountry').value;
+      const countryCustom = document.getElementById('fCountryCustom').value.trim();
+      const cityVal = document.getElementById('fCity').value;
+      const cityCustom = document.getElementById('fCityCustom').value.trim();
+      const workMode = document.getElementById('fWorkMode').value;
+
+      let countryName = countryCode === 'other' ? (countryCustom || 'دولة أخرى') : document.getElementById('fCountry').selectedOptions[0].text.replace(/[^\u0600-\u06FFa-zA-Z\s]/g, '').trim();
+      let cityName = cityVal === 'custom' ? (cityCustom || 'مدينة محددة') : cityVal;
+
+      let result = '';
+      if (countryCode === 'remote_global') {
+        result = cityName;
+      } else if (countryCode === 'sa') {
+        if (workMode === 'عن بعد' && !cityName.includes('عن بعد')) {
+          result = `${cityName} (عن بعد)`;
+        } else if (workMode === 'هجين' && !cityName.includes('هجين')) {
+          result = `${cityName} (هجين)`;
+        } else {
+          result = cityName;
+        }
+      } else {
+        if (workMode === 'عن بعد' && !cityName.includes('عن بعد')) {
+          result = `${cityName}، ${countryName} (عن بعد)`;
+        } else if (workMode === 'هجين') {
+          result = `${cityName}، ${countryName} (هجين)`;
+        } else {
+          result = `${cityName}، ${countryName}`;
+        }
+      }
+
+      document.getElementById('locationPreviewBadge').textContent = result;
+      return result;
+    }
+
+    function onSalaryTypeChange() {
+      const type = document.getElementById('fSalaryType').value;
+      const monthlyBox = document.getElementById('salaryMonthlyDetails');
+      const hourlyBox = document.getElementById('salaryHourlyDetails');
+
+      if (type === 'monthly') {
+        monthlyBox.style.display = 'block';
+        hourlyBox.style.display = 'none';
+      } else if (type === 'hourly') {
+        monthlyBox.style.display = 'none';
+        hourlyBox.style.display = 'block';
+      } else {
+        monthlyBox.style.display = 'none';
+        hourlyBox.style.display = 'none';
+      }
+      updateSalaryPreview();
+    }
+
+    function onSalaryPresetChange() {
+      const preset = document.getElementById('fSalaryPreset').value;
+      const customInput = document.getElementById('fSalaryCustom');
+      if (preset === 'custom') {
+        customInput.style.display = 'block';
+        customInput.focus();
+      } else {
+        customInput.style.display = 'none';
+      }
+      updateSalaryPreview();
+    }
+
+    function onHourlyPresetChange() {
+      const preset = document.getElementById('fHourlyPreset').value;
+      const customInput = document.getElementById('fHourlyCustom');
+      if (preset === 'custom') {
+        customInput.style.display = 'block';
+        customInput.focus();
+      } else {
+        customInput.style.display = 'none';
+      }
+      updateSalaryPreview();
+    }
+
+    function updateSalaryPreview() {
+      const type = document.getElementById('fSalaryType').value;
+      let formatted = 'غير مذكور';
+
+      if (type === 'unspecified') {
+        formatted = 'غير مذكور';
+      } else if (type === 'unpaid') {
+        formatted = 'غير مدفوع (تطوعي)';
+      } else if (type === 'competitive') {
+        formatted = 'مكافأة تنافسية';
+      } else if (type === 'monthly') {
+        const cur = document.getElementById('fSalaryCurrency').value;
+        const preset = document.getElementById('fSalaryPreset').value;
+        const customVal = document.getElementById('fSalaryCustom').value;
+        const num = preset === 'custom' ? (parseFloat(customVal) || 0) : parseFloat(preset);
+        
+        if (num <= 0) {
+          formatted = 'غير مذكور';
+        } else if (cur === 'SAR') {
+          formatted = `${num.toLocaleString('en-US')} ريال/شهر`;
+        } else if (cur === 'USD') {
+          formatted = `$${num.toLocaleString('en-US')} / شهر`;
+        } else if (cur === 'EUR') {
+          formatted = `€${num.toLocaleString('en-US')} / شهر`;
+        } else {
+          formatted = `${num.toLocaleString('en-US')} ${cur}/شهر`;
+        }
+      } else if (type === 'hourly') {
+        const cur = document.getElementById('fHourlyCurrency').value;
+        const preset = document.getElementById('fHourlyPreset').value;
+        const customVal = document.getElementById('fHourlyCustom').value;
+        const rate = preset === 'custom' ? (parseFloat(customVal) || 0) : parseFloat(preset);
+        
+        if (rate <= 0) {
+          formatted = 'غير مذكور';
+        } else if (cur === 'USD') {
+          formatted = `$${rate}/hr`;
+        } else if (cur === 'EUR') {
+          formatted = `€${rate}/hr`;
+        } else {
+          formatted = `${rate} ${cur}/ساعة`;
+        }
+      }
+
+      document.getElementById('salaryPreviewBadge').textContent = formatted;
+      return formatted;
+    }
+
+    // Modal Operations
+    function openAddModal() {
+      document.getElementById('modalTitle').textContent = '➕ إضافة فرصة تدريب جديدة';
+      document.getElementById('fEditIndex').value = '';
+      document.getElementById('fName').value = '';
+      
+      // Defaults for fields
+      document.getElementById('fFieldSelect').value = 'Full-Stack Web Developer';
+      document.getElementById('fFieldCustom').style.display = 'none';
+      document.getElementById('fFieldCustom').value = '';
+
+      // Defaults for location
+      document.getElementById('fCountry').value = 'sa';
+      document.getElementById('fCountryCustom').style.display = 'none';
+      document.getElementById('fCountryCustom').value = '';
+      populateCitiesForCountry('sa', 'الأحساء');
+      document.getElementById('fWorkMode').value = 'حضوري';
+      document.getElementById('fRegion').value = 'sa';
+
+      // Defaults for salary
+      document.getElementById('fSalaryType').value = 'monthly';
+      document.getElementById('fSalaryCurrency').value = 'SAR';
+      document.getElementById('fSalaryPreset').value = '3000';
+      document.getElementById('fSalaryCustom').style.display = 'none';
+      document.getElementById('fSalaryCustom').value = '';
+      onSalaryTypeChange();
+
+      document.getElementById('fStatus').value = 'pending';
+      document.getElementById('fLink').value = '';
+      document.getElementById('fNotes').value = '';
+
+      updateLocationPreview();
+      updateSalaryPreview();
+      document.getElementById('companyModal').classList.add('active');
+    }
+
+    function openEditModal(idx) {
+      const c = currentCompanies[idx];
+      document.getElementById('modalTitle').textContent = `✏️ تعديل فرصة: ${c.name}`;
+      document.getElementById('fEditIndex').value = idx;
+      document.getElementById('fName').value = c.name || '';
+
+      // Field recognition
+      const fieldSelect = document.getElementById('fFieldSelect');
+      const fieldCustom = document.getElementById('fFieldCustom');
+      let matchedField = false;
+      for (let i = 0; i < fieldSelect.options.length; i++) {
+        if (fieldSelect.options[i].value !== 'custom' && c.field && c.field.toLowerCase().includes(fieldSelect.options[i].value.toLowerCase())) {
+          fieldSelect.selectedIndex = i;
+          matchedField = true;
+          break;
+        }
+      }
+      if (!matchedField) {
+        fieldSelect.value = 'custom';
+        fieldCustom.style.display = 'block';
+        fieldCustom.value = c.field || '';
+      } else {
+        fieldCustom.style.display = 'none';
+        fieldCustom.value = '';
+      }
+
+      // Location & Country recognition
+      const rawLoc = (c.location || '').toLowerCase();
+      let matchedCountry = 'sa';
+      if (c.region === 'gulf' || /دبي|dubai|أبوظبي|الإمارات|uae/i.test(rawLoc)) matchedCountry = 'ae';
+      else if (/قطر|qatar|الدوحة/i.test(rawLoc)) matchedCountry = 'qa';
+      else if (/الكويت|kuwait/i.test(rawLoc)) matchedCountry = 'kw';
+      else if (/البحرين|bahrain|المنامة/i.test(rawLoc)) matchedCountry = 'bh';
+      else if (/عمان|oman|مسقط/i.test(rawLoc)) matchedCountry = 'om';
+      else if (c.region === 'na' || /usa|america|أمريكا|san francisco|california|austin|ny/i.test(rawLoc)) matchedCountry = 'us';
+      else if (/germany|ألمانيا|berlin|munich/i.test(rawLoc)) matchedCountry = 'de';
+      else if (/estonia|إستونيا|tallinn/i.test(rawLoc)) matchedCountry = 'ee';
+      else if (/poland|بولندا|warsaw/i.test(rawLoc)) matchedCountry = 'pl';
+      else if (/uk|london|بريطانيا/i.test(rawLoc)) matchedCountry = 'uk';
+      else if (/singapore|سنغافورة/i.test(rawLoc)) matchedCountry = 'sg';
+      else if (c.region === 'remote') matchedCountry = 'remote_global';
+
+      document.getElementById('fCountry').value = matchedCountry;
+      document.getElementById('fCountryCustom').style.display = 'none';
+      populateCitiesForCountry(matchedCountry, c.location);
+
+      if (/عن بعد|remote/i.test(rawLoc)) {
+        document.getElementById('fWorkMode').value = 'عن بعد';
+      } else if (/هجين|hybrid/i.test(rawLoc)) {
+        document.getElementById('fWorkMode').value = 'هجين';
+      } else {
+        document.getElementById('fWorkMode').value = 'حضوري';
+      }
+      document.getElementById('fRegion').value = c.region || COUNTRY_TO_REGION[matchedCountry] || 'sa';
+
+      // Salary recognition
+      const rawSalary = (c.salary || '').toLowerCase();
+      if (!c.salary || /غير مذكور|غير محدد/i.test(rawSalary)) {
+        document.getElementById('fSalaryType').value = 'unspecified';
+      } else if (/تطوعي|بدون مكافأة|unpaid|volunteer/i.test(rawSalary)) {
+        document.getElementById('fSalaryType').value = 'unpaid';
+      } else if (/تنافسية|مجزية|competitive/i.test(rawSalary)) {
+        document.getElementById('fSalaryType').value = 'competitive';
+      } else if (/\/hr|hour|ساعة/i.test(rawSalary)) {
+        document.getElementById('fSalaryType').value = 'hourly';
+        const numMatch = rawSalary.match(/(\d+)/);
+        if (numMatch) {
+          const rate = numMatch[1];
+          const hourlyPreset = document.getElementById('fHourlyPreset');
+          let foundPreset = false;
+          for (let i = 0; i < hourlyPreset.options.length; i++) {
+            if (hourlyPreset.options[i].value === rate) {
+              hourlyPreset.selectedIndex = i;
+              foundPreset = true;
+              break;
+            }
+          }
+          if (!foundPreset) {
+            hourlyPreset.value = 'custom';
+            document.getElementById('fHourlyCustom').style.display = 'block';
+            document.getElementById('fHourlyCustom').value = rate;
+          }
+        }
+        if (/eur|€/i.test(rawSalary)) document.getElementById('fHourlyCurrency').value = 'EUR';
+        else if (/sar|ريال/i.test(rawSalary)) document.getElementById('fHourlyCurrency').value = 'SAR';
+        else document.getElementById('fHourlyCurrency').value = 'USD';
+      } else {
+        // Monthly
+        document.getElementById('fSalaryType').value = 'monthly';
+        const numMatch = rawSalary.match(/(\d+[\d,]*)/);
+        if (numMatch) {
+          const cleanNum = numMatch[1].replace(/,/g, '');
+          const presetSelect = document.getElementById('fSalaryPreset');
+          let foundPreset = false;
+          for (let i = 0; i < presetSelect.options.length; i++) {
+            if (presetSelect.options[i].value === cleanNum) {
+              presetSelect.selectedIndex = i;
+              foundPreset = true;
+              break;
+            }
+          }
+          if (!foundPreset) {
+            presetSelect.value = 'custom';
+            document.getElementById('fSalaryCustom').style.display = 'block';
+            document.getElementById('fSalaryCustom').value = cleanNum;
+          }
+        }
+        if (/usd|\$/i.test(rawSalary)) document.getElementById('fSalaryCurrency').value = 'USD';
+        else if (/eur|€/i.test(rawSalary)) document.getElementById('fSalaryCurrency').value = 'EUR';
+        else if (/aed|درهم/i.test(rawSalary)) document.getElementById('fSalaryCurrency').value = 'AED';
+        else document.getElementById('fSalaryCurrency').value = 'SAR';
+      }
+
+      onSalaryTypeChange();
+      document.getElementById('fStatus').value = c.status || 'pending';
+      document.getElementById('fLink').value = c.link || '';
+      document.getElementById('fNotes').value = c.notes || '';
+
+      updateLocationPreview();
+      updateSalaryPreview();
+      document.getElementById('companyModal').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('companyModal').classList.remove('active');
+    }
+
+    function saveModalCompany() {
+      const name = document.getElementById('fName').value.trim();
+      if (!name) {
+        alert('يرجى كتابة اسم الشركة على الأقل.');
+        return;
+      }
+
+      // Compute final values from structured controls
+      const fieldSelect = document.getElementById('fFieldSelect');
+      const finalField = fieldSelect.value === 'custom' 
+        ? (document.getElementById('fFieldCustom').value.trim() || 'Software Engineer Intern') 
+        : fieldSelect.value;
+
+      const finalLocation = updateLocationPreview();
+      const finalSalary = updateSalaryPreview();
+      const finalRegion = document.getElementById('fRegion').value;
+      const finalStatus = document.getElementById('fStatus').value;
+      const finalLink = document.getElementById('fLink').value.trim();
+      const finalNotes = document.getElementById('fNotes').value.trim();
+
+      const item = {
+        name,
+        field: finalField,
+        location: finalLocation,
+        salary: finalSalary,
+        region: finalRegion,
+        status: finalStatus,
+        link: finalLink,
+        trackLink: '',
+        notes: finalNotes
+      };
+
+      const editIdx = document.getElementById('fEditIndex').value;
+      if (editIdx !== '') {
+        currentCompanies[parseInt(editIdx)] = item;
+        showToast(`تم تحديث بيانات "${item.name}" بنجاح!`);
+      } else {
+        currentCompanies.push(item);
+        showToast(`تمت إضافة "${item.name}" بخيارات نموذجية موحدة!`);
+      }
+
+      persistCurrent();
+      closeModal();
+      render();
+    }
+
+    // Export current data as JSON download
+    function exportDataJson() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(currentCompanies, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", "current-applied-companies.json");
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+      showToast('تم تصدير ملف current-applied-companies.json بنجاح');
+    }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', loadAllData);
+  </script>
+</body>
+</html>

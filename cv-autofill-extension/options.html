@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>إعدادات CV AutoFill</title><link rel="stylesheet" href="options.css"></head>
+<body>
+  <main>
+    <h1>الملف الشخصي والمرفقات</h1>
+    <p>تُحفظ التعديلات داخل الإضافة. افتح صفحة النموذج من جديد بعد الحفظ لتستخدم القيم المحدثة.</p>
+    <form id="profile-form"><div id="fields"></div><button type="submit">حفظ التعديلات</button><button type="button" id="reset-profile">استعادة بيانات الملف الأصلية</button></form>
+    <h2>المرفقات</h2><p>PDF حتى 10 ميجابايت. السيرة الأصلية متاحة ما لم تختَر نسخة أخرى.</p><div id="attachments"></div>
+    <h2>القواعد المعتمدة</h2><p>يمكن حذف أي إجابة سبق اعتمادها أو تصدير القواعد للاحتفاظ بنسخة.</p><div id="rules"></div><button id="export-rules" type="button">تصدير القواعد</button>
+    <p id="status" role="status"></p>
+  </main>
+  <script src="data.js"></script><script src="core/attachment-store.js"></script><script src="options.js"></script>
+</body></html>

@@ -1,0 +1,3045 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head><meta charset="UTF-8"><title>Fixture: Join Our Talent Community - Join TAWAL Team Careers</title></head>
+<body>
+<main id="main" class="app__content" data-bind="view: 'main'" tabindex="-1"><!--ko [ talent-community ]--><div class="app__subpage talent-community-flow__subpage standard-apply-flow" data-bind="css: {'standard-apply-flow': isStandardApplyFlowEnabled}">
+    <div class="talent-community-flow__container" data-bind="setBodyScrollTo: { to: 0 }">
+        <!-- ko ifnot: template --><!-- /ko -->
+
+        <!-- ko if: template -->
+        <div aria-live="assertive"><!-- ko template: template --><div class="app-dialog__header">
+    <h1 class="heading" data-bind="i18n: 'talent-community.email-verification-header'">Join Our Talent Community</h1>
+</div>
+
+<div class="app-dialog__content">
+    <p class="apply-flow-dialog__text" data-bind="i18n: 'talent-community.email-verification-description'">Be the first one to learn about new job opportunities that might be a perfect fit for you.</p>
+
+    <talent-community-flow><section class="apply-flow talent-community-flow standard-apply-flow" data-bind="event: { dragenter: dragEnterHandler }, css: {'standard-apply-flow': isStandardApplyFlowEnabled}" tabindex="-1">
+    <form class="apply-flow__content talent-community-flow__content" novalidate="" method="post">
+        <div class="apply-flow-page apply-flow-page--one-page talent-community-flow-page talent-community-flow-page--ready" data-bind="css: {
+                            'talent-community-flow-page--ready': isFlowReady,
+                            'apply-flow-page--blocked': isValidationInProgress
+                        },
+                        a11y.setInitialFocus: {isVisible: isFlowReady, delay: 400, focusCallback: setInitialFocus}" tabindex="-1">
+            <!-- ko if: flow -->
+
+            <apply-flow-section data-bind="attr: { 'id': 'job-alert-preferences-section' }" params="flow: flow(), section: flow().flowJobAlertPreferencesSection" id="job-alert-preferences-section"><div class="apply-flow-section" data-bind="visible: isActive, a11y.setInitialFocus: { isVisible: isActive },
+        attr: { 'data-section-number': section.number, 'data-section-invalid': !isValid() },
+        setBodyScrollTo: { to: 0, when: isActive }" tabindex="-1" data-section-number="10">
+    <!-- ko if: showHeading --><!-- /ko -->
+
+    <ul class="apply-flow-page-list">
+        <!-- ko foreach: { data: section.pages, as: 'page' } -->
+        <li>
+            <!-- ko foreach: { data: page.blocks, as: 'block' } -->
+            <apply-flow-block data-bind="class: block.blockId, attr: {id: `block-${$component.getBlockId(block)}`, 
+                    'data-scroll-spy': 'apply-flow-blocks', 'data-scroll-spy-id': $component.getBlockId(block)}, " params="
+                block: block,
+                section: $component.section,
+                isActive: $component.isActive,
+                application: $component.application,
+                isSingleClickFlow: $component.isSingleClickFlow,
+                flow: $component.flow,
+            " id="block-undefined" data-scroll-spy="apply-flow-blocks"><div class="apply-flow-block apply-flow-block--job-alert-preferences" data-bind="css: 'apply-flow-block--' + block.component">
+    <!-- ko if: shouldRenderBlockHeader() --><!-- /ko -->
+
+    <div class="apply-flow-block__form-list" role="region" data-bind="attr: {'aria-label': blockAriaLabel},
+        css: {
+            'disabled-block' :  sectionDisabled,
+         }" aria-label="Job alert preferences ">
+        <!-- ko component: {
+            name: block.component,
+            params: {
+                section: section,
+                code: block.code,
+                title: block.title,
+                instructions: block.instructions,
+                blockId: block.blockId,
+                application: application,
+                isActive: isActive,
+                additionalData: block.additionalData,
+                metadataServiceUrl: block.metadataServiceUrl,
+                readWriteServiceUrl: block.readWriteServiceUrl,
+                blockProperties: block.blockProperties,
+                flow: flow,
+                sectionDisabled: sectionDisabled,
+                isSingleClickFlow: isSingleClickFlow,
+                isStandardApplyFlowEnabled: isStandardApplyFlowEnabled,
+            }
+        } --><!-- ko if: form -->
+
+<!-- ko component: { name: 'form-builder', params: { form: form } } --><!-- ko foreach: {data: form.elements, as: 'element'} -->
+<!-- ko ifnot: element.isHidden -->
+<!-- ko component: {
+            name: element.component,
+            params: {
+                element: element
+            }
+        } --><div class="input-row input-row--has-picker input-row--multi-select-pill input-row--filled" data-bind="css: {'input-row--focused': isFocused,
+                      'input-row--filled': isFilled,
+                      'input-row--invalid': isInvalid}">
+    <form-element-label params="element: element, forId: element.id"><!-- ko if: element.label -->
+<label class="input-row__label" data-bind="css: {'input-row__label--required': element.isRequired,
+                            'input-row__label--disabled': element.isDisabled},
+                      attr: {for: forId, id: id, 'aria-labelledby': labelTextId + ' ' + instructionsTextId}, boolAttr: {'aria-hidden': element.isAriaLabelHidden}" for="preferredJobFamilies-6" aria-labelledby="labelText-preferredJobFamilies-6 instructionsText-preferredJobFamilies-6" aria-hidden="false">
+    <span class="input-row__linebreak" data-bind="attr: {id: labelTextId}" id="labelText-preferredJobFamilies-6"><!-- ko text : element.label -->Preferred Job Category<!-- /ko --></span>
+    <!-- ko if : element.isRequired --><!-- /ko -->
+</label>
+<!-- ko if : element.helpText() && element.showLabelTooltip --><!-- /ko -->
+<!-- /ko -->
+
+<!-- ko if: element.instructions --><!-- /ko -->
+</form-element-label>
+
+    <div data-bind="react: { component: 'cx-multi-select', 
+            props: {
+            valueObserver: element.value, 
+            name: element.name(),
+            value: element.value(), 
+            options: element.options(), 
+            label: element.label(),
+            id: element.id(),
+            isRequired: element.isRequired(),
+            optionsKeys: { value: 'id', label: 'name' },
+            getOptions: element.fetchOptions.bind(element),
+            onValueChange: onValueChangeHandler.bind($component),
+            isInvalid: isInvalid
+            }
+            }"><div aria-busy="false" class="cx-multi-select-container "><div class="input-field-container "><div class="input-field-container__left"><input autocomplete="none" name="preferredJobFamilies" id="preferredJobFamilies-6" type="text" role="combobox" aria-autocomplete="list" aria-haspopup="listbox" aria-controls="preferredJobFamilies-6-listbox" aria-expanded="false" aria-invalid="false" class="cx-multi-select-input 
+                                
+                                
+                            "></div><div class="input-field-container__right"><button type="button" id="preferredJobFamilies-6-toggle-button" tabindex="-1" aria-label="Open the drop-down list for Preferred Job Category." title="Open the drop-down list for Preferred Job Category." aria-expanded="false" aria-controls="preferredJobFamilies-6-listbox" class="icon-dropdown-arrow "></button></div></div></div><ul class="cx-multi-select-pill__values"></ul></div>
+
+    <!-- ko if: isInvalid --><!-- /ko -->
+</div>
+<!-- /ko -->
+<!-- /ko -->
+
+<!-- ko ifnot: element.isHidden -->
+<!-- ko component: {
+            name: element.component,
+            params: {
+                element: element
+            }
+        } --><div class="input-row input-row--has-picker input-row--multi-select-pill input-row--filled" data-bind="css: {'input-row--focused': isFocused,
+                      'input-row--filled': isFilled,
+                      'input-row--invalid': isInvalid}">
+    <form-element-label params="element: element, forId: element.id"><!-- ko if: element.label -->
+<label class="input-row__label" data-bind="css: {'input-row__label--required': element.isRequired,
+                            'input-row__label--disabled': element.isDisabled},
+                      attr: {for: forId, id: id, 'aria-labelledby': labelTextId + ' ' + instructionsTextId}, boolAttr: {'aria-hidden': element.isAriaLabelHidden}" for="preferredLocations-7" aria-labelledby="labelText-preferredLocations-7 instructionsText-preferredLocations-7" aria-hidden="false">
+    <span class="input-row__linebreak" data-bind="attr: {id: labelTextId}" id="labelText-preferredLocations-7"><!-- ko text : element.label -->Preferred Job Location<!-- /ko --></span>
+    <!-- ko if : element.isRequired --><!-- /ko -->
+</label>
+<!-- ko if : element.helpText() && element.showLabelTooltip --><!-- /ko -->
+<!-- /ko -->
+
+<!-- ko if: element.instructions --><!-- /ko -->
+</form-element-label>
+
+    <div data-bind="react: { component: 'cx-multi-select', 
+            props: {
+            valueObserver: element.value, 
+            name: element.name(),
+            value: element.value(), 
+            options: element.options(), 
+            label: element.label(),
+            id: element.id(),
+            isRequired: element.isRequired(),
+            optionsKeys: { value: 'id', label: 'name' },
+            getOptions: element.fetchOptions.bind(element),
+            onValueChange: onValueChangeHandler.bind($component),
+            isInvalid: isInvalid
+            }
+            }"><div aria-busy="false" class="cx-multi-select-container "><div class="input-field-container "><div class="input-field-container__left"><input autocomplete="none" name="preferredLocations" id="preferredLocations-7" type="text" role="combobox" aria-autocomplete="list" aria-haspopup="listbox" aria-controls="preferredLocations-7-listbox" aria-expanded="false" aria-invalid="false" class="cx-multi-select-input 
+                                
+                                
+                            "></div><div class="input-field-container__right"><button type="button" id="preferredLocations-7-toggle-button" tabindex="-1" aria-label="Open the drop-down list for Preferred Job Location." title="Open the drop-down list for Preferred Job Location." aria-expanded="false" aria-controls="preferredLocations-7-listbox" class="icon-dropdown-arrow "></button></div></div></div><ul class="cx-multi-select-pill__values"></ul></div>
+
+    <!-- ko if: isInvalid --><!-- /ko -->
+</div>
+<!-- /ko -->
+<!-- /ko -->
+<!-- /ko -->
+<!-- /ko -->
+
+<!-- /ko -->
+<!-- /ko -->
+    </div>
+</div>
+</apply-flow-block>
+            <!-- /ko -->
+        </li>
+        <!-- /ko -->
+    </ul>
+</div>
+</apply-flow-section>
+
+            <apply-flow-section data-bind="attr: { 'id': 'presection-' + flow().preSection.number }" params="flow: flow(), section: flow().preSection" id="presection-1"><div class="apply-flow-section" data-bind="visible: isActive, a11y.setInitialFocus: { isVisible: isActive },
+        attr: { 'data-section-number': section.number, 'data-section-invalid': !isValid() },
+        setBodyScrollTo: { to: 0, when: isActive }" tabindex="-1" data-section-number="1" data-section-invalid="true">
+    <!-- ko if: showHeading --><!-- /ko -->
+
+    <ul class="apply-flow-page-list">
+        <!-- ko foreach: { data: section.pages, as: 'page' } -->
+        <li>
+            <!-- ko foreach: { data: page.blocks, as: 'block' } -->
+            <apply-flow-block data-bind="class: block.blockId, attr: {id: `block-${$component.getBlockId(block)}`, 
+                    'data-scroll-spy': 'apply-flow-blocks', 'data-scroll-spy-id': $component.getBlockId(block)}, " params="
+                block: block,
+                section: $component.section,
+                isActive: $component.isActive,
+                application: $component.application,
+                isSingleClickFlow: $component.isSingleClickFlow,
+                flow: $component.flow,
+            " class="300000170306619" id="block-300000170306619" data-scroll-spy="apply-flow-blocks" data-scroll-spy-id="300000170306619"><div class="apply-flow-block apply-flow-block--profile-import" data-bind="css: 'apply-flow-block--' + block.component">
+    <!-- ko if: shouldRenderBlockHeader() --><!-- /ko -->
+
+    <div class="apply-flow-block__form-list" role="region" data-bind="attr: {'aria-label': blockAriaLabel},
+        css: {
+            'disabled-block' :  sectionDisabled,
+         }" aria-label="Import your profile ">
+        <!-- ko component: {
+            name: block.component,
+            params: {
+                section: section,
+                code: block.code,
+                title: block.title,
+                instructions: block.instructions,
+                blockId: block.blockId,
+                application: application,
+                isActive: isActive,
+                additionalData: block.additionalData,
+                metadataServiceUrl: block.metadataServiceUrl,
+                readWriteServiceUrl: block.readWriteServiceUrl,
+                blockProperties: block.blockProperties,
+                flow: flow,
+                sectionDisabled: sectionDisabled,
+                isSingleClickFlow: isSingleClickFlow,
+                isStandardApplyFlowEnabled: isStandardApplyFlowEnabled,
+            }
+        } --><div class="apply-flow-profile-import" tabindex="-1" data-bind="css: { 'apply-flow-profile-import--success': hasImportSucceded }">
+    <div class="apply-flow-block__header">
+        <!-- ko if: block.title -->
+        <h2 class="apply-flow-block__title" data-bind="text: block.title, attr: {'aria-label': block.title}" aria-label="Import your profile">Import your profile</h2>
+        <!-- /ko -->
+
+        <!-- ko if: block.instructions -->
+        <p class="apply-flow-block__instructions" data-bind="html: block.instructions, attr: {'aria-label': block.instructions}" aria-label="You can import your information.">You can import your information.</p>
+        <!-- /ko -->
+    </div>
+
+    <!-- ko if: hasImportSucceded() === null && !isResumeParsingInProgress() -->
+    <div class="apply-flow-profile-import__awli-content">
+        <!-- ko if: config().awli.activeFlag() -->
+        <div data-bind="
+                    i18nAttr: { 'title': 'apply-flow.a11y.linkedin-profile-import-widget',
+                    'aria-label': 'apply-flow.a11y.linkedin-profile-import-widget' },
+                    awliWidget: {
+                        profileType: 'linkedin',
+                        activeFlag: config().awli.activeFlag(),
+                        integrationContext: config().awli.integrationContext(),
+                        clientId: config().awli.clientId() }" title="Apply with LinkedIn frame" aria-label="Apply with LinkedIn frame"><span class="IN-widget" data-lnkd-debug="&lt;script type=&quot;IN/AwliWidget+init&quot; data-api-key=&quot;77xtut8zqgmcqs&quot; data-integration-context=&quot;urn:li:organization:14784924&quot; data-company-job-code=&quot;undefined&quot; data-mode=&quot;BUTTON_DATA&quot; data-color=&quot;blue&quot; data-size=&quot;large&quot; data-callback-method=&quot;onProfileData&quot;&gt;&lt;/script&gt;" style="display: inline-block; line-height: 1; vertical-align: bottom; padding: 0px; margin: 0px; text-indent: 0px;"></span></div>
+        <!-- /ko -->
+
+        <!-- ko if: config().indeed.activeFlag() --><!-- /ko -->
+        <!-- ko if: config().resumeParser.activeFlag() --><!-- /ko -->
+    </div>
+
+    <!-- ko if: isReferralResumeParsing --><!-- /ko -->
+    <!-- /ko -->
+
+    <!-- ko if: hasImportSucceded --><!-- /ko -->
+
+    <div aria-live="polite" role="status">
+        <!-- ko if: isResumeParsingInProgress --><!-- /ko -->
+    </div>
+
+    <!-- ko ifnot: isResumeValid --><!-- /ko -->
+
+    <!-- ko if: hasImportSucceded() === false --><!-- /ko -->
+</div>
+<!-- /ko -->
+    </div>
+</div>
+</apply-flow-block>
+            <!-- /ko -->
+        </li>
+        <!-- /ko -->
+    </ul>
+</div>
+</apply-flow-section>
+
+            <apply-flow-section data-bind="attr: { 'id': 'personal-information-section' }" params="flow: flow(), section: flow().flowPersonalInformationsSection" id="personal-information-section"><div class="apply-flow-section" data-bind="visible: isActive, a11y.setInitialFocus: { isVisible: isActive },
+        attr: { 'data-section-number': section.number, 'data-section-invalid': !isValid() },
+        setBodyScrollTo: { to: 0, when: isActive }" tabindex="-1" data-section-number="20">
+    <!-- ko if: showHeading --><!-- /ko -->
+
+    <ul class="apply-flow-page-list">
+        <!-- ko foreach: { data: section.pages, as: 'page' } -->
+        <li>
+            <!-- ko foreach: { data: page.blocks, as: 'block' } -->
+            <apply-flow-block data-bind="class: block.blockId, attr: {id: `block-${$component.getBlockId(block)}`, 
+                    'data-scroll-spy': 'apply-flow-blocks', 'data-scroll-spy-id': $component.getBlockId(block)}, " params="
+                block: block,
+                section: $component.section,
+                isActive: $component.isActive,
+                application: $component.application,
+                isSingleClickFlow: $component.isSingleClickFlow,
+                flow: $component.flow,
+            " class="300000170306620" id="block-300000170306620" data-scroll-spy="apply-flow-blocks" data-scroll-spy-id="300000170306620"><div class="apply-flow-block apply-flow-block--personal-information-basic" data-bind="css: 'apply-flow-block--' + block.component">
+    <!-- ko if: shouldRenderBlockHeader() -->
+    <div class="apply-flow-block__header" data-bind="css: { 'section-disabled-margin': sectionDisabled() &amp;&amp; !isCWKAddressProfileOptionEnabled }">
+        <apply-flow-block-title params="title: block.title, isSingleClickFlow: isSingleClickFlow, isRequired: isRequired, sectionDisabled: sectionDisabled"><!-- ko if: title -->
+<!-- ko if: isSingleClickFlow -->
+<h3 class="apply-flow-block__title" data-bind="css: { 'apply-flow-block__title--required': isRequired }">
+    <!-- ko if: shouldShowPadlock(block) --><!-- /ko -->
+    <span data-bind="text: title">Contact Information</span>
+    <!-- ko if: isRequired --><!-- /ko -->
+</h3>
+<!-- /ko -->
+
+<!-- ko ifnot: isSingleClickFlow --><!-- /ko -->
+<!-- /ko -->
+</apply-flow-block-title>
+        <!-- ko if: (block.instructions && !sectionDisabled()) -->
+        <p class="apply-flow-block__instructions" data-bind="html: block.instructions">Please enter your contact information.</p>
+        <!-- /ko -->
+        <!-- ko if: sectionDisabled() --><!-- /ko -->
+    </div>
+    <!-- /ko -->
+
+    <div class="apply-flow-block__form-list" role="region" data-bind="attr: {'aria-label': blockAriaLabel},
+        css: {
+            'disabled-block' :  sectionDisabled,
+         }" aria-label="Contact Information ">
+        <!-- ko component: {
+            name: block.component,
+            params: {
+                section: section,
+                code: block.code,
+                title: block.title,
+                instructions: block.instructions,
+                blockId: block.blockId,
+                application: application,
+                isActive: isActive,
+                additionalData: block.additionalData,
+                metadataServiceUrl: block.metadataServiceUrl,
+                readWriteServiceUrl: block.readWriteServiceUrl,
+                blockProperties: block.blockProperties,
+                flow: flow,
+                sectionDisabled: sectionDisabled,
+                isSingleClickFlow: isSingleClickFlow,
+                isStandardApplyFlowEnabled: isStandardApplyFlowEnabled,
+            }
+        } --><!-- ko if: form -->
+<name-form data-bind="css: { 'contact-info-form': sectionDisabled }" params="form: form"><form-builder params="form: form"><!-- ko foreach: {data: form.elements, as: 'element'} -->
+<!-- ko ifnot: element.isHidden -->
+<!-- ko component: {
+            name: element.component,
+            params: {
+                element: element
+            }
+        } --><div class="input-row input-row--has-picker" data-bind="css: {'input-row--focused': isFocused,
+                      'input-row--filled': isFilled,
+                      'input-row--invalid': isInvalid,
+                      'input-row--disabled': isDisabled()}">
+    <form-element-label params="element: element, forId: element.id"><!-- ko if: element.label -->
+<label class="input-row__label input-row__label--required" data-bind="css: {'input-row__label--required': element.isRequired,
+                            'input-row__label--disabled': element.isDisabled},
+                      attr: {for: forId, id: id, 'aria-labelledby': labelTextId + ' ' + instructionsTextId}, boolAttr: {'aria-hidden': element.isAriaLabelHidden}" for="title-8" aria-labelledby="labelText-title-8 instructionsText-title-8" aria-hidden="false">
+    <span class="input-row__linebreak" data-bind="attr: {id: labelTextId}" id="labelText-title-8"><!-- ko text : element.label -->Title<!-- /ko --></span>
+    <!-- ko if : element.isRequired -->
+    <span class="input-row__label--required-star" aria-hidden="true"></span>
+    <!-- /ko -->
+</label>
+<!-- ko if : element.helpText() && element.showLabelTooltip --><!-- /ko -->
+<!-- /ko -->
+
+<!-- ko if: element.instructions --><!-- /ko -->
+</form-element-label>
+
+    <div class="input-row__control-container reset-z-index" data-bind="attr: { id: element.containerId, 'data-qa': element.name }" data-qa="title">
+        <!-- ko if: showSingleSelectPills -->
+        <div data-bind="react: { component: 'cx-select-pills' , props: { list: element.options(), focusHandler, isMultiselect:false, value: element.value(), isReadonly: element.isDisabled(), valueObserver: element.value, optionKeys: element.optionsKeys(), headerLabel: element.label()}}"><ul role="radiogroup" aria-label="Title" class="cx-select-pills-container"><li role="presentation"><button type="button" aria-disabled="false" role="radio" aria-checked="false" tabindex="0" class="cx-select-pill-section 
+                                        "><span class="cx-select-pill-name"> Doctor</span></button></li><li role="presentation"><button type="button" aria-disabled="false" role="radio" aria-checked="false" tabindex="-1" class="cx-select-pill-section 
+                                        "><span class="cx-select-pill-name"> Miss</span></button></li><li role="presentation"><button type="button" aria-disabled="false" role="radio" aria-checked="false" tabindex="-1" class="cx-select-pill-section 
+                                        "><span class="cx-select-pill-name"> Mr.</span></button></li><li role="presentation"><button type="button" aria-disabled="false" role="radio" aria-checked="false" tabindex="-1" class="cx-select-pill-section 
+                                        "><span class="cx-select-pill-name"> Mrs.</span></button></li><li role="presentation"><button type="button" aria-disabled="false" role="radio" aria-checked="false" tabindex="-1" class="cx-select-pill-section 
+                                        "><span class="cx-select-pill-name"> Ms.</span></button></li></ul></div>
+        <!-- /ko -->
+
+        <!-- ko ifnot: showSingleSelectPills --><!-- /ko -->
+
+        <div class="input-row__control-decorator"></div>
+
+        <!-- ko if: isInvalid --><!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+<!-- /ko -->
+
+<!-- ko ifnot: element.isHidden -->
+<!-- ko component: {
+            name: element.component,
+            params: {
+                element: element
+            }
+        } --><div class="input-row input-row--text input-row--filled" data-bind="css: {'input-row--focused': isFocused,
+                      'input-row--filled': isFilled,
+                      'input-row--invalid': isInvalid,
+                      'input-row--empty-disabled': isEmptyDisabled},
+                      class: attributes.cssClass">
+    <form-element-label params="element: element, forId: attributes.id"><!-- ko if: element.label -->
+<label class="input-row__label input-row__label--required" data-bind="css: {'input-row__label--required': element.isRequired,
+                            'input-row__label--disabled': element.isDisabled},
+                      attr: {for: forId, id: id, 'aria-labelledby': labelTextId + ' ' + instructionsTextId}, boolAttr: {'aria-hidden': element.isAriaLabelHidden}" for="firstName-9" aria-labelledby="labelText-firstName-9 instructionsText-firstName-9" aria-hidden="false">
+    <span class="input-row__linebreak" data-bind="attr: {id: labelTextId}" id="labelText-firstName-9"><!-- ko text : element.label -->First Name<!-- /ko --></span>
+    <!-- ko if : element.isRequired -->
+    <span class="input-row__label--required-star" aria-hidden="true"></span>
+    <!-- /ko -->
+</label>
+<!-- ko if : element.helpText() && element.showLabelTooltip --><!-- /ko -->
+<!-- /ko -->
+
+<!-- ko if: element.instructions --><!-- /ko -->
+</form-element-label>
+
+    <div class="input-row__control-container">
+        <input class="input-row__control" data-bind="value: element.value,
+                           valueUpdate: element.valueUpdateType(),
+                           attr: element.attributes,
+                           i18nAttr: {'aria-invalid': isAriaInvalid()}
+                           readonly: element.isDisabled,
+                           hasFocus: hasFocus,
+                           a11y.setFocusOnTab: {focusOn: element.focusNextSelector, delay: 10, when: isFilled } ,
+                           event: {blur: blurHandler.bind($data)},
+                           css: {'input-row__control--locked': element.isFieldLocked()},
+                           preventEnter" id="firstName-9" name="firstName" autocomplete="given-name" aria-required="true" aria-describedby="firstName-9-error" aria-invalid="false" style="direction: rtl;">
+        <div class="input-row__control-decorator"></div>
+        <!-- ko if: element.isFieldLocked() --><!-- /ko -->
+        <!-- ko if: isInvalid --><!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+<!-- /ko -->
+
+<!-- ko ifnot: element.isHidden -->
+<!-- ko component: {
+            name: element.component,
+            params: {
+                element: element
+            }
+        } --><div class="input-row input-row--text input-row--filled" data-bind="css: {'input-row--focused': isFocused,
+                      'input-row--filled': isFilled,
+                      'input-row--invalid': isInvalid,
+                      'input-row--empty-disabled': isEmptyDisabled},
+                      class: attributes.cssClass">
+    <form-element-label params="element: element, forId: attributes.id"><!-- ko if: element.label -->
+<label class="input-row__label input-row__label--required" data-bind="css: {'input-row__label--required': element.isRequired,
+                            'input-row__label--disabled': element.isDisabled},
+                      attr: {for: forId, id: id, 'aria-labelledby': labelTextId + ' ' + instructionsTextId}, boolAttr: {'aria-hidden': element.isAriaLabelHidden}" for="middleNames-10" aria-labelledby="labelText-middleNames-10 instructionsText-middleNames-10" aria-hidden="false">
+    <span class="input-row__linebreak" data-bind="attr: {id: labelTextId}" id="labelText-middleNames-10"><!-- ko text : element.label -->Middle Name<!-- /ko --></span>
+    <!-- ko if : element.isRequired -->
+    <span class="input-row__label--required-star" aria-hidden="true"></span>
+    <!-- /ko -->
+</label>
+<!-- ko if : element.helpText() && element.showLabelTooltip --><!-- /ko -->
+<!-- /ko -->
+
+<!-- ko if: element.instructions --><!-- /ko -->
+</form-element-label>
+
+    <div class="input-row__control-container">
+        <input class="input-row__control" data-bind="value: element.value,
+                           valueUpdate: element.valueUpdateType(),
+                           attr: element.attributes,
+                           i18nAttr: {'aria-invalid': isAriaInvalid()}
+                           readonly: element.isDisabled,
+                           hasFocus: hasFocus,
+                           a11y.setFocusOnTab: {focusOn: element.focusNextSelector, delay: 10, when: isFilled } ,
+                           event: {blur: blurHandler.bind($data)},
+                           css: {'input-row__control--locked': element.isFieldLocked()},
+                           preventEnter" id="middleNames-10" name="middleNames" autocomplete="additional-name" aria-required="true" aria-describedby="middleNames-10-error" aria-invalid="false" style="direction: ltr;">
+        <div class="input-row__control-decorator"></div>
+        <!-- ko if: element.isFieldLocked() --><!-- /ko -->
+        <!-- ko if: isInvalid --><!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+<!-- /ko -->
+
+<!-- ko ifnot: element.isHidden -->
+<!-- ko component: {
+            name: element.component,
+            params: {
+                element: element
+            }
+        } --><div class="input-row input-row--text input-row--filled" data-bind="css: {'input-row--focused': isFocused,
+                      'input-row--filled': isFilled,
+                      'input-row--invalid': isInvalid,
+                      'input-row--empty-disabled': isEmptyDisabled},
+                      class: attributes.cssClass">
+    <form-element-label params="element: element, forId: attributes.id"><!-- ko if: element.label -->
+<label class="input-row__label input-row__label--required" data-bind="css: {'input-row__label--required': element.isRequired,
+                            'input-row__label--disabled': element.isDisabled},
+                      attr: {for: forId, id: id, 'aria-labelledby': labelTextId + ' ' + instructionsTextId}, boolAttr: {'aria-hidden': element.isAriaLabelHidden}" for="lastName-11" aria-labelledby="labelText-lastName-11 instructionsText-lastName-11" aria-hidden="false">
+    <span class="input-row__linebreak" data-bind="attr: {id: labelTextId}" id="labelText-lastName-11"><!-- ko text : element.label -->Last Name<!-- /ko --></span>
+    <!-- ko if : element.isRequired -->
+    <span class="input-row__label--required-star" aria-hidden="true"></span>
+    <!-- /ko -->
+</label>
+<!-- ko if : element.helpText() && element.showLabelTooltip --><!-- /ko -->
+<!-- /ko -->
+
+<!-- ko if: element.instructions --><!-- /ko -->
+</form-element-label>
+
+    <div class="input-row__control-container">
+        <input class="input-row__control" data-bind="value: element.value,
+                           valueUpdate: element.valueUpdateType(),
+                           attr: element.attributes,
+                           i18nAttr: {'aria-invalid': isAriaInvalid()}
+                           readonly: element.isDisabled,
+                           hasFocus: hasFocus,
+                           a11y.setFocusOnTab: {focusOn: element.focusNextSelector, delay: 10, when: isFilled } ,
+                           event: {blur: blurHandler.bind($data)},
+                           css: {'input-row__control--locked': element.isFieldLocked()},
+                           preventEnter" id="lastName-11" name="lastName" autocomplete="family-name" aria-required="true" aria-describedby="lastName-11-error" aria-invalid="false" style="direction: rtl;">
+        <div class="input-row__control-decorator"></div>
+        <!-- ko if: element.isFieldLocked() --><!-- /ko -->
+        <!-- ko if: isInvalid --><!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+<!-- /ko -->
+
+<!-- ko ifnot: element.isHidden -->
+<!-- ko component: {
+            name: element.component,
+            params: {
+                element: element
+            }
+        } --><!-- ko ifnot: element.isVerificationInProgress -->
+
+<div class="input-row communication-channel__email quick-apply-flow-communication-channel__email">
+    <div class="input-row input-row--text input-row--filled" data-bind="css: {'input-row--focused': isFocused,
+                      'input-row--filled': isFilled,
+                      'input-row--invalid': isInvalid,
+                      'input-row--empty-disabled': isEmptyDisabled,
+                      'input-row--locked': element.isLocked() &amp;&amp; !element.isFieldLocked() }">
+        <form-element-label params="element: element, forId: attributes.id"><!-- ko if: element.label -->
+<label class="input-row__label input-row__label--disabled" data-bind="css: {'input-row__label--required': element.isRequired,
+                            'input-row__label--disabled': element.isDisabled},
+                      attr: {for: forId, id: id, 'aria-labelledby': labelTextId + ' ' + instructionsTextId}, boolAttr: {'aria-hidden': element.isAriaLabelHidden}" for="email-12" aria-labelledby="labelText-email-12 instructionsText-email-12" aria-hidden="false">
+    <span class="input-row__linebreak" data-bind="attr: {id: labelTextId}" id="labelText-email-12"><!-- ko text : element.label -->Email Address<!-- /ko --></span>
+    <!-- ko if : element.isRequired --><!-- /ko -->
+</label>
+<!-- ko if : element.helpText() && element.showLabelTooltip --><!-- /ko -->
+<!-- /ko -->
+
+<!-- ko if: element.instructions --><!-- /ko -->
+</form-element-label>
+
+        <div class="input-row__control-container">
+            <div class="input-row__item communication-channel__email-row" data-bind="css: {'communication-channel__email-row--invalid': isInvalid,
+        'communication-channel__email-row--focused': isFocused,
+        'communication-channel__email-row--locked': element.isLocked() }">
+                <input class="input-row__control communication-channel__email-control" data-bind="textInput: element.value,
+                           attr: element.attributes,
+                           hasFocus: hasFocus,
+                           css: { 'communication-channel__email-row--locked': element.isLocked() },
+                           event: {blur: blurHandler.bind($data)}" id="email-12" name="email" type="email" readonly="readonly" autocomplete="email">
+                <!-- ko if: showActionButtons -->
+                <button type="button" class="communication-channel__value-edit communication-channel__value-email-edit theme-color-1 focused-tooltip" data-bind="a11y.setFocusOnClick: { focusOn: '.communication-channel__email-control', delay: 100},
+                                click: element.edit,
+                                disable: element.saveButtonDisabled,
+                                i18nAttr: { title: editMode() ? (element.cssMode &amp;&amp; !element.isChannelVerified() ? 'candidate-self-service.communication-channel.save-and-verify'
+                                    : 'apply-flow.section-personal-information.done-editing-email') : 'apply-flow.section-personal-information.edit-email-address',
+                                    'aria-label': editMode() ? (element.cssMode &amp;&amp; !element.isChannelVerified() ? 'candidate-self-service.communication-channel.save-and-verify'
+                                    : 'apply-flow.section-personal-information.done-editing-email') : 'apply-flow.section-personal-information.edit-email-address', },
+                                css: { 'communication-channel__value-email-done': showCancelButton }" title="Edit email address" aria-label="Edit email address">
+                    <em data-bind="css: editMode() ? 'icon-check-sharp' : 'icon-af-edit-sm'" class="icon-af-edit-sm"></em>
+                </button>
+                <!-- ko if: showCancelButton --><!-- /ko -->
+                <!-- /ko -->
+                <div class="input-row__control-decorator communication-channel__email-decorator"></div>
+            </div>
+            <!-- ko if: element.isFieldLocked() --><!-- /ko -->
+            <!-- ko if: isInvalid --><!-- /ko -->
+        </div>
+    </div>
+</div>
+
+<!-- /ko -->
+
+<!-- ko if: element.isVerificationInProgress --><!-- /ko -->
+<!-- /ko -->
+<!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden -->
+<!-- ko component: {
+            name: element.component,
+            params: {
+                element: element
+            }
+        } --><div class="input-row input-row--with-placeholder input-row--has-picker input-row--filled" data-bind="css: {
+                'input-row--filled': isFilled,
+                'input-row--focused': hasFocus,
+                'input-row--invalid': isInvalid,
+                'input-row--locked': element.isLocked() &amp;&amp; !element.isFieldLocked() }">
+    <form-element-label params="element: element, forId: prefixField.dropdownId, id: 'phoneNumberGroupLabel'"><!-- ko if: element.label -->
+<label class="input-row__label" data-bind="css: {'input-row__label--required': element.isRequired,
+                            'input-row__label--disabled': element.isDisabled},
+                      attr: {for: forId, id: id, 'aria-labelledby': labelTextId + ' ' + instructionsTextId}, boolAttr: {'aria-hidden': element.isAriaLabelHidden}" for="country-codes-dropdownphoneNumber" id="phoneNumberGroupLabel" aria-labelledby="labelText-phoneNumber-13 instructionsText-phoneNumber-13" aria-hidden="false">
+    <span class="input-row__linebreak" data-bind="attr: {id: labelTextId}" id="labelText-phoneNumber-13"><!-- ko text : element.label -->Phone Number<!-- /ko --></span>
+    <!-- ko if : element.isRequired --><!-- /ko -->
+</label>
+<!-- ko if : element.helpText() && element.showLabelTooltip --><!-- /ko -->
+<!-- /ko -->
+
+<!-- ko if: element.instructions --><!-- /ko -->
+</form-element-label>
+
+    <div class="input-row__control-container reset-z-index">
+        <div class="input-row-composite__inputs phone-row" data-bind="css: {'phone-row--focused': hasFocus, 'phone-row--locked': element.isLocked() }" role="group" aria-labelledby="phoneNumberGroupLabel">
+            <div class="input-row-composite__input phone-row__prefix" data-bind="prefixObserver,
+                event: {mouseenter: showHelpTooltip, mouseout: hideHelpTooltip, focus: showHelpTooltip, blur: hideHelpTooltip}">
+                <div data-bind="react: {
+                        component: 'cx-select', 
+                        props: { 
+                            valueObserver: prefixField.value, 
+                            describedBy: invalidMessageId,
+                            name: element.name(),
+                            value: prefixField.value(), 
+                            options: prefixField.options(), 
+                            id: prefixField.dropdownId,
+                            label: element.label(),
+                            ariaLabel: prefixField.placeholder,
+                            labelHint: prefixField.placeholder,
+                            showLabelHintAlways: true,
+                            isReadonly: element.isDisabled(),
+                            required: element.isRequired,
+                            searchCriteria:'contains',
+                            optionsKeys: { value: 'value', label: 'label', optionDisplayLabel: 'optionListLabel' } ,
+                            onValueChange: onChangeNumber.bind($component),
+                            isFocusedTooltipLeft: true
+                        }
+                    }"><div class="cx-select-container "><div class="input-field-container"><div class="input-field-container__left"><span id="inputFieldLabel-country-codes-dropdownphoneNumber" class="input-field__label">Country code</span><input autocomplete="none" name="phoneNumber" id="country-codes-dropdownphoneNumber" type="text" role="combobox" aria-autocomplete="list" aria-describedby="phoneNumber-13-error" aria-haspopup="grid" aria-controls="country-codes-dropdownphoneNumber-listbox" aria-expanded="false" aria-labelledby="labelText-undefined inputFieldLabel-country-codes-dropdownphoneNumber" class="cx-select-input 
+                                
+                                
+                                
+                            "></div><div class="input-field-container__right"><button id="country-codes-dropdownphoneNumber-reset-button" type="button" aria-label="Remove value for the Country code field." title="Remove value for the Country code field." class="icon-clear focused-tooltip-left "></button><button type="button" id="country-codes-dropdownphoneNumber-toggle-button" tabindex="-1" aria-label="Open the drop-down list for Country code." title="Open the drop-down list for Country code." aria-expanded="false" aria-controls="country-codes-dropdownphoneNumber-listbox" class="icon-dropdown-arrow "></button></div></div></div></div>
+            </div>
+
+            <div class="input-row-composite__input phone-row__number" data-bind="event: {mouseenter: showHelpTooltip, mouseout: hideHelpTooltip, focus: showHelpTooltip, blur: hideHelpTooltip}">
+                <input type="tel" class="input-row__control phone-row__input" autocomplete="tel-national" maxlength="30" data-bind="textInput: phoneField.value,
+                                css: { 'phone-row--locked': element.isLocked() },
+                                attr: {'aria-label': phoneField.a11yLabel,
+                                    'aria-required': element.isRequired,
+                                    'aria-invalid': isAriaInvalid,
+                                    'aria-describedby': invalidMessageId,
+                                    'readonly': element.isDisabled },
+                                formatPhoneNumber: {format: formatNumber.bind($component)},
+                                event: {
+                                    input: onChangeNumber.bind($component),
+                                    blur: blurHandler
+                                },
+                                preventEnter" aria-label="Phone Number" aria-invalid="false" aria-describedby="phoneNumber-13-error">
+                <div class="input-row__control-decorator"></div>
+            </div>
+
+            <!-- ko if: element.isDisabled && element.helpText--><!-- /ko -->
+        </div>
+        <!-- ko if: element.isFieldLocked() --><!-- /ko -->
+        <!-- ko if: isSMSAndWhatsAppEnabled --><!-- /ko -->
+        <!-- ko if: isInvalid --><!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+<!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+<!-- /ko -->
+</form-builder>
+</name-form>
+<!-- /ko -->
+<!-- /ko -->
+    </div>
+</div>
+</apply-flow-block>
+            <!-- /ko -->
+        </li>
+        <!-- /ko -->
+    </ul>
+</div>
+</apply-flow-section>
+
+            <!-- ko if: flowHasRemainingFields() -->
+
+            <!-- ko if: showExpandButton() --><!-- /ko -->
+
+            <div class="talent-community-flow__remaining-fields" data-bind="visible: isFlowFieldsVisible" style="">
+                <!-- ko foreach: { data: flow().sections, as: 'section' } -->
+                <apply-flow-section data-bind="attr: { 'id': 'section-' + section.number }" params="flow: $parent.flow(), section: section" id="section-1"><div class="apply-flow-section" data-bind="visible: isActive, a11y.setInitialFocus: { isVisible: isActive },
+        attr: { 'data-section-number': section.number, 'data-section-invalid': !isValid() },
+        setBodyScrollTo: { to: 0, when: isActive }" tabindex="-1" data-section-number="1" data-section-invalid="true">
+    <!-- ko if: showHeading -->
+    <h2 class="apply-flow-section__trainstop-name" data-bind="text: section.title">Personal Info</h2>
+    <!-- /ko -->
+
+    <ul class="apply-flow-page-list">
+        <!-- ko foreach: { data: section.pages, as: 'page' } -->
+        <li>
+            <!-- ko foreach: { data: page.blocks, as: 'block' } -->
+            <apply-flow-block data-bind="class: block.blockId, attr: {id: `block-${$component.getBlockId(block)}`, 
+                    'data-scroll-spy': 'apply-flow-blocks', 'data-scroll-spy-id': $component.getBlockId(block)}, " params="
+                block: block,
+                section: $component.section,
+                isActive: $component.isActive,
+                application: $component.application,
+                isSingleClickFlow: $component.isSingleClickFlow,
+                flow: $component.flow,
+            " class="300000170306621" id="block-300000170306621" data-scroll-spy="apply-flow-blocks" data-scroll-spy-id="300000170306621"><div class="apply-flow-block apply-flow-block--file-upload" data-bind="css: 'apply-flow-block--' + block.component">
+    <!-- ko if: shouldRenderBlockHeader() -->
+    <div class="apply-flow-block__header" data-bind="css: { 'section-disabled-margin': sectionDisabled() &amp;&amp; !isCWKAddressProfileOptionEnabled }">
+        <apply-flow-block-title params="title: block.title, isSingleClickFlow: isSingleClickFlow, isRequired: isRequired, sectionDisabled: sectionDisabled"><!-- ko if: title -->
+<!-- ko if: isSingleClickFlow -->
+<h3 class="apply-flow-block__title" data-bind="css: { 'apply-flow-block__title--required': isRequired }">
+    <!-- ko if: shouldShowPadlock(block) --><!-- /ko -->
+    <span data-bind="text: title">Supporting Documents and URLs</span>
+    <!-- ko if: isRequired --><!-- /ko -->
+</h3>
+<!-- /ko -->
+
+<!-- ko ifnot: isSingleClickFlow --><!-- /ko -->
+<!-- /ko -->
+</apply-flow-block-title>
+        <!-- ko if: (block.instructions && !sectionDisabled()) -->
+        <p class="apply-flow-block__instructions" data-bind="html: block.instructions">Please add any additional documents or URLs.</p>
+        <!-- /ko -->
+        <!-- ko if: sectionDisabled() --><!-- /ko -->
+    </div>
+    <!-- /ko -->
+
+    <div class="apply-flow-block__form-list" role="region" data-bind="attr: {'aria-label': blockAriaLabel},
+        css: {
+            'disabled-block' :  sectionDisabled,
+         }" aria-label="Supporting Documents and URLs ">
+        <!-- ko component: {
+            name: block.component,
+            params: {
+                section: section,
+                code: block.code,
+                title: block.title,
+                instructions: block.instructions,
+                blockId: block.blockId,
+                application: application,
+                isActive: isActive,
+                additionalData: block.additionalData,
+                metadataServiceUrl: block.metadataServiceUrl,
+                readWriteServiceUrl: block.readWriteServiceUrl,
+                blockProperties: block.blockProperties,
+                flow: flow,
+                sectionDisabled: sectionDisabled,
+                isSingleClickFlow: isSingleClickFlow,
+                isStandardApplyFlowEnabled: isStandardApplyFlowEnabled,
+            }
+        } --><div class="file-upload-wrapper">
+    <div class="file-upload-wrapper__section">
+        <resume-upload-button params="model: resumeUploadButtonViewModel"><div data-bind="css: {'input-row--invalid': !isUploadingValidation() || !isRequiredValidation()}">
+    <!-- ko if: isDragAndDropActive() || showAttachementBlockV2 -->
+    <div class="attachment-upload-button attachment-upload-button--waiting" role="application" data-bind="event: { dragover: handleDragOver, dragenter: handleDragEnter, dragleave: handleDragLeave, drop: handleDrop.bind($component, event) },
+                   class: containerClass,
+                   css: {'attachment-upload-button--required': !isRequiredValidation()}">
+        <div class="attachment-upload-button__container font-family-secondary">
+            <!-- ko if: status() === STATES.WAITING || status() === STATES.DRAGOVER -->
+            <div class="attachment-upload-button__drag-and-drop">
+                <!-- ko if: isDragAndDropActive() -->
+                <span class="attachment-upload-button__drag-and-drop-label attachment-upload-button__drag-and-drop-label--required" data-bind="css: {'attachment-upload-button__drag-and-drop-label--required': isRequired}">
+                    <span data-bind="i18n: dropdownLabel">Drop Resume Here</span>
+                    <!-- ko if : isRequired -->
+                    <span class="attachment-upload-button__drag-and-drop-label--required-star" aria-hidden="true"></span>
+                    <!-- /ko -->
+                </span>
+
+                <!-- /ko -->
+            </div>
+
+            <!-- ko ifnot: defaultStatus() === STATES.FILLED -->
+            <div class="attachment-upload-button__upload-button">
+                <!-- ko if: isDragAndDropActive() -->
+                <span class="attachment-upload-button__or" data-bind="i18n: 'general.or'">Or</span>
+                <!-- /ko -->
+                <!-- ko component: {
+                        name: fileElement.component,
+                        params: {
+                            element: fileElement
+                        }
+                    } --><div class="file-form-element">
+    <input type="file" class="file-form-element__input upload-button" multiple="" data-bind="event: { change: element.onFileSelected },
+                  attr: attributes,
+                  hasFocus: isFocused,
+                  value: value" id="attachment-upload-2" name="attachment-upload" accept=".txt, .rtf, .doc, .docx, .pdf, .odt, .htm, .html" aria-required="true" aria-describedby="file-upload-errors-0">
+    <label class="file-form-element__label attachment-upload-button__label theme-color-1" data-bind="attr: { for: attributes.id }, css: labelClass" for="attachment-upload-2">
+        <span data-bind="text: element.label">Upload Resume</span>
+        <!-- ko if : element.isRequired --><!-- /ko -->
+    </label>
+</div>
+<!-- /ko -->
+            </div>
+            <!-- /ko -->
+            <!-- /ko -->
+
+            <!-- ko if: status() === STATES.UPLOADING --><!-- /ko -->
+
+            <!-- ko if: status() === STATES.SAVED --><!-- /ko -->
+
+            <!-- ko if: status() === STATES.FILLED --><!-- /ko -->
+
+            <!-- ko if: showAttachementBlockV2 && pendingAction() --><!-- /ko -->
+        </div>
+
+        <!-- ko if: !showAttachementBlockV2 && pendingAction() --><!-- /ko -->
+    </div>
+    <!-- /ko -->
+
+    <!-- ko ifnot: isDragAndDropActive() || showAttachementBlockV2 --><!-- /ko -->
+
+    <!-- ko if: attachmentChangedLabelVisible --><!-- /ko -->
+
+    <div data-bind="attr: { id: invalidMessageId }" id="file-upload-errors-0">
+        <!-- ko foreach: {data: validationErrors, as: 'error' } --><!-- /ko -->
+    </div>
+
+    <!-- ko ifnot: isUploadingValidation --><!-- /ko -->
+
+    <!-- ko ifnot: isRequiredValidation --><!-- /ko -->
+</div>
+
+<!-- ko if: isResumeButton -->
+<referral-resume-block params="resumeModel: model"><!-- ko if: isVisible --><!-- /ko -->
+</referral-resume-block>
+<!-- /ko -->
+</resume-upload-button>
+        <attachment-preuploaded params="attachments: resumeAttachments, finder: 'isResume'"><!-- ko if: attachments().length --><!-- /ko -->
+</attachment-preuploaded>
+    </div>
+    <div class="file-upload-wrapper__section">
+        <cover-letter-upload-button params="model: coverLetterUploadButtonViewModel"><div data-bind="css: {'input-row--invalid': !isUploadingValidation() || !isRequiredValidation()}">
+    <!-- ko if: isDragAndDropActive() || showAttachementBlockV2 -->
+    <div class="attachment-upload-button attachment-upload-button--waiting" role="application" data-bind="event: { dragover: handleDragOver, dragenter: handleDragEnter, dragleave: handleDragLeave, drop: handleDrop.bind($component, event) },
+                   class: containerClass,
+                   css: {'attachment-upload-button--required': !isRequiredValidation()}">
+        <div class="attachment-upload-button__container font-family-secondary">
+            <!-- ko if: status() === STATES.WAITING || status() === STATES.DRAGOVER -->
+            <div class="attachment-upload-button__drag-and-drop">
+                <!-- ko if: isDragAndDropActive() -->
+                <span class="attachment-upload-button__drag-and-drop-label" data-bind="css: {'attachment-upload-button__drag-and-drop-label--required': isRequired}">
+                    <span data-bind="i18n: dropdownLabel">Drop Cover Letter Here</span>
+                    <!-- ko if : isRequired --><!-- /ko -->
+                </span>
+
+                <!-- /ko -->
+            </div>
+
+            <!-- ko ifnot: defaultStatus() === STATES.FILLED -->
+            <div class="attachment-upload-button__upload-button">
+                <!-- ko if: isDragAndDropActive() -->
+                <span class="attachment-upload-button__or" data-bind="i18n: 'general.or'">Or</span>
+                <!-- /ko -->
+                <!-- ko component: {
+                        name: fileElement.component,
+                        params: {
+                            element: fileElement
+                        }
+                    } --><div class="file-form-element">
+    <input type="file" class="file-form-element__input upload-button" multiple="" data-bind="event: { change: element.onFileSelected },
+                  attr: attributes,
+                  hasFocus: isFocused,
+                  value: value" id="attachment-upload-3" name="attachment-upload" accept=".txt, .rtf, .doc, .docx, .pdf, .odt, .htm, .html" aria-describedby="file-upload-errors-1">
+    <label class="file-form-element__label attachment-upload-button__label theme-color-1" data-bind="attr: { for: attributes.id }, css: labelClass" for="attachment-upload-3">
+        <span data-bind="text: element.label">Upload Cover Letter</span>
+        <!-- ko if : element.isRequired --><!-- /ko -->
+    </label>
+</div>
+<!-- /ko -->
+            </div>
+            <!-- /ko -->
+            <!-- /ko -->
+
+            <!-- ko if: status() === STATES.UPLOADING --><!-- /ko -->
+
+            <!-- ko if: status() === STATES.SAVED --><!-- /ko -->
+
+            <!-- ko if: status() === STATES.FILLED --><!-- /ko -->
+
+            <!-- ko if: showAttachementBlockV2 && pendingAction() --><!-- /ko -->
+        </div>
+
+        <!-- ko if: !showAttachementBlockV2 && pendingAction() --><!-- /ko -->
+    </div>
+    <!-- /ko -->
+
+    <!-- ko ifnot: isDragAndDropActive() || showAttachementBlockV2 --><!-- /ko -->
+
+    <!-- ko if: attachmentChangedLabelVisible --><!-- /ko -->
+
+    <div data-bind="attr: { id: invalidMessageId }" id="file-upload-errors-1">
+        <!-- ko foreach: {data: validationErrors, as: 'error' } --><!-- /ko -->
+    </div>
+
+    <!-- ko ifnot: isUploadingValidation --><!-- /ko -->
+
+    <!-- ko ifnot: isRequiredValidation --><!-- /ko -->
+</div>
+
+<!-- ko if: isResumeButton --><!-- /ko -->
+</cover-letter-upload-button>
+        <attachment-preuploaded params="attachments: coverLetterAttachments, finder: 'isCoverLetter'"><!-- ko if: attachments().length --><!-- /ko -->
+</attachment-preuploaded>
+    </div>
+</div>
+
+<candidate-links params="section: section, code: code, linksRequired: linksRequired, blockId: blockId, displaySequence: displaySequence, isQuickApplyFlowEnabled: isQuickApplyFlowEnabled"><div class="candidate-links">
+    <!-- ko if: form -->
+    <form-builder params="form: form"><!-- ko foreach: {data: form.elements, as: 'element'} -->
+<!-- ko ifnot: element.isHidden -->
+<!-- ko component: {
+            name: element.component,
+            params: {
+                element: element
+            }
+        } --><div class="candidate-links__link" data-bind="css: {'candidate-links__link--removable': element.isRemovable}">
+    <div class="input-row input-row--text input-row--invalid input-row--filled" data-bind="css: {'input-row--focused': isFocused,
+                          'input-row--filled': isFilled,
+                          'input-row--invalid': isInvalid,
+                          'input-row--empty-disabled': isEmptyDisabled}">
+        <form-element-label params="element: element, forId: attributes.id, id: labelId"><!-- ko if: element.label -->
+<label class="input-row__label" data-bind="css: {'input-row__label--required': element.isRequired,
+                            'input-row__label--disabled': element.isDisabled},
+                      attr: {for: forId, id: id, 'aria-labelledby': labelTextId + ' ' + instructionsTextId}, boolAttr: {'aria-hidden': element.isAriaLabelHidden}" for="siteLink-1-5" id="siteLink-1-5-label" aria-labelledby="labelText-siteLink-1-5 instructionsText-siteLink-1-5" aria-hidden="false">
+    <span class="input-row__linebreak" data-bind="attr: {id: labelTextId}" id="labelText-siteLink-1-5"><!-- ko text : element.label -->Link 1<!-- /ko --></span>
+    <!-- ko if : element.isRequired --><!-- /ko -->
+</label>
+<!-- ko if : element.helpText() && element.showLabelTooltip --><!-- /ko -->
+<!-- /ko -->
+
+<!-- ko if: element.instructions --><!-- /ko -->
+</form-element-label>
+
+        <div class="input-row__control-container">
+            <input class="input-row__control" data-bind="value: element.value,
+                            valueUpdate: element.valueUpdateType(),
+                            attr: attributes,
+                            disable: element.isDisabled,
+                            hasFocus: hasFocus,
+                            event: {blur: blurHandler.bind($data)},
+                            preventEnter" id="siteLink-1-5" name="siteLink-1" type="url" aria-label="Supporting Documents and URLs Link 1">
+            <div class="input-row__control-decorator"></div>
+
+            <!-- ko if: isInvalid -->
+            <p class="input-row__validation" data-bind="text: element.getErrorMessage, attr: { role: (hasFocus() ? '' : 'alert') } " role="alert">Enter Link 1 in the format: http://example.com.</p>
+            <!-- /ko -->
+        </div>
+    </div>
+
+    <!-- ko if: element.isRemovable --><!-- /ko -->
+</div>
+<!-- /ko -->
+<!-- /ko -->
+<!-- /ko -->
+</form-builder>
+    <!-- /ko -->
+
+    <!-- ko ifnot: isQuickApplyFlowEnabled -->
+    <button type="button" class="candidate-links__add-link theme-color-1" data-bind="
+            css: { 'candidate-links__add-link--hidden': isLimitReached },
+            a11y.setFocusOnClick: { focusOn: lastLinkInputSelector, delay: 100},
+            click: addLink">
+        <span data-bind="i18n: 'apply-flow.section-more-about-you.site-link-add-another-link'">Add Another Link</span>
+    </button>
+    <!-- /ko -->
+</div>
+</candidate-links>
+<!-- /ko -->
+    </div>
+</div>
+</apply-flow-block>
+            <!-- /ko -->
+        </li>
+        
+        <li>
+            <!-- ko foreach: { data: page.blocks, as: 'block' } --><!-- /ko -->
+        </li>
+        
+        <li>
+            <!-- ko foreach: { data: page.blocks, as: 'block' } -->
+            <apply-flow-block data-bind="class: block.blockId, attr: {id: `block-${$component.getBlockId(block)}`, 
+                    'data-scroll-spy': 'apply-flow-blocks', 'data-scroll-spy-id': $component.getBlockId(block)}, " params="
+                block: block,
+                section: $component.section,
+                isActive: $component.isActive,
+                application: $component.application,
+                isSingleClickFlow: $component.isSingleClickFlow,
+                flow: $component.flow,
+            " class="300000170306625" id="block-300000170306625" data-scroll-spy="apply-flow-blocks" data-scroll-spy-id="300000170306625"><div class="apply-flow-block apply-flow-block--candidate-citizenship" data-bind="css: 'apply-flow-block--' + block.component">
+    <!-- ko if: shouldRenderBlockHeader() -->
+    <div class="apply-flow-block__header" data-bind="css: { 'section-disabled-margin': sectionDisabled() &amp;&amp; !isCWKAddressProfileOptionEnabled }">
+        <apply-flow-block-title params="title: block.title, isSingleClickFlow: isSingleClickFlow, isRequired: isRequired, sectionDisabled: sectionDisabled"><!-- ko if: title -->
+<!-- ko if: isSingleClickFlow -->
+<h3 class="apply-flow-block__title apply-flow-block__title--required" data-bind="css: { 'apply-flow-block__title--required': isRequired }">
+    <!-- ko if: shouldShowPadlock(block) --><!-- /ko -->
+    <span data-bind="text: title">Citizenship</span>
+    <!-- ko if: isRequired -->
+    <span aria-hidden="true" class="apply-flow-block__title--required-star"></span>
+    <!-- /ko -->
+</h3>
+<!-- /ko -->
+
+<!-- ko ifnot: isSingleClickFlow --><!-- /ko -->
+<!-- /ko -->
+</apply-flow-block-title>
+        <!-- ko if: (block.instructions && !sectionDisabled()) -->
+        <p class="apply-flow-block__instructions" data-bind="html: block.instructions">Add your citizenship.</p>
+        <!-- /ko -->
+        <!-- ko if: sectionDisabled() --><!-- /ko -->
+    </div>
+    <!-- /ko -->
+
+    <div class="apply-flow-block__form-list" role="region" data-bind="attr: {'aria-label': blockAriaLabel},
+        css: {
+            'disabled-block' :  sectionDisabled,
+         }" aria-label="Citizenship Required">
+        <!-- ko component: {
+            name: block.component,
+            params: {
+                section: section,
+                code: block.code,
+                title: block.title,
+                instructions: block.instructions,
+                blockId: block.blockId,
+                application: application,
+                isActive: isActive,
+                additionalData: block.additionalData,
+                metadataServiceUrl: block.metadataServiceUrl,
+                readWriteServiceUrl: block.readWriteServiceUrl,
+                blockProperties: block.blockProperties,
+                flow: flow,
+                sectionDisabled: sectionDisabled,
+                isSingleClickFlow: isSingleClickFlow,
+                isStandardApplyFlowEnabled: isStandardApplyFlowEnabled,
+            }
+        } --><!--ko ifnot: isStandardApplyFlowEnabled --><!-- /ko -->
+
+<!-- ko if: isQuickApplyFlowEnabled --><!-- /ko -->
+
+<!-- ko ifnot: isQuickApplyFlowEnabled -->
+<!-- ko ifnot: isStandardApplyFlowEnabled --><!-- /ko -->
+<!-- /ko -->
+<!-- ko ifnot: isStandardApplyFlowEnabled --><!-- /ko -->
+<!--ko if: isStandardApplyFlowEnabled -->
+<div class="citizenship-inline">
+    <!-- ko if: inlineFormInfo.showAddProfileItemButton() && requiredValidationEnabled() && !isValid() --><!-- /ko -->
+    <!-- ko if: form --><!-- /ko -->
+    <!-- ko template: 'profile-item-inline' --><div class="profile-item-container standard-apply-flow-profile-item-citizenship-99" data-bind="class: baseContainerId">
+    <!-- ko if: !!inlineFormInfo.itemsTitle && inlineFormInfo.showAddProfileItemButton() && forms().length > 0 --><!-- /ko -->
+
+    <!-- ko if: inlineFormInfo.showErrorValidationMessage && !isRequiredValidation() --><!-- /ko -->
+
+    <!-- ko if: customJsValidation?.showMessage?.() --><!-- /ko -->
+
+    <div class="standard-apply-flow-profile-item" data-bind="css: {'standard-apply-flow-profile-item--small': inlineFormInfo.hasSmallPills}">
+        <!-- ko if: forms().length > 0 -->
+        <div class="profile-item-list profile-item-list--disabled" role="group" data-bind="css: {'profile-item-list--small': inlineFormInfo.hasSmallPills, 'profile-item-list--disabled': !inlineFormInfo.showAddProfileItemButton()}">
+            <!-- ko if: forms -->
+            <!-- ko foreach: {data: forms, as: 'form'} -->
+            <!-- ko if: $parent.showForm ?? true -->
+            <article class="apply-flow-profile-item-tile apply-flow-profile-item-tile--active" data-bind="css: {
+                            'apply-flow-profile-item-tile--active': form.isActive,
+                            'apply-flow-profile-item-tile--invalid': form.isTileInvalid,
+                            'apply-flow-profile-item-tile--readonly': form.isReadOnly
+                        },
+                        event: {
+                            mouseover: $parent.onMouseover.bind($parent, $index), mouseleave: $parent.onMouseleave.bind($parent, $index), focusin: $parent.onMouseover.bind($parent, $index),
+                            focusout: $parent.onMouseleave.bind($parent, $index)
+                        },
+                        visible: $parent.showForm ?? true,
+                        attr: {id: form.navId, 'data-qa': $parent.qaAttributeItem}" id="tile-1793016018588" data-qa="profileItemcitizenship">
+                <div class="apply-flow-profile-item-tile__summary" data-profile-item-tile="true" role="group" data-bind="
+                attr: { 'data-profile-item-invalid': form.isTileInvalid, 'tabindex': 0, 'aria-label': `${form[$parent.inlineFormInfo.itemKey]?.() ?? ''} ${form.tileSubtitle() ?? ''}`}" tabindex="0" aria-label=" ">
+                    <div class="apply-flow-profile-item-tile__summary-content">
+                        <div class="apply-flow-profile-item-tile__summary-title">
+                            <!-- ko if: $parent.inlineFormInfo.showItemLabel -->
+                            <span data-bind="text: form.tileTitle">Unnamed Citizenship</span>
+                            <!-- /ko -->
+                            <span data-bind="text: form[$parent.inlineFormInfo.itemKey]"></span>
+                        </div>
+
+                        <!-- ko if: form.tileSubtitle --><!-- /ko -->
+
+                        <!-- ko ifnot: form.isValid -->
+                        <div class="apply-flow-profile-item-tile__summary-validation">
+                            <span data-bind="i18n: {key: 'apply-flow.validation.error-count-label', tokens: {numberofissues: form.totalErrors}}">Fields to fix: 2</span>
+                        </div>
+                        <!-- /ko -->
+                    </div>
+
+                    <div class="apply-flow-profile-item-tile__actions-container">
+                        <!-- ko if: !form.isReadOnly -->
+                        <button class="apply-flow-profile-item-tile__edit-item-icon" data-bind="click: $parent.editProfileItem.bind($parent), i18nAttr: {'title': 'candidate-self-service.communication-channel.edit', 'aria-label' : {key: 'candidate-self-service.communication-channel.edit'}}" title="Edit" aria-label="Edit"></button>
+                        <!-- ko if: form.showRemoveButton ? form.showRemoveButton() : true  -->
+                        <button class="apply-flow-profile-item-tile__delete-icon" data-bind="click: $parent.onDelete.bind($parent), i18nAttr: {'title': 'general.delete-button', 'aria-label' : {key: 'general.delete-button'}}" title="Delete" aria-label="Delete"></button>
+                        <!-- /ko -->
+                        <!-- /ko -->
+                        <!-- ko if: form.isReadOnly --><!-- /ko -->
+                    </div>
+                </div>
+            </article>
+            <!--/ko -->
+            
+            <!-- ko if: $parent.showForm ?? true -->
+            <article class="apply-flow-profile-item-tile apply-flow-profile-item-tile--active" data-bind="css: {
+                            'apply-flow-profile-item-tile--active': form.isActive,
+                            'apply-flow-profile-item-tile--invalid': form.isTileInvalid,
+                            'apply-flow-profile-item-tile--readonly': form.isReadOnly
+                        },
+                        event: {
+                            mouseover: $parent.onMouseover.bind($parent, $index), mouseleave: $parent.onMouseleave.bind($parent, $index), focusin: $parent.onMouseover.bind($parent, $index),
+                            focusout: $parent.onMouseleave.bind($parent, $index)
+                        },
+                        visible: $parent.showForm ?? true,
+                        attr: {id: form.navId, 'data-qa': $parent.qaAttributeItem}" id="tile-1793016018602" data-qa="profileItemcitizenship">
+                <div class="apply-flow-profile-item-tile__summary" data-profile-item-tile="true" role="group" data-bind="
+                attr: { 'data-profile-item-invalid': form.isTileInvalid, 'tabindex': 0, 'aria-label': `${form[$parent.inlineFormInfo.itemKey]?.() ?? ''} ${form.tileSubtitle() ?? ''}`}" tabindex="0" aria-label=" ">
+                    <div class="apply-flow-profile-item-tile__summary-content">
+                        <div class="apply-flow-profile-item-tile__summary-title">
+                            <!-- ko if: $parent.inlineFormInfo.showItemLabel -->
+                            <span data-bind="text: form.tileTitle">Unnamed Citizenship</span>
+                            <!-- /ko -->
+                            <span data-bind="text: form[$parent.inlineFormInfo.itemKey]"></span>
+                        </div>
+
+                        <!-- ko if: form.tileSubtitle --><!-- /ko -->
+
+                        <!-- ko ifnot: form.isValid -->
+                        <div class="apply-flow-profile-item-tile__summary-validation">
+                            <span data-bind="i18n: {key: 'apply-flow.validation.error-count-label', tokens: {numberofissues: form.totalErrors}}">Fields to fix: 2</span>
+                        </div>
+                        <!-- /ko -->
+                    </div>
+
+                    <div class="apply-flow-profile-item-tile__actions-container">
+                        <!-- ko if: !form.isReadOnly -->
+                        <button class="apply-flow-profile-item-tile__edit-item-icon" data-bind="click: $parent.editProfileItem.bind($parent), i18nAttr: {'title': 'candidate-self-service.communication-channel.edit', 'aria-label' : {key: 'candidate-self-service.communication-channel.edit'}}" title="Edit" aria-label="Edit"></button>
+                        <!-- ko if: form.showRemoveButton ? form.showRemoveButton() : true  -->
+                        <button class="apply-flow-profile-item-tile__delete-icon" data-bind="click: $parent.onDelete.bind($parent), i18nAttr: {'title': 'general.delete-button', 'aria-label' : {key: 'general.delete-button'}}" title="Delete" aria-label="Delete"></button>
+                        <!-- /ko -->
+                        <!-- /ko -->
+                        <!-- ko if: form.isReadOnly --><!-- /ko -->
+                    </div>
+                </div>
+            </article>
+            <!--/ko -->
+            <!--/ko -->
+            <!-- /ko -->
+        </div>
+        <!-- /ko -->
+
+        <!-- ko if: showAddButton() -->
+        <div class="profile-add-item profile-add-item--disabled" data-bind="css: {'profile-add-item--disabled': !inlineFormInfo.showAddProfileItemButton()}">
+            <!-- ko if: $component.isNidBlock --><!-- /ko -->
+
+            <button type="button" class="button apply-flow-profile-item-tile__new-tile" data-bind="enable: canAddProfileItem,
+                   attr: { id: addButtonId, 'data-qa': qaAttributeAdd,
+                        'data-profile-item-invalid': $component.isNidBlock || $component.isCitizenshipBlock ? !$component.isValid() : !isRequiredValidation() || customJsValidation?.showMessage?.()},
+                   click: addProfileItem" id="profileItemsAddButton-1793015461778" data-qa="addcitizenship" style="outline: rgb(245, 158, 11) solid 3px; outline-offset: 2px;">
+                <span class="button__label" data-bind="i18n: addButtonLabel">Add Citizenship</span>
+            </button>
+        </div>
+        <!-- /ko -->
+
+        <!-- ko if: hasActiveForm -->
+        <div class="profile-item-content">
+            <!-- ko if: inlineFormInfo.showFormHeader --><!-- /ko -->
+            <div class="profile-item-content--form">
+                <form-builder params="form: activeForm"><!-- ko foreach: {data: form.elements, as: 'element'} -->
+<!-- ko ifnot: element.isHidden -->
+<!-- ko component: {
+            name: element.component,
+            params: {
+                element: element
+            }
+        } --><div class="input-row input-row--has-picker input-row--invalid input-row--focused" data-bind="css: {'input-row--focused': isFocused,
+                      'input-row--filled': isFilled,
+                      'input-row--invalid': isInvalid,
+                      'input-row--disabled': isDisabled()}">
+    <form-element-label params="element: element, forId: element.id"><!-- ko if: element.label -->
+<label class="input-row__label input-row__label--required" data-bind="css: {'input-row__label--required': element.isRequired,
+                            'input-row__label--disabled': element.isDisabled},
+                      attr: {for: forId, id: id, 'aria-labelledby': labelTextId + ' ' + instructionsTextId}, boolAttr: {'aria-hidden': element.isAriaLabelHidden}" for="citizenship-27" aria-labelledby="labelText-citizenship-27 instructionsText-citizenship-27" aria-hidden="false">
+    <span class="input-row__linebreak" data-bind="attr: {id: labelTextId}" id="labelText-citizenship-27"><!-- ko text : element.label -->Citizenship<!-- /ko --></span>
+    <!-- ko if : element.isRequired -->
+    <span class="input-row__label--required-star" aria-hidden="true"></span>
+    <!-- /ko -->
+</label>
+<!-- ko if : element.helpText() && element.showLabelTooltip --><!-- /ko -->
+<!-- /ko -->
+
+<!-- ko if: element.instructions --><!-- /ko -->
+</form-element-label>
+
+    <div class="input-row__control-container reset-z-index" data-bind="attr: { id: element.containerId, 'data-qa': element.name }" data-qa="citizenship">
+        <!-- ko if: showSingleSelectPills --><!-- /ko -->
+
+        <!-- ko ifnot: showSingleSelectPills -->
+        <div data-bind="react: { component: 'cx-select', 
+    props: {
+        ariaLabel: a11yLabel,
+        placeholder: placeholder,
+        focusHandler,
+        valueObserver: element.value,
+        name: element.name(),
+        value: element.value(), 
+        options: element.options(), 
+        optionsKeys: element.optionsKeys(),
+        id: element.id(),
+        label: element.label(),
+        isRequired: element.isRequired(),
+        isInvalid: isInvalid,
+        isReadonly: element.isDisabled(),
+        validateImmediately: element.validateImmediately,
+        getErrorMessage: element.getErrorMessage } }"><div class="cx-select-container "><div class="input-field-container"><div class="input-field-container__left"><input autocomplete="none" name="citizenship" id="citizenship-27" type="text" role="combobox" aria-autocomplete="list" aria-haspopup="grid" aria-controls="citizenship-27-listbox" aria-expanded="false" aria-invalid="true" aria-required="true" class="cx-select-input 
+                                cx-select-input--invalid
+                                
+                                
+                            "></div><div class="input-field-container__right"><button type="button" id="citizenship-27-toggle-button" tabindex="-1" aria-label="Open the drop-down list for Citizenship." title="Open the drop-down list for Citizenship." aria-expanded="false" aria-controls="citizenship-27-listbox" class="icon-dropdown-arrow "></button></div></div></div></div>
+        <!-- /ko -->
+
+        <div class="input-row__control-decorator"></div>
+
+        <!-- ko if: isInvalid -->
+        <p class="input-row__validation" data-bind="text: element.getErrorMessage, attr: {role: (hasFocus() ? 'alert' : ''), id: invalidMessageId}" role="alert" id="citizenship-27-error">The Citizenship field is required.</p>
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+<!-- /ko -->
+
+<!-- ko ifnot: element.isHidden -->
+<!-- ko component: {
+            name: element.component,
+            params: {
+                element: element
+            }
+        } --><div class="input-row input-row--has-picker input-row--disabled input-row--invalid" data-bind="css: {'input-row--focused': isFocused,
+                      'input-row--filled': isFilled,
+                      'input-row--invalid': isInvalid,
+                      'input-row--disabled': isDisabled()}">
+    <form-element-label params="element: element, forId: element.id"><!-- ko if: element.label -->
+<label class="input-row__label input-row__label--required input-row__label--disabled" data-bind="css: {'input-row__label--required': element.isRequired,
+                            'input-row__label--disabled': element.isDisabled},
+                      attr: {for: forId, id: id, 'aria-labelledby': labelTextId + ' ' + instructionsTextId}, boolAttr: {'aria-hidden': element.isAriaLabelHidden}" for="citizenshipStatus-28" aria-labelledby="labelText-citizenshipStatus-28 instructionsText-citizenshipStatus-28" aria-hidden="false">
+    <span class="input-row__linebreak" data-bind="attr: {id: labelTextId}" id="labelText-citizenshipStatus-28"><!-- ko text : element.label -->Status<!-- /ko --></span>
+    <!-- ko if : element.isRequired -->
+    <span class="input-row__label--required-star" aria-hidden="true"></span>
+    <!-- /ko -->
+</label>
+<!-- ko if : element.helpText() && element.showLabelTooltip --><!-- /ko -->
+<!-- /ko -->
+
+<!-- ko if: element.instructions --><!-- /ko -->
+</form-element-label>
+
+    <div class="input-row__control-container reset-z-index" data-bind="attr: { id: element.containerId, 'data-qa': element.name }" data-qa="citizenshipStatus">
+        <!-- ko if: showSingleSelectPills -->
+        <div data-bind="react: { component: 'cx-select-pills' , props: { list: element.options(), focusHandler, isMultiselect:false, value: element.value(), isReadonly: element.isDisabled(), valueObserver: element.value, optionKeys: element.optionsKeys(), headerLabel: element.label()}}"><ul role="radiogroup" aria-label="Status" class="cx-select-pills-container"></ul></div>
+        <!-- /ko -->
+
+        <!-- ko ifnot: showSingleSelectPills --><!-- /ko -->
+
+        <div class="input-row__control-decorator"></div>
+
+        <!-- ko if: isInvalid -->
+        <p class="input-row__validation" data-bind="text: element.getErrorMessage, attr: {role: (hasFocus() ? 'alert' : ''), id: invalidMessageId}" role="" id="citizenshipStatus-28-error">The Status field is required.</p>
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+<!-- /ko -->
+
+<!-- ko ifnot: element.isHidden -->
+<!-- ko component: {
+            name: element.component,
+            params: {
+                element: element
+            }
+        } --><div class="datepicker-row quick-apply-flow-datepicker-row input-row input-row--with-placeholder input-row--has-picker" data-bind="attr: {'aria-label': element.label }, css: {'input-row--focused': isFocused,
+                      'input-row--filled': isFilled,
+                      'input-row--invalid': isInvalid,
+                      'input-row--disabled': isDisabled }" aria-label="From Date">
+    <form-element-label params="element: element, forId: element.id"><!-- ko if: element.label -->
+<label class="input-row__label" data-bind="css: {'input-row__label--required': element.isRequired,
+                            'input-row__label--disabled': element.isDisabled},
+                      attr: {for: forId, id: id, 'aria-labelledby': labelTextId + ' ' + instructionsTextId}, boolAttr: {'aria-hidden': element.isAriaLabelHidden}" for="fromDate-29" aria-labelledby="labelText-fromDate-29 instructionsText-fromDate-29" aria-hidden="false">
+    <span class="input-row__linebreak" data-bind="attr: {id: labelTextId}" id="labelText-fromDate-29"><!-- ko text : element.label -->From Date<!-- /ko --></span>
+    <!-- ko if : element.isRequired --><!-- /ko -->
+</label>
+<!-- ko if : element.helpText() && element.showLabelTooltip --><!-- /ko -->
+<!-- /ko -->
+
+<!-- ko if: element.instructions --><!-- /ko -->
+</form-element-label>
+    <div class="input-row__control-container tooltip-trigger reset-z-index">
+        <div class="input-row-composite__inputs" data-bind="foreach: { data: fields, as: 'field' }">
+            <div data-bind="attr: { class: 'input-row-composite__input datepicker-row__input datepicker-row__input--' + field.name + ' datepicker-row__listbox--' + field.display },
+                event: {mouseenter: $parent.showHelpTooltip.bind($parent), mouseout: $parent.hideHelpTooltip.bind($parent),
+                    focus: $parent.showHelpTooltip.bind($parent), blur: $parent.hideHelpTooltip.bind($parent)}" class="input-row-composite__input datepicker-row__input datepicker-row__input--month datepicker-row__listbox--[object Object]">
+                <!-- ko if: field.type === 'select' -->
+                <div data-bind="react: { component: 'cx-select', 
+                    props: { 
+                        id: field.id,
+                        name: element.name(),
+                        options: field.options,
+                        value: field.value(),
+                        valueObserver: field.value,
+                        labelHint: field.labelHint,
+                        showLabelHintAlways: field.showLabelHintAlways,
+                        label: field.label,
+                        onValueChange: $parent.onChange.bind($component),
+                        ariaLabel: a11yLabel + ' ' + field.label,
+                        isReadonly: element.isDisabled(),
+                        required: element.isRequired,
+                        placeholder: field.placeholder,
+                        elementId: element.id(),
+                        activeSuggestionValue: field.activeSuggestionValue,
+                    } }"><div class="cx-select-container "><div class="input-field-container"><div class="input-field-container__left"><span id="inputFieldLabel-month-fromDate-29" class="input-field__label">Month</span><input autocomplete="none" name="fromDate" id="month-fromDate-29" type="text" role="combobox" aria-autocomplete="list" aria-haspopup="grid" aria-controls="month-fromDate-29-listbox" aria-expanded="false" aria-labelledby="labelText-fromDate-29 inputFieldLabel-month-fromDate-29" class="cx-select-input 
+                                
+                                
+                                
+                            "></div><div class="input-field-container__right"><button type="button" id="month-fromDate-29-toggle-button" tabindex="-1" aria-label="Open the drop-down list for Month." title="Open the drop-down list for Month." aria-expanded="false" aria-controls="month-fromDate-29-listbox" class="icon-dropdown-arrow "></button></div></div></div></div>
+                <!-- /ko -->
+
+                <!-- ko if: field.type === 'text' --><!-- /ko -->
+
+                <div class="input-row__control-decorator"></div>
+            </div>
+        
+            <div data-bind="attr: { class: 'input-row-composite__input datepicker-row__input datepicker-row__input--' + field.name + ' datepicker-row__listbox--' + field.display },
+                event: {mouseenter: $parent.showHelpTooltip.bind($parent), mouseout: $parent.hideHelpTooltip.bind($parent),
+                    focus: $parent.showHelpTooltip.bind($parent), blur: $parent.hideHelpTooltip.bind($parent)}" class="input-row-composite__input datepicker-row__input datepicker-row__input--day datepicker-row__listbox--[object Object]">
+                <!-- ko if: field.type === 'select' -->
+                <div data-bind="react: { component: 'cx-select', 
+                    props: { 
+                        id: field.id,
+                        name: element.name(),
+                        options: field.options,
+                        value: field.value(),
+                        valueObserver: field.value,
+                        labelHint: field.labelHint,
+                        showLabelHintAlways: field.showLabelHintAlways,
+                        label: field.label,
+                        onValueChange: $parent.onChange.bind($component),
+                        ariaLabel: a11yLabel + ' ' + field.label,
+                        isReadonly: element.isDisabled(),
+                        required: element.isRequired,
+                        placeholder: field.placeholder,
+                        elementId: element.id(),
+                        activeSuggestionValue: field.activeSuggestionValue,
+                    } }"><div class="cx-select-container "><div class="input-field-container"><div class="input-field-container__left"><span id="inputFieldLabel-day-fromDate-29" class="input-field__label">Day</span><input autocomplete="none" name="fromDate" id="day-fromDate-29" type="text" role="combobox" aria-autocomplete="list" aria-haspopup="grid" aria-controls="day-fromDate-29-listbox" aria-expanded="false" aria-labelledby="labelText-fromDate-29 inputFieldLabel-day-fromDate-29" class="cx-select-input 
+                                
+                                
+                                
+                            "></div><div class="input-field-container__right"><button type="button" id="day-fromDate-29-toggle-button" tabindex="-1" aria-label="Open the drop-down list for Day." title="Open the drop-down list for Day." aria-expanded="false" aria-controls="day-fromDate-29-listbox" class="icon-dropdown-arrow "></button></div></div></div></div>
+                <!-- /ko -->
+
+                <!-- ko if: field.type === 'text' --><!-- /ko -->
+
+                <div class="input-row__control-decorator"></div>
+            </div>
+        
+            <div data-bind="attr: { class: 'input-row-composite__input datepicker-row__input datepicker-row__input--' + field.name + ' datepicker-row__listbox--' + field.display },
+                event: {mouseenter: $parent.showHelpTooltip.bind($parent), mouseout: $parent.hideHelpTooltip.bind($parent),
+                    focus: $parent.showHelpTooltip.bind($parent), blur: $parent.hideHelpTooltip.bind($parent)}" class="input-row-composite__input datepicker-row__input datepicker-row__input--year datepicker-row__listbox--[object Object]">
+                <!-- ko if: field.type === 'select' -->
+                <div data-bind="react: { component: 'cx-select', 
+                    props: { 
+                        id: field.id,
+                        name: element.name(),
+                        options: field.options,
+                        value: field.value(),
+                        valueObserver: field.value,
+                        labelHint: field.labelHint,
+                        showLabelHintAlways: field.showLabelHintAlways,
+                        label: field.label,
+                        onValueChange: $parent.onChange.bind($component),
+                        ariaLabel: a11yLabel + ' ' + field.label,
+                        isReadonly: element.isDisabled(),
+                        required: element.isRequired,
+                        placeholder: field.placeholder,
+                        elementId: element.id(),
+                        activeSuggestionValue: field.activeSuggestionValue,
+                    } }"><div class="cx-select-container "><div class="input-field-container"><div class="input-field-container__left"><span id="inputFieldLabel-year-fromDate-29" class="input-field__label">Year</span><input autocomplete="none" name="fromDate" id="year-fromDate-29" type="text" role="combobox" aria-autocomplete="list" aria-haspopup="grid" aria-controls="year-fromDate-29-listbox" aria-expanded="false" aria-labelledby="labelText-fromDate-29 inputFieldLabel-year-fromDate-29" class="cx-select-input 
+                                
+                                
+                                
+                            "></div><div class="input-field-container__right"><button type="button" id="year-fromDate-29-toggle-button" tabindex="-1" aria-label="Open the drop-down list for Year." title="Open the drop-down list for Year." aria-expanded="false" aria-controls="year-fromDate-29-listbox" class="icon-dropdown-arrow "></button></div></div></div></div>
+                <!-- /ko -->
+
+                <!-- ko if: field.type === 'text' --><!-- /ko -->
+
+                <div class="input-row__control-decorator"></div>
+            </div>
+        </div>
+        <!-- ko ifnot: isStandardApplyFlowEnabled--><!-- /ko-->
+        <!-- ko if: isInvalid --><!-- /ko -->
+        <!-- ko if: showWarningMessage --><!-- /ko -->
+        <!-- ko if: showDobWarningMessage --><!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+<!-- /ko -->
+
+<!-- ko ifnot: element.isHidden -->
+<!-- ko component: {
+            name: element.component,
+            params: {
+                element: element
+            }
+        } --><div class="datepicker-row quick-apply-flow-datepicker-row input-row input-row--with-placeholder input-row--has-picker" data-bind="attr: {'aria-label': element.label }, css: {'input-row--focused': isFocused,
+                      'input-row--filled': isFilled,
+                      'input-row--invalid': isInvalid,
+                      'input-row--disabled': isDisabled }" aria-label="To Date">
+    <form-element-label params="element: element, forId: element.id"><!-- ko if: element.label -->
+<label class="input-row__label" data-bind="css: {'input-row__label--required': element.isRequired,
+                            'input-row__label--disabled': element.isDisabled},
+                      attr: {for: forId, id: id, 'aria-labelledby': labelTextId + ' ' + instructionsTextId}, boolAttr: {'aria-hidden': element.isAriaLabelHidden}" for="toDate-30" aria-labelledby="labelText-toDate-30 instructionsText-toDate-30" aria-hidden="false">
+    <span class="input-row__linebreak" data-bind="attr: {id: labelTextId}" id="labelText-toDate-30"><!-- ko text : element.label -->To Date<!-- /ko --></span>
+    <!-- ko if : element.isRequired --><!-- /ko -->
+</label>
+<!-- ko if : element.helpText() && element.showLabelTooltip --><!-- /ko -->
+<!-- /ko -->
+
+<!-- ko if: element.instructions --><!-- /ko -->
+</form-element-label>
+    <div class="input-row__control-container tooltip-trigger reset-z-index">
+        <div class="input-row-composite__inputs" data-bind="foreach: { data: fields, as: 'field' }">
+            <div data-bind="attr: { class: 'input-row-composite__input datepicker-row__input datepicker-row__input--' + field.name + ' datepicker-row__listbox--' + field.display },
+                event: {mouseenter: $parent.showHelpTooltip.bind($parent), mouseout: $parent.hideHelpTooltip.bind($parent),
+                    focus: $parent.showHelpTooltip.bind($parent), blur: $parent.hideHelpTooltip.bind($parent)}" class="input-row-composite__input datepicker-row__input datepicker-row__input--month datepicker-row__listbox--[object Object]">
+                <!-- ko if: field.type === 'select' -->
+                <div data-bind="react: { component: 'cx-select', 
+                    props: { 
+                        id: field.id,
+                        name: element.name(),
+                        options: field.options,
+                        value: field.value(),
+                        valueObserver: field.value,
+                        labelHint: field.labelHint,
+                        showLabelHintAlways: field.showLabelHintAlways,
+                        label: field.label,
+                        onValueChange: $parent.onChange.bind($component),
+                        ariaLabel: a11yLabel + ' ' + field.label,
+                        isReadonly: element.isDisabled(),
+                        required: element.isRequired,
+                        placeholder: field.placeholder,
+                        elementId: element.id(),
+                        activeSuggestionValue: field.activeSuggestionValue,
+                    } }"><div class="cx-select-container "><div class="input-field-container"><div class="input-field-container__left"><span id="inputFieldLabel-month-toDate-30" class="input-field__label">Month</span><input autocomplete="none" name="toDate" id="month-toDate-30" type="text" role="combobox" aria-autocomplete="list" aria-haspopup="grid" aria-controls="month-toDate-30-listbox" aria-expanded="false" aria-labelledby="labelText-toDate-30 inputFieldLabel-month-toDate-30" class="cx-select-input 
+                                
+                                
+                                
+                            "></div><div class="input-field-container__right"><button type="button" id="month-toDate-30-toggle-button" tabindex="-1" aria-label="Open the drop-down list for Month." title="Open the drop-down list for Month." aria-expanded="false" aria-controls="month-toDate-30-listbox" class="icon-dropdown-arrow "></button></div></div></div></div>
+                <!-- /ko -->
+
+                <!-- ko if: field.type === 'text' --><!-- /ko -->
+
+                <div class="input-row__control-decorator"></div>
+            </div>
+        
+            <div data-bind="attr: { class: 'input-row-composite__input datepicker-row__input datepicker-row__input--' + field.name + ' datepicker-row__listbox--' + field.display },
+                event: {mouseenter: $parent.showHelpTooltip.bind($parent), mouseout: $parent.hideHelpTooltip.bind($parent),
+                    focus: $parent.showHelpTooltip.bind($parent), blur: $parent.hideHelpTooltip.bind($parent)}" class="input-row-composite__input datepicker-row__input datepicker-row__input--day datepicker-row__listbox--[object Object]">
+                <!-- ko if: field.type === 'select' -->
+                <div data-bind="react: { component: 'cx-select', 
+                    props: { 
+                        id: field.id,
+                        name: element.name(),
+                        options: field.options,
+                        value: field.value(),
+                        valueObserver: field.value,
+                        labelHint: field.labelHint,
+                        showLabelHintAlways: field.showLabelHintAlways,
+                        label: field.label,
+                        onValueChange: $parent.onChange.bind($component),
+                        ariaLabel: a11yLabel + ' ' + field.label,
+                        isReadonly: element.isDisabled(),
+                        required: element.isRequired,
+                        placeholder: field.placeholder,
+                        elementId: element.id(),
+                        activeSuggestionValue: field.activeSuggestionValue,
+                    } }"><div class="cx-select-container "><div class="input-field-container"><div class="input-field-container__left"><span id="inputFieldLabel-day-toDate-30" class="input-field__label">Day</span><input autocomplete="none" name="toDate" id="day-toDate-30" type="text" role="combobox" aria-autocomplete="list" aria-haspopup="grid" aria-controls="day-toDate-30-listbox" aria-expanded="false" aria-labelledby="labelText-toDate-30 inputFieldLabel-day-toDate-30" class="cx-select-input 
+                                
+                                
+                                
+                            "></div><div class="input-field-container__right"><button type="button" id="day-toDate-30-toggle-button" tabindex="-1" aria-label="Open the drop-down list for Day." title="Open the drop-down list for Day." aria-expanded="false" aria-controls="day-toDate-30-listbox" class="icon-dropdown-arrow "></button></div></div></div></div>
+                <!-- /ko -->
+
+                <!-- ko if: field.type === 'text' --><!-- /ko -->
+
+                <div class="input-row__control-decorator"></div>
+            </div>
+        
+            <div data-bind="attr: { class: 'input-row-composite__input datepicker-row__input datepicker-row__input--' + field.name + ' datepicker-row__listbox--' + field.display },
+                event: {mouseenter: $parent.showHelpTooltip.bind($parent), mouseout: $parent.hideHelpTooltip.bind($parent),
+                    focus: $parent.showHelpTooltip.bind($parent), blur: $parent.hideHelpTooltip.bind($parent)}" class="input-row-composite__input datepicker-row__input datepicker-row__input--year datepicker-row__listbox--[object Object]">
+                <!-- ko if: field.type === 'select' -->
+                <div data-bind="react: { component: 'cx-select', 
+                    props: { 
+                        id: field.id,
+                        name: element.name(),
+                        options: field.options,
+                        value: field.value(),
+                        valueObserver: field.value,
+                        labelHint: field.labelHint,
+                        showLabelHintAlways: field.showLabelHintAlways,
+                        label: field.label,
+                        onValueChange: $parent.onChange.bind($component),
+                        ariaLabel: a11yLabel + ' ' + field.label,
+                        isReadonly: element.isDisabled(),
+                        required: element.isRequired,
+                        placeholder: field.placeholder,
+                        elementId: element.id(),
+                        activeSuggestionValue: field.activeSuggestionValue,
+                    } }"><div class="cx-select-container "><div class="input-field-container"><div class="input-field-container__left"><span id="inputFieldLabel-year-toDate-30" class="input-field__label">Year</span><input autocomplete="none" name="toDate" id="year-toDate-30" type="text" role="combobox" aria-autocomplete="list" aria-haspopup="grid" aria-controls="year-toDate-30-listbox" aria-expanded="false" aria-labelledby="labelText-toDate-30 inputFieldLabel-year-toDate-30" class="cx-select-input 
+                                
+                                
+                                
+                            "></div><div class="input-field-container__right"><button type="button" id="year-toDate-30-toggle-button" tabindex="-1" aria-label="Open the drop-down list for Year." title="Open the drop-down list for Year." aria-expanded="false" aria-controls="year-toDate-30-listbox" class="icon-dropdown-arrow "></button></div></div></div></div>
+                <!-- /ko -->
+
+                <!-- ko if: field.type === 'text' --><!-- /ko -->
+
+                <div class="input-row__control-decorator"></div>
+            </div>
+        </div>
+        <!-- ko ifnot: isStandardApplyFlowEnabled--><!-- /ko-->
+        <!-- ko if: isInvalid --><!-- /ko -->
+        <!-- ko if: showWarningMessage --><!-- /ko -->
+        <!-- ko if: showDobWarningMessage --><!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+<!-- /ko -->
+<!-- /ko -->
+</form-builder>
+            </div>
+        </div>
+        <div class="profile-item-footer">
+            <!-- ko if: activeForm().validationErrorMessage --><!-- /ko -->
+            <div class="app-dialog__buttons-bar font-family-secondary text-color-primary">
+                <button class="button app-dialog__footer-button cancel-btn" data-bind="click: cancel, event: { mousedown: preventBlurOnCancel },
+                clickBubble: false">
+                    <span class="button__label" data-bind="i18n: 'general.cancel-button'">Cancel</span>
+                </button>
+                <!-- ko if: !inlineFormInfo.isView() -->
+                <button class="button app-dialog__footer-button save-btn" data-qa="profileItemInlineSaveButton" data-bind="click: save, disable: isValidationInProgress">
+                    <!-- ko if: isValidationInProgress --><!-- /ko -->
+                    <!-- ko ifnot: isValidationInProgress -->
+                    <span class="button__label" data-bind="i18n: inlineFormInfo.saveButtonLabel">Add Citizenship</span>
+                    <!-- /ko -->
+                </button>
+                <!-- /ko -->
+            </div>
+        </div>
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+</div>
+<!-- /ko -->
+<!-- /ko -->
+    </div>
+</div>
+</apply-flow-block>
+            <!-- /ko -->
+        </li>
+        
+        <li>
+            <!-- ko foreach: { data: page.blocks, as: 'block' } -->
+            <apply-flow-block data-bind="class: block.blockId, attr: {id: `block-${$component.getBlockId(block)}`, 
+                    'data-scroll-spy': 'apply-flow-blocks', 'data-scroll-spy-id': $component.getBlockId(block)}, " params="
+                block: block,
+                section: $component.section,
+                isActive: $component.isActive,
+                application: $component.application,
+                isSingleClickFlow: $component.isSingleClickFlow,
+                flow: $component.flow,
+            " class="300000170306628" id="block-300000170306628" data-scroll-spy="apply-flow-blocks" data-scroll-spy-id="300000170306628"><div class="apply-flow-block apply-flow-block--tile-profile-items" data-bind="css: 'apply-flow-block--' + block.component">
+    <!-- ko if: shouldRenderBlockHeader() -->
+    <div class="apply-flow-block__header" data-bind="css: { 'section-disabled-margin': sectionDisabled() &amp;&amp; !isCWKAddressProfileOptionEnabled }">
+        <apply-flow-block-title params="title: block.title, isSingleClickFlow: isSingleClickFlow, isRequired: isRequired, sectionDisabled: sectionDisabled"><!-- ko if: title -->
+<!-- ko if: isSingleClickFlow -->
+<h3 class="apply-flow-block__title apply-flow-block__title--required" data-bind="css: { 'apply-flow-block__title--required': isRequired }">
+    <!-- ko if: shouldShowPadlock(block) --><!-- /ko -->
+    <span data-bind="text: title">Education</span>
+    <!-- ko if: isRequired -->
+    <span aria-hidden="true" class="apply-flow-block__title--required-star"></span>
+    <!-- /ko -->
+</h3>
+<!-- /ko -->
+
+<!-- ko ifnot: isSingleClickFlow --><!-- /ko -->
+<!-- /ko -->
+</apply-flow-block-title>
+        <!-- ko if: (block.instructions && !sectionDisabled()) -->
+        <p class="apply-flow-block__instructions" data-bind="html: block.instructions">Please provide details about your education.</p>
+        <!-- /ko -->
+        <!-- ko if: sectionDisabled() --><!-- /ko -->
+    </div>
+    <!-- /ko -->
+
+    <div class="apply-flow-block__form-list" role="region" data-bind="attr: {'aria-label': blockAriaLabel},
+        css: {
+            'disabled-block' :  sectionDisabled,
+         }" aria-label="Education Required">
+        <!-- ko component: {
+            name: block.component,
+            params: {
+                section: section,
+                code: block.code,
+                title: block.title,
+                instructions: block.instructions,
+                blockId: block.blockId,
+                application: application,
+                isActive: isActive,
+                additionalData: block.additionalData,
+                metadataServiceUrl: block.metadataServiceUrl,
+                readWriteServiceUrl: block.readWriteServiceUrl,
+                blockProperties: block.blockProperties,
+                flow: flow,
+                sectionDisabled: sectionDisabled,
+                isSingleClickFlow: isSingleClickFlow,
+                isStandardApplyFlowEnabled: isStandardApplyFlowEnabled,
+            }
+        } --><!--ko ifnot: isStandardApplyFlowEnabled --><!-- /ko -->
+
+<!-- ko if: isQuickApplyFlowEnabled --><!--/ko -->
+
+<!-- ko ifnot: isQuickApplyFlowEnabled -->
+<!-- ko ifnot: isStandardApplyFlowEnabled --><!-- /ko -->
+<!-- /ko -->
+
+<!--ko if: isStandardApplyFlowEnabled -->
+<!-- ko template: 'profile-item-inline' --><div class="profile-item-container standard-apply-flow-profile-item-106-300000170291410" data-bind="class: baseContainerId">
+    <!-- ko if: !!inlineFormInfo.itemsTitle && inlineFormInfo.showAddProfileItemButton() && forms().length > 0 --><!-- /ko -->
+
+    <!-- ko if: inlineFormInfo.showErrorValidationMessage && !isRequiredValidation() --><!-- /ko -->
+
+    <!-- ko if: customJsValidation?.showMessage?.() --><!-- /ko -->
+
+    <div class="standard-apply-flow-profile-item" data-bind="css: {'standard-apply-flow-profile-item--small': inlineFormInfo.hasSmallPills}">
+        <!-- ko if: forms().length > 0 -->
+        <div class="profile-item-list profile-item-list--disabled" role="group" data-bind="css: {'profile-item-list--small': inlineFormInfo.hasSmallPills, 'profile-item-list--disabled': !inlineFormInfo.showAddProfileItemButton()}">
+            <!-- ko if: forms -->
+            <!-- ko foreach: {data: forms, as: 'form'} -->
+            <!-- ko if: $parent.showForm ?? true -->
+            <article class="apply-flow-profile-item-tile apply-flow-profile-item-tile--active" data-bind="css: {
+                            'apply-flow-profile-item-tile--active': form.isActive,
+                            'apply-flow-profile-item-tile--invalid': form.isTileInvalid,
+                            'apply-flow-profile-item-tile--readonly': form.isReadOnly
+                        },
+                        event: {
+                            mouseover: $parent.onMouseover.bind($parent, $index), mouseleave: $parent.onMouseleave.bind($parent, $index), focusin: $parent.onMouseover.bind($parent, $index),
+                            focusout: $parent.onMouseleave.bind($parent, $index)
+                        },
+                        visible: $parent.showForm ?? true,
+                        attr: {id: form.navId, 'data-qa': $parent.qaAttributeItem}" id="tile-1793015560357" data-qa="profileItem106">
+                <div class="apply-flow-profile-item-tile__summary" data-profile-item-tile="true" role="group" data-bind="
+                attr: { 'data-profile-item-invalid': form.isTileInvalid, 'tabindex': 0, 'aria-label': `${form[$parent.inlineFormInfo.itemKey]?.() ?? ''} ${form.tileSubtitle() ?? ''}`}" tabindex="0" aria-label="Unnamed Major ">
+                    <div class="apply-flow-profile-item-tile__summary-content">
+                        <div class="apply-flow-profile-item-tile__summary-title">
+                            <!-- ko if: $parent.inlineFormInfo.showItemLabel --><!-- /ko -->
+                            <span data-bind="text: form[$parent.inlineFormInfo.itemKey]">Unnamed Major</span>
+                        </div>
+
+                        <!-- ko if: form.tileSubtitle --><!-- /ko -->
+
+                        <!-- ko ifnot: form.isValid -->
+                        <div class="apply-flow-profile-item-tile__summary-validation">
+                            <span data-bind="i18n: {key: 'apply-flow.validation.error-count-label', tokens: {numberofissues: form.totalErrors}}">Fields to fix: 1</span>
+                        </div>
+                        <!-- /ko -->
+                    </div>
+
+                    <div class="apply-flow-profile-item-tile__actions-container">
+                        <!-- ko if: !form.isReadOnly -->
+                        <button class="apply-flow-profile-item-tile__edit-item-icon" data-bind="click: $parent.editProfileItem.bind($parent), i18nAttr: {'title': 'candidate-self-service.communication-channel.edit', 'aria-label' : {key: 'candidate-self-service.communication-channel.edit'}}" title="Edit" aria-label="Edit"></button>
+                        <!-- ko if: form.showRemoveButton ? form.showRemoveButton() : true  -->
+                        <button class="apply-flow-profile-item-tile__delete-icon" data-bind="click: $parent.onDelete.bind($parent), i18nAttr: {'title': 'general.delete-button', 'aria-label' : {key: 'general.delete-button'}}" title="Delete" aria-label="Delete"></button>
+                        <!-- /ko -->
+                        <!-- /ko -->
+                        <!-- ko if: form.isReadOnly --><!-- /ko -->
+                    </div>
+                </div>
+            </article>
+            <!--/ko -->
+            <!--/ko -->
+            <!-- /ko -->
+        </div>
+        <!-- /ko -->
+
+        <!-- ko if: showAddButton() -->
+        <div class="profile-add-item profile-add-item--disabled" data-bind="css: {'profile-add-item--disabled': !inlineFormInfo.showAddProfileItemButton()}">
+            <!-- ko if: $component.isNidBlock --><!-- /ko -->
+
+            <button type="button" class="button apply-flow-profile-item-tile__new-tile" data-bind="enable: canAddProfileItem,
+                   attr: { id: addButtonId, 'data-qa': qaAttributeAdd,
+                        'data-profile-item-invalid': $component.isNidBlock || $component.isCitizenshipBlock ? !$component.isValid() : !isRequiredValidation() || customJsValidation?.showMessage?.()},
+                   click: addProfileItem" id="profileItemsAddButton-1793015461791" data-qa="add106">
+                <span class="button__label" data-bind="i18n: addButtonLabel">Add Education</span>
+            </button>
+        </div>
+        <!-- /ko -->
+
+        <!-- ko if: hasActiveForm -->
+        <div class="profile-item-content">
+            <!-- ko if: inlineFormInfo.showFormHeader --><!-- /ko -->
+            <div class="profile-item-content--form">
+                <form-builder params="form: activeForm"><!-- ko foreach: {data: form.elements, as: 'element'} -->
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden -->
+<!-- ko component: {
+            name: element.component,
+            params: {
+                element: element
+            }
+        } --><div class="input-row input-row--has-picker" data-bind="css: {'input-row--focused': isFocused,
+                      'input-row--filled': isFilled,
+                      'input-row--invalid': isInvalid,
+                      'input-row--disabled': isDisabled()}">
+    <form-element-label params="element: element, forId: element.id"><!-- ko if: element.label -->
+<label class="input-row__label input-row__label--required" data-bind="css: {'input-row__label--required': element.isRequired,
+                            'input-row__label--disabled': element.isDisabled},
+                      attr: {for: forId, id: id, 'aria-labelledby': labelTextId + ' ' + instructionsTextId}, boolAttr: {'aria-hidden': element.isAriaLabelHidden}" for="contentItemId-20" aria-labelledby="labelText-contentItemId-20 instructionsText-contentItemId-20" aria-hidden="false">
+    <span class="input-row__linebreak" data-bind="attr: {id: labelTextId}" id="labelText-contentItemId-20"><!-- ko text : element.label -->Degree<!-- /ko --></span>
+    <!-- ko if : element.isRequired -->
+    <span class="input-row__label--required-star" aria-hidden="true"></span>
+    <!-- /ko -->
+</label>
+<!-- ko if : element.helpText() && element.showLabelTooltip --><!-- /ko -->
+<!-- /ko -->
+
+<!-- ko if: element.instructions --><!-- /ko -->
+</form-element-label>
+
+    <div class="input-row__control-container reset-z-index" data-bind="attr: { id: element.containerId, 'data-qa': element.name }" data-qa="contentItemId">
+        <!-- ko if: showSingleSelectPills -->
+        <div data-bind="react: { component: 'cx-select-pills' , props: { list: element.options(), focusHandler, isMultiselect:false, value: element.value(), isReadonly: element.isDisabled(), valueObserver: element.value, optionKeys: element.optionsKeys(), headerLabel: element.label()}}"><ul role="radiogroup" aria-label="Degree" class="cx-select-pills-container"><li role="presentation"><button type="button" aria-disabled="false" role="radio" aria-checked="false" tabindex="0" class="cx-select-pill-section 
+                                        "><span class="cx-select-pill-name"> Associate Degree / Diploma</span></button></li><li role="presentation"><button type="button" aria-disabled="false" role="radio" aria-checked="false" tabindex="-1" class="cx-select-pill-section 
+                                        "><span class="cx-select-pill-name"> Bachelor's Degree</span></button></li><li role="presentation"><button type="button" aria-disabled="false" role="radio" aria-checked="false" tabindex="-1" class="cx-select-pill-section 
+                                        "><span class="cx-select-pill-name"> Doctorate / Ph.D.</span></button></li><li role="presentation"><button type="button" aria-disabled="false" role="radio" aria-checked="false" tabindex="-1" class="cx-select-pill-section 
+                                        "><span class="cx-select-pill-name"> High School</span></button></li><li role="presentation"><button type="button" aria-disabled="false" role="radio" aria-checked="false" tabindex="-1" class="cx-select-pill-section 
+                                        "><span class="cx-select-pill-name"> Higher Diploma</span></button></li><li role="presentation"><button type="button" aria-disabled="false" role="radio" aria-checked="false" tabindex="-1" class="cx-select-pill-section 
+                                        "><span class="cx-select-pill-name"> Master's Degree</span></button></li></ul></div>
+        <!-- /ko -->
+
+        <!-- ko ifnot: showSingleSelectPills --><!-- /ko -->
+
+        <div class="input-row__control-decorator"></div>
+
+        <!-- ko if: isInvalid --><!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+<!-- /ko -->
+
+<!-- ko ifnot: element.isHidden -->
+<!-- ko component: {
+            name: element.component,
+            params: {
+                element: element
+            }
+        } --><div class="input-row input-row--text input-row--filled" data-bind="css: {'input-row--focused': isFocused,
+                      'input-row--filled': isFilled,
+                      'input-row--invalid': isInvalid,
+                      'input-row--empty-disabled': isEmptyDisabled},
+                      class: attributes.cssClass">
+    <form-element-label params="element: element, forId: attributes.id"><!-- ko if: element.label -->
+<label class="input-row__label" data-bind="css: {'input-row__label--required': element.isRequired,
+                            'input-row__label--disabled': element.isDisabled},
+                      attr: {for: forId, id: id, 'aria-labelledby': labelTextId + ' ' + instructionsTextId}, boolAttr: {'aria-hidden': element.isAriaLabelHidden}" for="major-21" aria-labelledby="labelText-major-21 instructionsText-major-21" aria-hidden="false">
+    <span class="input-row__linebreak" data-bind="attr: {id: labelTextId}" id="labelText-major-21"><!-- ko text : element.label -->Major<!-- /ko --></span>
+    <!-- ko if : element.isRequired --><!-- /ko -->
+</label>
+<!-- ko if : element.helpText() && element.showLabelTooltip --><!-- /ko -->
+<!-- /ko -->
+
+<!-- ko if: element.instructions --><!-- /ko -->
+</form-element-label>
+
+    <div class="input-row__control-container">
+        <input class="input-row__control" data-bind="value: element.value,
+                           valueUpdate: element.valueUpdateType(),
+                           attr: element.attributes,
+                           i18nAttr: {'aria-invalid': isAriaInvalid()}
+                           readonly: element.isDisabled,
+                           hasFocus: hasFocus,
+                           a11y.setFocusOnTab: {focusOn: element.focusNextSelector, delay: 10, when: isFilled } ,
+                           event: {blur: blurHandler.bind($data)},
+                           css: {'input-row__control--locked': element.isFieldLocked()},
+                           preventEnter" id="major-21" name="major" aria-describedby="major-21-error" aria-invalid="false" style="direction: rtl;">
+        <div class="input-row__control-decorator"></div>
+        <!-- ko if: element.isFieldLocked() --><!-- /ko -->
+        <!-- ko if: isInvalid --><!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+<!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden -->
+<!-- ko component: {
+            name: element.component,
+            params: {
+                element: element
+            }
+        } --><div class="input-row input-row--textarea input-row--filled" data-bind="css: {'input-row--focused': isFocused,
+                      'input-row--filled': isFilled,
+                      'input-row--invalid': isInvalid,
+                      'input-row--empty-disabled': isEmptyDisabled}">
+    <form-element-label params="element: element, forId: attributes.id"><!-- ko if: element.label -->
+<label class="input-row__label" data-bind="css: {'input-row__label--required': element.isRequired,
+                            'input-row__label--disabled': element.isDisabled},
+                      attr: {for: forId, id: id, 'aria-labelledby': labelTextId + ' ' + instructionsTextId}, boolAttr: {'aria-hidden': element.isAriaLabelHidden}" for="educationalEstablishment-22" aria-labelledby="labelText-educationalEstablishment-22 instructionsText-educationalEstablishment-22" aria-hidden="false">
+    <span class="input-row__linebreak" data-bind="attr: {id: labelTextId}" id="labelText-educationalEstablishment-22"><!-- ko text : element.label -->School Name<!-- /ko --></span>
+    <!-- ko if : element.isRequired --><!-- /ko -->
+</label>
+<!-- ko if : element.helpText() && element.showLabelTooltip --><!-- /ko -->
+<!-- /ko -->
+
+<!-- ko if: element.instructions --><!-- /ko -->
+</form-element-label>
+
+    <div class="input-row__control-container">
+        <textarea class="input-row__control input-row__control--autoheight" rows="1" data-bind="textInput: element.value,
+                            attr: attributes,
+                            hasFocus: hasFocus,
+                            event: {blur: blurHandler.bind($data), keyup: element.updateCharCountMessage},
+                            textareaHeight" id="educationalEstablishment-22" name="educationalEstablishment" aria-describedby="educationalEstablishment-22-error" style="direction: rtl;"></textarea><textarea class="input-row__control input-row__control--helper" rows="1" aria-hidden="true" tabindex="-1" style="height: 70px;"></textarea>
+        <div class="input-row__control-decorator"></div>
+    </div>
+    <!-- ko if: element.charCountText --><!-- /ko -->
+    <!-- ko if: isInvalid --><!-- /ko -->
+</div>
+<!-- /ko -->
+<!-- /ko -->
+
+<!-- ko ifnot: element.isHidden -->
+<!-- ko component: {
+            name: element.component,
+            params: {
+                element: element
+            }
+        } --><div class="datepicker-row quick-apply-flow-datepicker-row input-row input-row--with-placeholder input-row--has-picker" data-bind="attr: {'aria-label': element.label }, css: {'input-row--focused': isFocused,
+                      'input-row--filled': isFilled,
+                      'input-row--invalid': isInvalid,
+                      'input-row--disabled': isDisabled }" aria-label="Start Date">
+    <form-element-label params="element: element, forId: element.id"><!-- ko if: element.label -->
+<label class="input-row__label" data-bind="css: {'input-row__label--required': element.isRequired,
+                            'input-row__label--disabled': element.isDisabled},
+                      attr: {for: forId, id: id, 'aria-labelledby': labelTextId + ' ' + instructionsTextId}, boolAttr: {'aria-hidden': element.isAriaLabelHidden}" for="startDate-23" aria-labelledby="labelText-startDate-23 instructionsText-startDate-23" aria-hidden="false">
+    <span class="input-row__linebreak" data-bind="attr: {id: labelTextId}" id="labelText-startDate-23"><!-- ko text : element.label -->Start Date<!-- /ko --></span>
+    <!-- ko if : element.isRequired --><!-- /ko -->
+</label>
+<!-- ko if : element.helpText() && element.showLabelTooltip --><!-- /ko -->
+<!-- /ko -->
+
+<!-- ko if: element.instructions --><!-- /ko -->
+</form-element-label>
+    <div class="input-row__control-container tooltip-trigger reset-z-index">
+        <div class="input-row-composite__inputs" data-bind="foreach: { data: fields, as: 'field' }">
+            <div data-bind="attr: { class: 'input-row-composite__input datepicker-row__input datepicker-row__input--' + field.name + ' datepicker-row__listbox--' + field.display },
+                event: {mouseenter: $parent.showHelpTooltip.bind($parent), mouseout: $parent.hideHelpTooltip.bind($parent),
+                    focus: $parent.showHelpTooltip.bind($parent), blur: $parent.hideHelpTooltip.bind($parent)}" class="input-row-composite__input datepicker-row__input datepicker-row__input--month datepicker-row__listbox--[object Object]">
+                <!-- ko if: field.type === 'select' -->
+                <div data-bind="react: { component: 'cx-select', 
+                    props: { 
+                        id: field.id,
+                        name: element.name(),
+                        options: field.options,
+                        value: field.value(),
+                        valueObserver: field.value,
+                        labelHint: field.labelHint,
+                        showLabelHintAlways: field.showLabelHintAlways,
+                        label: field.label,
+                        onValueChange: $parent.onChange.bind($component),
+                        ariaLabel: a11yLabel + ' ' + field.label,
+                        isReadonly: element.isDisabled(),
+                        required: element.isRequired,
+                        placeholder: field.placeholder,
+                        elementId: element.id(),
+                        activeSuggestionValue: field.activeSuggestionValue,
+                    } }"><div class="cx-select-container "><div class="input-field-container"><div class="input-field-container__left"><span id="inputFieldLabel-month-startDate-23" class="input-field__label">Month</span><input autocomplete="none" name="startDate" id="month-startDate-23" type="text" role="combobox" aria-autocomplete="list" aria-haspopup="grid" aria-controls="month-startDate-23-listbox" aria-expanded="false" aria-labelledby="labelText-startDate-23 inputFieldLabel-month-startDate-23" class="cx-select-input 
+                                
+                                
+                                
+                            " data-auto="true"></div><div class="input-field-container__right"><button type="button" id="month-startDate-23-toggle-button" tabindex="-1" aria-label="Open the drop-down list for Month." title="Open the drop-down list for Month." aria-expanded="false" aria-controls="month-startDate-23-listbox" class="icon-dropdown-arrow "></button></div></div></div></div>
+                <!-- /ko -->
+
+                <!-- ko if: field.type === 'text' --><!-- /ko -->
+
+                <div class="input-row__control-decorator"></div>
+            </div>
+        
+            <div data-bind="attr: { class: 'input-row-composite__input datepicker-row__input datepicker-row__input--' + field.name + ' datepicker-row__listbox--' + field.display },
+                event: {mouseenter: $parent.showHelpTooltip.bind($parent), mouseout: $parent.hideHelpTooltip.bind($parent),
+                    focus: $parent.showHelpTooltip.bind($parent), blur: $parent.hideHelpTooltip.bind($parent)}" class="input-row-composite__input datepicker-row__input datepicker-row__input--year datepicker-row__listbox--[object Object]">
+                <!-- ko if: field.type === 'select' -->
+                <div data-bind="react: { component: 'cx-select', 
+                    props: { 
+                        id: field.id,
+                        name: element.name(),
+                        options: field.options,
+                        value: field.value(),
+                        valueObserver: field.value,
+                        labelHint: field.labelHint,
+                        showLabelHintAlways: field.showLabelHintAlways,
+                        label: field.label,
+                        onValueChange: $parent.onChange.bind($component),
+                        ariaLabel: a11yLabel + ' ' + field.label,
+                        isReadonly: element.isDisabled(),
+                        required: element.isRequired,
+                        placeholder: field.placeholder,
+                        elementId: element.id(),
+                        activeSuggestionValue: field.activeSuggestionValue,
+                    } }"><div class="cx-select-container "><div class="input-field-container"><div class="input-field-container__left"><span id="inputFieldLabel-year-startDate-23" class="input-field__label">Year</span><input autocomplete="none" name="startDate" id="year-startDate-23" type="text" role="combobox" aria-autocomplete="list" aria-haspopup="grid" aria-controls="year-startDate-23-listbox" aria-expanded="false" aria-labelledby="labelText-startDate-23 inputFieldLabel-year-startDate-23" class="cx-select-input 
+                                
+                                
+                                
+                            " data-auto="true"></div><div class="input-field-container__right"><button type="button" id="year-startDate-23-toggle-button" tabindex="-1" aria-label="Open the drop-down list for Year." title="Open the drop-down list for Year." aria-expanded="false" aria-controls="year-startDate-23-listbox" class="icon-dropdown-arrow "></button></div></div></div></div>
+                <!-- /ko -->
+
+                <!-- ko if: field.type === 'text' --><!-- /ko -->
+
+                <div class="input-row__control-decorator"></div>
+            </div>
+        </div>
+        <!-- ko ifnot: isStandardApplyFlowEnabled--><!-- /ko-->
+        <!-- ko if: isInvalid --><!-- /ko -->
+        <!-- ko if: showWarningMessage --><!-- /ko -->
+        <!-- ko if: showDobWarningMessage --><!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+<!-- /ko -->
+
+<!-- ko ifnot: element.isHidden -->
+<!-- ko component: {
+            name: element.component,
+            params: {
+                element: element
+            }
+        } --><div class="datepicker-row quick-apply-flow-datepicker-row input-row input-row--with-placeholder input-row--has-picker" data-bind="attr: {'aria-label': element.label }, css: {'input-row--focused': isFocused,
+                      'input-row--filled': isFilled,
+                      'input-row--invalid': isInvalid,
+                      'input-row--disabled': isDisabled }" aria-label="End Date">
+    <form-element-label params="element: element, forId: element.id"><!-- ko if: element.label -->
+<label class="input-row__label" data-bind="css: {'input-row__label--required': element.isRequired,
+                            'input-row__label--disabled': element.isDisabled},
+                      attr: {for: forId, id: id, 'aria-labelledby': labelTextId + ' ' + instructionsTextId}, boolAttr: {'aria-hidden': element.isAriaLabelHidden}" for="endDate-24" aria-labelledby="labelText-endDate-24 instructionsText-endDate-24" aria-hidden="false">
+    <span class="input-row__linebreak" data-bind="attr: {id: labelTextId}" id="labelText-endDate-24"><!-- ko text : element.label -->End Date<!-- /ko --></span>
+    <!-- ko if : element.isRequired --><!-- /ko -->
+</label>
+<!-- ko if : element.helpText() && element.showLabelTooltip --><!-- /ko -->
+<!-- /ko -->
+
+<!-- ko if: element.instructions --><!-- /ko -->
+</form-element-label>
+    <div class="input-row__control-container tooltip-trigger reset-z-index">
+        <div class="input-row-composite__inputs" data-bind="foreach: { data: fields, as: 'field' }">
+            <div data-bind="attr: { class: 'input-row-composite__input datepicker-row__input datepicker-row__input--' + field.name + ' datepicker-row__listbox--' + field.display },
+                event: {mouseenter: $parent.showHelpTooltip.bind($parent), mouseout: $parent.hideHelpTooltip.bind($parent),
+                    focus: $parent.showHelpTooltip.bind($parent), blur: $parent.hideHelpTooltip.bind($parent)}" class="input-row-composite__input datepicker-row__input datepicker-row__input--month datepicker-row__listbox--[object Object]">
+                <!-- ko if: field.type === 'select' -->
+                <div data-bind="react: { component: 'cx-select', 
+                    props: { 
+                        id: field.id,
+                        name: element.name(),
+                        options: field.options,
+                        value: field.value(),
+                        valueObserver: field.value,
+                        labelHint: field.labelHint,
+                        showLabelHintAlways: field.showLabelHintAlways,
+                        label: field.label,
+                        onValueChange: $parent.onChange.bind($component),
+                        ariaLabel: a11yLabel + ' ' + field.label,
+                        isReadonly: element.isDisabled(),
+                        required: element.isRequired,
+                        placeholder: field.placeholder,
+                        elementId: element.id(),
+                        activeSuggestionValue: field.activeSuggestionValue,
+                    } }"><div class="cx-select-container "><div class="input-field-container"><div class="input-field-container__left"><span id="inputFieldLabel-month-endDate-24" class="input-field__label">Month</span><input autocomplete="none" name="endDate" id="month-endDate-24" type="text" role="combobox" aria-autocomplete="list" aria-haspopup="grid" aria-controls="month-endDate-24-listbox" aria-expanded="false" aria-labelledby="labelText-endDate-24 inputFieldLabel-month-endDate-24" class="cx-select-input 
+                                
+                                
+                                
+                            "></div><div class="input-field-container__right"><button type="button" id="month-endDate-24-toggle-button" tabindex="-1" aria-label="Open the drop-down list for Month." title="Open the drop-down list for Month." aria-expanded="false" aria-controls="month-endDate-24-listbox" class="icon-dropdown-arrow "></button></div></div></div></div>
+                <!-- /ko -->
+
+                <!-- ko if: field.type === 'text' --><!-- /ko -->
+
+                <div class="input-row__control-decorator"></div>
+            </div>
+        
+            <div data-bind="attr: { class: 'input-row-composite__input datepicker-row__input datepicker-row__input--' + field.name + ' datepicker-row__listbox--' + field.display },
+                event: {mouseenter: $parent.showHelpTooltip.bind($parent), mouseout: $parent.hideHelpTooltip.bind($parent),
+                    focus: $parent.showHelpTooltip.bind($parent), blur: $parent.hideHelpTooltip.bind($parent)}" class="input-row-composite__input datepicker-row__input datepicker-row__input--year datepicker-row__listbox--[object Object]">
+                <!-- ko if: field.type === 'select' -->
+                <div data-bind="react: { component: 'cx-select', 
+                    props: { 
+                        id: field.id,
+                        name: element.name(),
+                        options: field.options,
+                        value: field.value(),
+                        valueObserver: field.value,
+                        labelHint: field.labelHint,
+                        showLabelHintAlways: field.showLabelHintAlways,
+                        label: field.label,
+                        onValueChange: $parent.onChange.bind($component),
+                        ariaLabel: a11yLabel + ' ' + field.label,
+                        isReadonly: element.isDisabled(),
+                        required: element.isRequired,
+                        placeholder: field.placeholder,
+                        elementId: element.id(),
+                        activeSuggestionValue: field.activeSuggestionValue,
+                    } }"><div class="cx-select-container "><div class="input-field-container"><div class="input-field-container__left"><span id="inputFieldLabel-year-endDate-24" class="input-field__label">Year</span><input autocomplete="none" name="endDate" id="year-endDate-24" type="text" role="combobox" aria-autocomplete="list" aria-haspopup="grid" aria-controls="year-endDate-24-listbox" aria-expanded="false" aria-labelledby="labelText-endDate-24 inputFieldLabel-year-endDate-24" class="cx-select-input 
+                                
+                                
+                                
+                            "></div><div class="input-field-container__right"><button type="button" id="year-endDate-24-toggle-button" tabindex="-1" aria-label="Open the drop-down list for Year." title="Open the drop-down list for Year." aria-expanded="false" aria-controls="year-endDate-24-listbox" class="icon-dropdown-arrow "></button></div></div></div></div>
+                <!-- /ko -->
+
+                <!-- ko if: field.type === 'text' --><!-- /ko -->
+
+                <div class="input-row__control-decorator"></div>
+            </div>
+        </div>
+        <!-- ko ifnot: isStandardApplyFlowEnabled--><!-- /ko-->
+        <!-- ko if: isInvalid --><!-- /ko -->
+        <!-- ko if: showWarningMessage --><!-- /ko -->
+        <!-- ko if: showDobWarningMessage --><!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+<!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden -->
+<!-- ko component: {
+            name: element.component,
+            params: {
+                element: element
+            }
+        } --><div class="input-row input-row--text input-row--filled" data-bind="css: {'input-row--focused': isFocused,
+                      'input-row--filled': isFilled,
+                      'input-row--invalid': isInvalid,
+                      'input-row--empty-disabled': isEmptyDisabled},
+                      class: attributes.cssClass">
+    <form-element-label params="element: element, forId: attributes.id"><!-- ko if: element.label -->
+<label class="input-row__label" data-bind="css: {'input-row__label--required': element.isRequired,
+                            'input-row__label--disabled': element.isDisabled},
+                      attr: {for: forId, id: id, 'aria-labelledby': labelTextId + ' ' + instructionsTextId}, boolAttr: {'aria-hidden': element.isAriaLabelHidden}" for="gpa-25" aria-labelledby="labelText-gpa-25 instructionsText-gpa-25" aria-hidden="false">
+    <span class="input-row__linebreak" data-bind="attr: {id: labelTextId}" id="labelText-gpa-25"><!-- ko text : element.label -->GPA<!-- /ko --></span>
+    <!-- ko if : element.isRequired --><!-- /ko -->
+</label>
+<!-- ko if : element.helpText() && element.showLabelTooltip --><!-- /ko -->
+<!-- /ko -->
+
+<!-- ko if: element.instructions --><!-- /ko -->
+</form-element-label>
+
+    <div class="input-row__control-container">
+        <input class="input-row__control" data-bind="value: element.value,
+                           valueUpdate: element.valueUpdateType(),
+                           attr: element.attributes,
+                           i18nAttr: {'aria-invalid': isAriaInvalid()}
+                           readonly: element.isDisabled,
+                           hasFocus: hasFocus,
+                           a11y.setFocusOnTab: {focusOn: element.focusNextSelector, delay: 10, when: isFilled } ,
+                           event: {blur: blurHandler.bind($data)},
+                           css: {'input-row__control--locked': element.isFieldLocked()},
+                           preventEnter" id="gpa-25" name="gpa" aria-describedby="gpa-25-error" aria-invalid="false">
+        <div class="input-row__control-decorator"></div>
+        <!-- ko if: element.isFieldLocked() --><!-- /ko -->
+        <!-- ko if: isInvalid --><!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+<!-- /ko -->
+
+<!-- ko ifnot: element.isHidden -->
+<!-- ko component: {
+            name: element.component,
+            params: {
+                element: element
+            }
+        } --><div class="input-row input-row--checkbox" data-bind="attr: { 'aria-labelledby': labelId }, css: { 'input-row--invalid': isInvalid }, class: cssClass" aria-labelledby="graduatedFlag-26-label">
+    <input type="checkbox" class="input-row__hidden-control" data-bind="attr: { id: 'af-checkbox-' + element.id(), 'aria-label': element.readerLabel, 'aria-disabled': element.isDisabled, 'aria-labelledBy': labelId }, disable: element.isDisabled, checked: checked,
+        i18nAttr: {'aria-invalid': isAriaInvalid()}, preventEnter" id="af-checkbox-graduatedFlag-26" aria-labelledby="graduatedFlag-26-label" aria-invalid="false">
+
+    <div class="input-row__control-container">
+        <label role="status" aria-live="assertive" class="apply-flow-input-checkbox" data-bind="attr: { for: 'af-checkbox-' + element.id(), 'aria-disabled': element.isDisabled },
+            css: { 'apply-flow-input-checkbox--disabled': element.isDisabled , 'input-row--checkbox__switch': $parent.isSlider }" for="af-checkbox-graduatedFlag-26">
+            <!-- ko ifnot : $parent.isSlider -->
+            <span class="apply-flow-input-checkbox__button" data-bind="css: { 'apply-flow-input-checkbox__button--checked': checked, 'apply-flow-input-checkbox__button--locked': element.isLocked() }"></span>
+            <!-- /ko -->
+
+            <!-- ko if : $parent.isSlider --><!-- /ko -->
+
+            <span class="apply-flow-input-checkbox__label" data-bind="html: element.label, attr: {id: labelId},
+                    css: { 'apply-flow-input-checkbox__label--required': element.isRequired, 'oj-helper-hidden-accessible': $parent.isSlider, 'apply-flow-input-checkbox__label--locked': element.isLocked() }" id="graduatedFlag-26-label">Graduated</span>
+        </label>
+        <!-- ko if : element.helpText --><!-- /ko -->
+
+        <!-- ko if: isInvalid --><!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+<!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+<!-- /ko -->
+</form-builder>
+            </div>
+        </div>
+        <div class="profile-item-footer">
+            <!-- ko if: activeForm().validationErrorMessage --><!-- /ko -->
+            <div class="app-dialog__buttons-bar font-family-secondary text-color-primary">
+                <button class="button app-dialog__footer-button cancel-btn" data-bind="click: cancel, event: { mousedown: preventBlurOnCancel },
+                clickBubble: false">
+                    <span class="button__label" data-bind="i18n: 'general.cancel-button'">Cancel</span>
+                </button>
+                <!-- ko if: !inlineFormInfo.isView() -->
+                <button class="button app-dialog__footer-button save-btn" data-qa="profileItemInlineSaveButton" data-bind="click: save, disable: isValidationInProgress">
+                    <!-- ko if: isValidationInProgress --><!-- /ko -->
+                    <!-- ko ifnot: isValidationInProgress -->
+                    <span class="button__label" data-bind="i18n: inlineFormInfo.saveButtonLabel">Add Education</span>
+                    <!-- /ko -->
+                </button>
+                <!-- /ko -->
+            </div>
+        </div>
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+<!-- /ko -->
+<!-- /ko -->
+    </div>
+</div>
+</apply-flow-block>
+            <!-- /ko -->
+        </li>
+        
+        <li>
+            <!-- ko foreach: { data: page.blocks, as: 'block' } -->
+            <apply-flow-block data-bind="class: block.blockId, attr: {id: `block-${$component.getBlockId(block)}`, 
+                    'data-scroll-spy': 'apply-flow-blocks', 'data-scroll-spy-id': $component.getBlockId(block)}, " params="
+                block: block,
+                section: $component.section,
+                isActive: $component.isActive,
+                application: $component.application,
+                isSingleClickFlow: $component.isSingleClickFlow,
+                flow: $component.flow,
+            " class="300000170306633" id="block-300000170306633" data-scroll-spy="apply-flow-blocks" data-scroll-spy-id="300000170306633"><div class="apply-flow-block apply-flow-block--tile-profile-items" data-bind="css: 'apply-flow-block--' + block.component">
+    <!-- ko if: shouldRenderBlockHeader() -->
+    <div class="apply-flow-block__header" data-bind="css: { 'section-disabled-margin': sectionDisabled() &amp;&amp; !isCWKAddressProfileOptionEnabled }">
+        <apply-flow-block-title params="title: block.title, isSingleClickFlow: isSingleClickFlow, isRequired: isRequired, sectionDisabled: sectionDisabled"><!-- ko if: title -->
+<!-- ko if: isSingleClickFlow -->
+<h3 class="apply-flow-block__title" data-bind="css: { 'apply-flow-block__title--required': isRequired }">
+    <!-- ko if: shouldShowPadlock(block) --><!-- /ko -->
+    <span data-bind="text: title">Experience</span>
+    <!-- ko if: isRequired --><!-- /ko -->
+</h3>
+<!-- /ko -->
+
+<!-- ko ifnot: isSingleClickFlow --><!-- /ko -->
+<!-- /ko -->
+</apply-flow-block-title>
+        <!-- ko if: (block.instructions && !sectionDisabled()) -->
+        <p class="apply-flow-block__instructions" data-bind="html: block.instructions">Please provide details about your work experience.</p>
+        <!-- /ko -->
+        <!-- ko if: sectionDisabled() --><!-- /ko -->
+    </div>
+    <!-- /ko -->
+
+    <div class="apply-flow-block__form-list" role="region" data-bind="attr: {'aria-label': blockAriaLabel},
+        css: {
+            'disabled-block' :  sectionDisabled,
+         }" aria-label="Experience ">
+        <!-- ko component: {
+            name: block.component,
+            params: {
+                section: section,
+                code: block.code,
+                title: block.title,
+                instructions: block.instructions,
+                blockId: block.blockId,
+                application: application,
+                isActive: isActive,
+                additionalData: block.additionalData,
+                metadataServiceUrl: block.metadataServiceUrl,
+                readWriteServiceUrl: block.readWriteServiceUrl,
+                blockProperties: block.blockProperties,
+                flow: flow,
+                sectionDisabled: sectionDisabled,
+                isSingleClickFlow: isSingleClickFlow,
+                isStandardApplyFlowEnabled: isStandardApplyFlowEnabled,
+            }
+        } --><!--ko ifnot: isStandardApplyFlowEnabled --><!-- /ko -->
+
+<!-- ko if: isQuickApplyFlowEnabled --><!--/ko -->
+
+<!-- ko ifnot: isQuickApplyFlowEnabled -->
+<!-- ko ifnot: isStandardApplyFlowEnabled --><!-- /ko -->
+<!-- /ko -->
+
+<!--ko if: isStandardApplyFlowEnabled -->
+<!-- ko template: 'profile-item-inline' --><div class="profile-item-container standard-apply-flow-profile-item-129-300000127288438" data-bind="class: baseContainerId">
+    <!-- ko if: !!inlineFormInfo.itemsTitle && inlineFormInfo.showAddProfileItemButton() && forms().length > 0 --><!-- /ko -->
+
+    <!-- ko if: inlineFormInfo.showErrorValidationMessage && !isRequiredValidation() --><!-- /ko -->
+
+    <!-- ko if: customJsValidation?.showMessage?.() --><!-- /ko -->
+
+    <div class="standard-apply-flow-profile-item" data-bind="css: {'standard-apply-flow-profile-item--small': inlineFormInfo.hasSmallPills}">
+        <!-- ko if: forms().length > 0 -->
+        <div class="profile-item-list profile-item-list--disabled" role="group" data-bind="css: {'profile-item-list--small': inlineFormInfo.hasSmallPills, 'profile-item-list--disabled': !inlineFormInfo.showAddProfileItemButton()}">
+            <!-- ko if: forms -->
+            <!-- ko foreach: {data: forms, as: 'form'} -->
+            <!-- ko if: $parent.showForm ?? true -->
+            <article class="apply-flow-profile-item-tile apply-flow-profile-item-tile--active" data-bind="css: {
+                            'apply-flow-profile-item-tile--active': form.isActive,
+                            'apply-flow-profile-item-tile--invalid': form.isTileInvalid,
+                            'apply-flow-profile-item-tile--readonly': form.isReadOnly
+                        },
+                        event: {
+                            mouseover: $parent.onMouseover.bind($parent, $index), mouseleave: $parent.onMouseleave.bind($parent, $index), focusin: $parent.onMouseover.bind($parent, $index),
+                            focusout: $parent.onMouseleave.bind($parent, $index)
+                        },
+                        visible: $parent.showForm ?? true,
+                        attr: {id: form.navId, 'data-qa': $parent.qaAttributeItem}" id="tile-1793015558923" data-qa="profileItem129">
+                <div class="apply-flow-profile-item-tile__summary" data-profile-item-tile="true" role="group" data-bind="
+                attr: { 'data-profile-item-invalid': form.isTileInvalid, 'tabindex': 0, 'aria-label': `${form[$parent.inlineFormInfo.itemKey]?.() ?? ''} ${form.tileSubtitle() ?? ''}`}" tabindex="0" aria-label="Unnamed Job Title ">
+                    <div class="apply-flow-profile-item-tile__summary-content">
+                        <div class="apply-flow-profile-item-tile__summary-title">
+                            <!-- ko if: $parent.inlineFormInfo.showItemLabel --><!-- /ko -->
+                            <span data-bind="text: form[$parent.inlineFormInfo.itemKey]">Unnamed Job Title</span>
+                        </div>
+
+                        <!-- ko if: form.tileSubtitle --><!-- /ko -->
+
+                        <!-- ko ifnot: form.isValid --><!-- /ko -->
+                    </div>
+
+                    <div class="apply-flow-profile-item-tile__actions-container">
+                        <!-- ko if: !form.isReadOnly -->
+                        <button class="apply-flow-profile-item-tile__edit-item-icon" data-bind="click: $parent.editProfileItem.bind($parent), i18nAttr: {'title': 'candidate-self-service.communication-channel.edit', 'aria-label' : {key: 'candidate-self-service.communication-channel.edit'}}" title="Edit" aria-label="Edit"></button>
+                        <!-- ko if: form.showRemoveButton ? form.showRemoveButton() : true  -->
+                        <button class="apply-flow-profile-item-tile__delete-icon" data-bind="click: $parent.onDelete.bind($parent), i18nAttr: {'title': 'general.delete-button', 'aria-label' : {key: 'general.delete-button'}}" title="Delete" aria-label="Delete"></button>
+                        <!-- /ko -->
+                        <!-- /ko -->
+                        <!-- ko if: form.isReadOnly --><!-- /ko -->
+                    </div>
+                </div>
+            </article>
+            <!--/ko -->
+            <!--/ko -->
+            <!-- /ko -->
+        </div>
+        <!-- /ko -->
+
+        <!-- ko if: showAddButton() -->
+        <div class="profile-add-item profile-add-item--disabled" data-bind="css: {'profile-add-item--disabled': !inlineFormInfo.showAddProfileItemButton()}">
+            <!-- ko if: $component.isNidBlock --><!-- /ko -->
+
+            <button type="button" class="button apply-flow-profile-item-tile__new-tile" data-bind="enable: canAddProfileItem,
+                   attr: { id: addButtonId, 'data-qa': qaAttributeAdd,
+                        'data-profile-item-invalid': $component.isNidBlock || $component.isCitizenshipBlock ? !$component.isValid() : !isRequiredValidation() || customJsValidation?.showMessage?.()},
+                   click: addProfileItem" id="profileItemsAddButton-1793015461798" data-qa="add129">
+                <span class="button__label" data-bind="i18n: addButtonLabel">Add Experience</span>
+            </button>
+        </div>
+        <!-- /ko -->
+
+        <!-- ko if: hasActiveForm -->
+        <div class="profile-item-content">
+            <!-- ko if: inlineFormInfo.showFormHeader --><!-- /ko -->
+            <div class="profile-item-content--form">
+                <form-builder params="form: activeForm"><!-- ko foreach: {data: form.elements, as: 'element'} -->
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden -->
+<!-- ko component: {
+            name: element.component,
+            params: {
+                element: element
+            }
+        } --><div class="input-row input-row--text input-row--filled" data-bind="css: {'input-row--focused': isFocused,
+                      'input-row--filled': isFilled,
+                      'input-row--invalid': isInvalid,
+                      'input-row--empty-disabled': isEmptyDisabled},
+                      class: attributes.cssClass">
+    <form-element-label params="element: element, forId: attributes.id"><!-- ko if: element.label -->
+<label class="input-row__label input-row__label--required" data-bind="css: {'input-row__label--required': element.isRequired,
+                            'input-row__label--disabled': element.isDisabled},
+                      attr: {for: forId, id: id, 'aria-labelledby': labelTextId + ' ' + instructionsTextId}, boolAttr: {'aria-hidden': element.isAriaLabelHidden}" for="employerName-14" aria-labelledby="labelText-employerName-14 instructionsText-employerName-14" aria-hidden="false">
+    <span class="input-row__linebreak" data-bind="attr: {id: labelTextId}" id="labelText-employerName-14"><!-- ko text : element.label -->Employer Name<!-- /ko --></span>
+    <!-- ko if : element.isRequired -->
+    <span class="input-row__label--required-star" aria-hidden="true"></span>
+    <!-- /ko -->
+</label>
+<!-- ko if : element.helpText() && element.showLabelTooltip --><!-- /ko -->
+<!-- /ko -->
+
+<!-- ko if: element.instructions --><!-- /ko -->
+</form-element-label>
+
+    <div class="input-row__control-container">
+        <input class="input-row__control" data-bind="value: element.value,
+                           valueUpdate: element.valueUpdateType(),
+                           attr: element.attributes,
+                           i18nAttr: {'aria-invalid': isAriaInvalid()}
+                           readonly: element.isDisabled,
+                           hasFocus: hasFocus,
+                           a11y.setFocusOnTab: {focusOn: element.focusNextSelector, delay: 10, when: isFilled } ,
+                           event: {blur: blurHandler.bind($data)},
+                           css: {'input-row__control--locked': element.isFieldLocked()},
+                           preventEnter" id="employerName-14" name="employerName" aria-required="true" aria-describedby="employerName-14-error" aria-invalid="false" style="direction: ltr;">
+        <div class="input-row__control-decorator"></div>
+        <!-- ko if: element.isFieldLocked() --><!-- /ko -->
+        <!-- ko if: isInvalid --><!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+<!-- /ko -->
+
+<!-- ko ifnot: element.isHidden -->
+<!-- ko component: {
+            name: element.component,
+            params: {
+                element: element
+            }
+        } --><div class="input-row input-row--text input-row--filled" data-bind="css: {'input-row--focused': isFocused,
+                      'input-row--filled': isFilled,
+                      'input-row--invalid': isInvalid,
+                      'input-row--empty-disabled': isEmptyDisabled},
+                      class: attributes.cssClass">
+    <form-element-label params="element: element, forId: attributes.id"><!-- ko if: element.label -->
+<label class="input-row__label" data-bind="css: {'input-row__label--required': element.isRequired,
+                            'input-row__label--disabled': element.isDisabled},
+                      attr: {for: forId, id: id, 'aria-labelledby': labelTextId + ' ' + instructionsTextId}, boolAttr: {'aria-hidden': element.isAriaLabelHidden}" for="jobTitle-15" aria-labelledby="labelText-jobTitle-15 instructionsText-jobTitle-15" aria-hidden="false">
+    <span class="input-row__linebreak" data-bind="attr: {id: labelTextId}" id="labelText-jobTitle-15"><!-- ko text : element.label -->Job Title<!-- /ko --></span>
+    <!-- ko if : element.isRequired --><!-- /ko -->
+</label>
+<!-- ko if : element.helpText() && element.showLabelTooltip --><!-- /ko -->
+<!-- /ko -->
+
+<!-- ko if: element.instructions --><!-- /ko -->
+</form-element-label>
+
+    <div class="input-row__control-container">
+        <input class="input-row__control" data-bind="value: element.value,
+                           valueUpdate: element.valueUpdateType(),
+                           attr: element.attributes,
+                           i18nAttr: {'aria-invalid': isAriaInvalid()}
+                           readonly: element.isDisabled,
+                           hasFocus: hasFocus,
+                           a11y.setFocusOnTab: {focusOn: element.focusNextSelector, delay: 10, when: isFilled } ,
+                           event: {blur: blurHandler.bind($data)},
+                           css: {'input-row__control--locked': element.isFieldLocked()},
+                           preventEnter" id="jobTitle-15" name="jobTitle" aria-describedby="jobTitle-15-error" aria-invalid="false" style="direction: ltr;">
+        <div class="input-row__control-decorator"></div>
+        <!-- ko if: element.isFieldLocked() --><!-- /ko -->
+        <!-- ko if: isInvalid --><!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+<!-- /ko -->
+
+<!-- ko ifnot: element.isHidden -->
+<!-- ko component: {
+            name: element.component,
+            params: {
+                element: element
+            }
+        } --><div class="datepicker-row quick-apply-flow-datepicker-row input-row input-row--with-placeholder input-row--has-picker" data-bind="attr: {'aria-label': element.label }, css: {'input-row--focused': isFocused,
+                      'input-row--filled': isFilled,
+                      'input-row--invalid': isInvalid,
+                      'input-row--disabled': isDisabled }" aria-label="Start Date">
+    <form-element-label params="element: element, forId: element.id"><!-- ko if: element.label -->
+<label class="input-row__label" data-bind="css: {'input-row__label--required': element.isRequired,
+                            'input-row__label--disabled': element.isDisabled},
+                      attr: {for: forId, id: id, 'aria-labelledby': labelTextId + ' ' + instructionsTextId}, boolAttr: {'aria-hidden': element.isAriaLabelHidden}" for="startDate-16" aria-labelledby="labelText-startDate-16 instructionsText-startDate-16" aria-hidden="false">
+    <span class="input-row__linebreak" data-bind="attr: {id: labelTextId}" id="labelText-startDate-16"><!-- ko text : element.label -->Start Date<!-- /ko --></span>
+    <!-- ko if : element.isRequired --><!-- /ko -->
+</label>
+<!-- ko if : element.helpText() && element.showLabelTooltip --><!-- /ko -->
+<!-- /ko -->
+
+<!-- ko if: element.instructions --><!-- /ko -->
+</form-element-label>
+    <div class="input-row__control-container tooltip-trigger reset-z-index">
+        <div class="input-row-composite__inputs" data-bind="foreach: { data: fields, as: 'field' }">
+            <div data-bind="attr: { class: 'input-row-composite__input datepicker-row__input datepicker-row__input--' + field.name + ' datepicker-row__listbox--' + field.display },
+                event: {mouseenter: $parent.showHelpTooltip.bind($parent), mouseout: $parent.hideHelpTooltip.bind($parent),
+                    focus: $parent.showHelpTooltip.bind($parent), blur: $parent.hideHelpTooltip.bind($parent)}" class="input-row-composite__input datepicker-row__input datepicker-row__input--month datepicker-row__listbox--[object Object]">
+                <!-- ko if: field.type === 'select' -->
+                <div data-bind="react: { component: 'cx-select', 
+                    props: { 
+                        id: field.id,
+                        name: element.name(),
+                        options: field.options,
+                        value: field.value(),
+                        valueObserver: field.value,
+                        labelHint: field.labelHint,
+                        showLabelHintAlways: field.showLabelHintAlways,
+                        label: field.label,
+                        onValueChange: $parent.onChange.bind($component),
+                        ariaLabel: a11yLabel + ' ' + field.label,
+                        isReadonly: element.isDisabled(),
+                        required: element.isRequired,
+                        placeholder: field.placeholder,
+                        elementId: element.id(),
+                        activeSuggestionValue: field.activeSuggestionValue,
+                    } }"><div class="cx-select-container "><div class="input-field-container"><div class="input-field-container__left"><span id="inputFieldLabel-month-startDate-16" class="input-field__label">Month</span><input autocomplete="none" name="startDate" id="month-startDate-16" type="text" role="combobox" aria-autocomplete="list" aria-haspopup="grid" aria-controls="month-startDate-16-listbox" aria-expanded="false" aria-labelledby="labelText-startDate-16 inputFieldLabel-month-startDate-16" class="cx-select-input 
+                                
+                                
+                                
+                            " data-auto="true"></div><div class="input-field-container__right"><button type="button" id="month-startDate-16-toggle-button" tabindex="-1" aria-label="Open the drop-down list for Month." title="Open the drop-down list for Month." aria-expanded="false" aria-controls="month-startDate-16-listbox" class="icon-dropdown-arrow "></button></div></div></div></div>
+                <!-- /ko -->
+
+                <!-- ko if: field.type === 'text' --><!-- /ko -->
+
+                <div class="input-row__control-decorator"></div>
+            </div>
+        
+            <div data-bind="attr: { class: 'input-row-composite__input datepicker-row__input datepicker-row__input--' + field.name + ' datepicker-row__listbox--' + field.display },
+                event: {mouseenter: $parent.showHelpTooltip.bind($parent), mouseout: $parent.hideHelpTooltip.bind($parent),
+                    focus: $parent.showHelpTooltip.bind($parent), blur: $parent.hideHelpTooltip.bind($parent)}" class="input-row-composite__input datepicker-row__input datepicker-row__input--year datepicker-row__listbox--[object Object]">
+                <!-- ko if: field.type === 'select' -->
+                <div data-bind="react: { component: 'cx-select', 
+                    props: { 
+                        id: field.id,
+                        name: element.name(),
+                        options: field.options,
+                        value: field.value(),
+                        valueObserver: field.value,
+                        labelHint: field.labelHint,
+                        showLabelHintAlways: field.showLabelHintAlways,
+                        label: field.label,
+                        onValueChange: $parent.onChange.bind($component),
+                        ariaLabel: a11yLabel + ' ' + field.label,
+                        isReadonly: element.isDisabled(),
+                        required: element.isRequired,
+                        placeholder: field.placeholder,
+                        elementId: element.id(),
+                        activeSuggestionValue: field.activeSuggestionValue,
+                    } }"><div class="cx-select-container "><div class="input-field-container"><div class="input-field-container__left"><span id="inputFieldLabel-year-startDate-16" class="input-field__label">Year</span><input autocomplete="none" name="startDate" id="year-startDate-16" type="text" role="combobox" aria-autocomplete="list" aria-haspopup="grid" aria-controls="year-startDate-16-listbox" aria-expanded="false" aria-labelledby="labelText-startDate-16 inputFieldLabel-year-startDate-16" class="cx-select-input 
+                                
+                                
+                                
+                            " data-auto="true"></div><div class="input-field-container__right"><button type="button" id="year-startDate-16-toggle-button" tabindex="-1" aria-label="Open the drop-down list for Year." title="Open the drop-down list for Year." aria-expanded="false" aria-controls="year-startDate-16-listbox" class="icon-dropdown-arrow "></button></div></div></div></div>
+                <!-- /ko -->
+
+                <!-- ko if: field.type === 'text' --><!-- /ko -->
+
+                <div class="input-row__control-decorator"></div>
+            </div>
+        </div>
+        <!-- ko ifnot: isStandardApplyFlowEnabled--><!-- /ko-->
+        <!-- ko if: isInvalid --><!-- /ko -->
+        <!-- ko if: showWarningMessage --><!-- /ko -->
+        <!-- ko if: showDobWarningMessage --><!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+<!-- /ko -->
+
+<!-- ko ifnot: element.isHidden -->
+<!-- ko component: {
+            name: element.component,
+            params: {
+                element: element
+            }
+        } --><div class="datepicker-row quick-apply-flow-datepicker-row input-row input-row--with-placeholder input-row--has-picker" data-bind="attr: {'aria-label': element.label }, css: {'input-row--focused': isFocused,
+                      'input-row--filled': isFilled,
+                      'input-row--invalid': isInvalid,
+                      'input-row--disabled': isDisabled }" aria-label="End Date">
+    <form-element-label params="element: element, forId: element.id"><!-- ko if: element.label -->
+<label class="input-row__label" data-bind="css: {'input-row__label--required': element.isRequired,
+                            'input-row__label--disabled': element.isDisabled},
+                      attr: {for: forId, id: id, 'aria-labelledby': labelTextId + ' ' + instructionsTextId}, boolAttr: {'aria-hidden': element.isAriaLabelHidden}" for="endDate-17" aria-labelledby="labelText-endDate-17 instructionsText-endDate-17" aria-hidden="false">
+    <span class="input-row__linebreak" data-bind="attr: {id: labelTextId}" id="labelText-endDate-17"><!-- ko text : element.label -->End Date<!-- /ko --></span>
+    <!-- ko if : element.isRequired --><!-- /ko -->
+</label>
+<!-- ko if : element.helpText() && element.showLabelTooltip --><!-- /ko -->
+<!-- /ko -->
+
+<!-- ko if: element.instructions --><!-- /ko -->
+</form-element-label>
+    <div class="input-row__control-container tooltip-trigger reset-z-index">
+        <div class="input-row-composite__inputs" data-bind="foreach: { data: fields, as: 'field' }">
+            <div data-bind="attr: { class: 'input-row-composite__input datepicker-row__input datepicker-row__input--' + field.name + ' datepicker-row__listbox--' + field.display },
+                event: {mouseenter: $parent.showHelpTooltip.bind($parent), mouseout: $parent.hideHelpTooltip.bind($parent),
+                    focus: $parent.showHelpTooltip.bind($parent), blur: $parent.hideHelpTooltip.bind($parent)}" class="input-row-composite__input datepicker-row__input datepicker-row__input--month datepicker-row__listbox--[object Object]">
+                <!-- ko if: field.type === 'select' -->
+                <div data-bind="react: { component: 'cx-select', 
+                    props: { 
+                        id: field.id,
+                        name: element.name(),
+                        options: field.options,
+                        value: field.value(),
+                        valueObserver: field.value,
+                        labelHint: field.labelHint,
+                        showLabelHintAlways: field.showLabelHintAlways,
+                        label: field.label,
+                        onValueChange: $parent.onChange.bind($component),
+                        ariaLabel: a11yLabel + ' ' + field.label,
+                        isReadonly: element.isDisabled(),
+                        required: element.isRequired,
+                        placeholder: field.placeholder,
+                        elementId: element.id(),
+                        activeSuggestionValue: field.activeSuggestionValue,
+                    } }"><div class="cx-select-container "><div class="input-field-container"><div class="input-field-container__left"><span id="inputFieldLabel-month-endDate-17" class="input-field__label">Month</span><input autocomplete="none" name="endDate" id="month-endDate-17" type="text" role="combobox" aria-autocomplete="list" aria-haspopup="grid" aria-controls="month-endDate-17-listbox" aria-expanded="false" aria-labelledby="labelText-endDate-17 inputFieldLabel-month-endDate-17" class="cx-select-input 
+                                
+                                
+                                
+                            "></div><div class="input-field-container__right"><button type="button" id="month-endDate-17-toggle-button" tabindex="-1" aria-label="Open the drop-down list for Month." title="Open the drop-down list for Month." aria-expanded="false" aria-controls="month-endDate-17-listbox" class="icon-dropdown-arrow "></button></div></div></div></div>
+                <!-- /ko -->
+
+                <!-- ko if: field.type === 'text' --><!-- /ko -->
+
+                <div class="input-row__control-decorator"></div>
+            </div>
+        
+            <div data-bind="attr: { class: 'input-row-composite__input datepicker-row__input datepicker-row__input--' + field.name + ' datepicker-row__listbox--' + field.display },
+                event: {mouseenter: $parent.showHelpTooltip.bind($parent), mouseout: $parent.hideHelpTooltip.bind($parent),
+                    focus: $parent.showHelpTooltip.bind($parent), blur: $parent.hideHelpTooltip.bind($parent)}" class="input-row-composite__input datepicker-row__input datepicker-row__input--year datepicker-row__listbox--[object Object]">
+                <!-- ko if: field.type === 'select' -->
+                <div data-bind="react: { component: 'cx-select', 
+                    props: { 
+                        id: field.id,
+                        name: element.name(),
+                        options: field.options,
+                        value: field.value(),
+                        valueObserver: field.value,
+                        labelHint: field.labelHint,
+                        showLabelHintAlways: field.showLabelHintAlways,
+                        label: field.label,
+                        onValueChange: $parent.onChange.bind($component),
+                        ariaLabel: a11yLabel + ' ' + field.label,
+                        isReadonly: element.isDisabled(),
+                        required: element.isRequired,
+                        placeholder: field.placeholder,
+                        elementId: element.id(),
+                        activeSuggestionValue: field.activeSuggestionValue,
+                    } }"><div class="cx-select-container "><div class="input-field-container"><div class="input-field-container__left"><span id="inputFieldLabel-year-endDate-17" class="input-field__label">Year</span><input autocomplete="none" name="endDate" id="year-endDate-17" type="text" role="combobox" aria-autocomplete="list" aria-haspopup="grid" aria-controls="year-endDate-17-listbox" aria-expanded="false" aria-labelledby="labelText-endDate-17 inputFieldLabel-year-endDate-17" class="cx-select-input 
+                                
+                                
+                                
+                            "></div><div class="input-field-container__right"><button type="button" id="year-endDate-17-toggle-button" tabindex="-1" aria-label="Open the drop-down list for Year." title="Open the drop-down list for Year." aria-expanded="false" aria-controls="year-endDate-17-listbox" class="icon-dropdown-arrow "></button></div></div></div></div>
+                <!-- /ko -->
+
+                <!-- ko if: field.type === 'text' --><!-- /ko -->
+
+                <div class="input-row__control-decorator"></div>
+            </div>
+        </div>
+        <!-- ko ifnot: isStandardApplyFlowEnabled--><!-- /ko-->
+        <!-- ko if: isInvalid --><!-- /ko -->
+        <!-- ko if: showWarningMessage --><!-- /ko -->
+        <!-- ko if: showDobWarningMessage --><!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+<!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden -->
+<!-- ko component: {
+            name: element.component,
+            params: {
+                element: element
+            }
+        } --><div class="input-row input-row--has-picker" data-bind="css: {'input-row--focused': isFocused,
+                      'input-row--filled': isFilled,
+                      'input-row--invalid': isInvalid,
+                      'input-row--disabled': isDisabled()}">
+    <form-element-label params="element: element, forId: element.id"><!-- ko if: element.label -->
+<label class="input-row__label" data-bind="css: {'input-row__label--required': element.isRequired,
+                            'input-row__label--disabled': element.isDisabled},
+                      attr: {for: forId, id: id, 'aria-labelledby': labelTextId + ' ' + instructionsTextId}, boolAttr: {'aria-hidden': element.isAriaLabelHidden}" for="countryCode-18" aria-labelledby="labelText-countryCode-18 instructionsText-countryCode-18" aria-hidden="false">
+    <span class="input-row__linebreak" data-bind="attr: {id: labelTextId}" id="labelText-countryCode-18"><!-- ko text : element.label -->Employer Country<!-- /ko --></span>
+    <!-- ko if : element.isRequired --><!-- /ko -->
+</label>
+<!-- ko if : element.helpText() && element.showLabelTooltip --><!-- /ko -->
+<!-- /ko -->
+
+<!-- ko if: element.instructions --><!-- /ko -->
+</form-element-label>
+
+    <div class="input-row__control-container reset-z-index" data-bind="attr: { id: element.containerId, 'data-qa': element.name }" data-qa="countryCode">
+        <!-- ko if: showSingleSelectPills --><!-- /ko -->
+
+        <!-- ko ifnot: showSingleSelectPills -->
+        <div data-bind="react: { component: 'cx-select', 
+    props: {
+        ariaLabel: a11yLabel,
+        placeholder: placeholder,
+        focusHandler,
+        valueObserver: element.value,
+        name: element.name(),
+        value: element.value(), 
+        options: element.options(), 
+        optionsKeys: element.optionsKeys(),
+        id: element.id(),
+        label: element.label(),
+        isRequired: element.isRequired(),
+        isInvalid: isInvalid,
+        isReadonly: element.isDisabled(),
+        validateImmediately: element.validateImmediately,
+        getErrorMessage: element.getErrorMessage } }"><div class="cx-select-container "><div class="input-field-container"><div class="input-field-container__left"><input autocomplete="none" name="countryCode" id="countryCode-18" type="text" role="combobox" aria-autocomplete="list" aria-haspopup="grid" aria-controls="countryCode-18-listbox" aria-expanded="false" aria-invalid="false" class="cx-select-input 
+                                
+                                
+                                
+                            " data-auto="true" style="direction: rtl;"><div data-lastpass-icon-root="" data-lastpass-icon-for="countryCode-18" style="position: relative !important; height: 0px !important; width: 0px !important; display: initial !important; float: left !important;"></div></div><div class="input-field-container__right"><button type="button" id="countryCode-18-toggle-button" tabindex="-1" aria-label="Open the drop-down list for Employer Country." title="Open the drop-down list for Employer Country." aria-expanded="false" aria-controls="countryCode-18-listbox" class="icon-dropdown-arrow "></button></div></div></div></div>
+        <!-- /ko -->
+
+        <div class="input-row__control-decorator"></div>
+
+        <!-- ko if: isInvalid --><!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+<!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden -->
+<!-- ko component: {
+            name: element.component,
+            params: {
+                element: element
+            }
+        } --><div class="input-row input-row--textarea input-row--filled" data-bind="css: {'input-row--focused': isFocused,
+                      'input-row--filled': isFilled,
+                      'input-row--invalid': isInvalid,
+                      'input-row--empty-disabled': isEmptyDisabled}">
+    <form-element-label params="element: element, forId: attributes.id"><!-- ko if: element.label -->
+<label class="input-row__label" data-bind="css: {'input-row__label--required': element.isRequired,
+                            'input-row__label--disabled': element.isDisabled},
+                      attr: {for: forId, id: id, 'aria-labelledby': labelTextId + ' ' + instructionsTextId}, boolAttr: {'aria-hidden': element.isAriaLabelHidden}" for="responsibilities-19" aria-labelledby="labelText-responsibilities-19 instructionsText-responsibilities-19" aria-hidden="false">
+    <span class="input-row__linebreak" data-bind="attr: {id: labelTextId}" id="labelText-responsibilities-19"><!-- ko text : element.label -->Responsibilities<!-- /ko --></span>
+    <!-- ko if : element.isRequired --><!-- /ko -->
+</label>
+<!-- ko if : element.helpText() && element.showLabelTooltip --><!-- /ko -->
+<!-- /ko -->
+
+<!-- ko if: element.instructions --><!-- /ko -->
+</form-element-label>
+
+    <div class="input-row__control-container">
+        <textarea class="input-row__control input-row__control--autoheight" rows="1" data-bind="textInput: element.value,
+                            attr: attributes,
+                            hasFocus: hasFocus,
+                            event: {blur: blurHandler.bind($data), keyup: element.updateCharCountMessage},
+                            textareaHeight" id="responsibilities-19" name="responsibilities" aria-describedby="responsibilities-19-error" style="direction: ltr;"></textarea><textarea class="input-row__control input-row__control--helper" rows="1" aria-hidden="true" tabindex="-1" style="height: 70px;"></textarea>
+        <div class="input-row__control-decorator"></div>
+    </div>
+    <!-- ko if: element.charCountText --><!-- /ko -->
+    <!-- ko if: isInvalid --><!-- /ko -->
+</div>
+<!-- /ko -->
+<!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+
+<!-- ko ifnot: element.isHidden --><!-- /ko -->
+<!-- /ko -->
+</form-builder>
+            </div>
+        </div>
+        <div class="profile-item-footer">
+            <!-- ko if: activeForm().validationErrorMessage --><!-- /ko -->
+            <div class="app-dialog__buttons-bar font-family-secondary text-color-primary">
+                <button class="button app-dialog__footer-button cancel-btn" data-bind="click: cancel, event: { mousedown: preventBlurOnCancel },
+                clickBubble: false">
+                    <span class="button__label" data-bind="i18n: 'general.cancel-button'">Cancel</span>
+                </button>
+                <!-- ko if: !inlineFormInfo.isView() -->
+                <button class="button app-dialog__footer-button save-btn" data-qa="profileItemInlineSaveButton" data-bind="click: save, disable: isValidationInProgress">
+                    <!-- ko if: isValidationInProgress --><!-- /ko -->
+                    <!-- ko ifnot: isValidationInProgress -->
+                    <span class="button__label" data-bind="i18n: inlineFormInfo.saveButtonLabel">Add Experience</span>
+                    <!-- /ko -->
+                </button>
+                <!-- /ko -->
+            </div>
+        </div>
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+<!-- /ko -->
+<!-- /ko -->
+    </div>
+</div>
+</apply-flow-block>
+            <!-- /ko -->
+        </li>
+        
+        <li>
+            <!-- ko foreach: { data: page.blocks, as: 'block' } --><!-- /ko -->
+        </li>
+        <!-- /ko -->
+    </ul>
+</div>
+</apply-flow-section>
+                <!-- /ko -->
+            </div>
+            <!-- /ko -->
+
+            <apply-flow-section data-bind="attr: { 'id': 'agreements-section' }" params="flow: flow(), section: flow().flowAgreementsSection" id="agreements-section"><div class="apply-flow-section" data-bind="visible: isActive, a11y.setInitialFocus: { isVisible: isActive },
+        attr: { 'data-section-number': section.number, 'data-section-invalid': !isValid() },
+        setBodyScrollTo: { to: 0, when: isActive }" tabindex="-1" data-section-number="30">
+    <!-- ko if: showHeading --><!-- /ko -->
+
+    <ul class="apply-flow-page-list">
+        <!-- ko foreach: { data: section.pages, as: 'page' } -->
+        <li>
+            <!-- ko foreach: { data: page.blocks, as: 'block' } -->
+            <apply-flow-block data-bind="class: block.blockId, attr: {id: `block-${$component.getBlockId(block)}`, 
+                    'data-scroll-spy': 'apply-flow-blocks', 'data-scroll-spy-id': $component.getBlockId(block)}, " params="
+                block: block,
+                section: $component.section,
+                isActive: $component.isActive,
+                application: $component.application,
+                isSingleClickFlow: $component.isSingleClickFlow,
+                flow: $component.flow,
+            " id="block-ORA_AGREEMENTS" data-scroll-spy="apply-flow-blocks" data-scroll-spy-id="ORA_AGREEMENTS"><div class="apply-flow-block apply-flow-block--agreements" data-bind="css: 'apply-flow-block--' + block.component">
+    <!-- ko if: shouldRenderBlockHeader() -->
+    <div class="apply-flow-block__header" data-bind="css: { 'section-disabled-margin': sectionDisabled() &amp;&amp; !isCWKAddressProfileOptionEnabled }">
+        <apply-flow-block-title params="title: block.title, isSingleClickFlow: isSingleClickFlow, isRequired: isRequired, sectionDisabled: sectionDisabled"><!-- ko if: title --><!-- /ko -->
+</apply-flow-block-title>
+        <!-- ko if: (block.instructions && !sectionDisabled()) --><!-- /ko -->
+        <!-- ko if: sectionDisabled() --><!-- /ko -->
+    </div>
+    <!-- /ko -->
+
+    <div class="apply-flow-block__form-list" role="region" data-bind="attr: {'aria-label': blockAriaLabel},
+        css: {
+            'disabled-block' :  sectionDisabled,
+         }" aria-label=" ">
+        <!-- ko component: {
+            name: block.component,
+            params: {
+                section: section,
+                code: block.code,
+                title: block.title,
+                instructions: block.instructions,
+                blockId: block.blockId,
+                application: application,
+                isActive: isActive,
+                additionalData: block.additionalData,
+                metadataServiceUrl: block.metadataServiceUrl,
+                readWriteServiceUrl: block.readWriteServiceUrl,
+                blockProperties: block.blockProperties,
+                flow: flow,
+                sectionDisabled: sectionDisabled,
+                isSingleClickFlow: isSingleClickFlow,
+                isStandardApplyFlowEnabled: isStandardApplyFlowEnabled,
+            }
+        } --><!-- ko if: flow -->
+<!-- ko if: isBlockVisible -->
+<div class="apply-flow-block__component">
+    <!-- ko if: flow().jobAlertsEnabled -->
+    <job-alerts-opt-in class="apply-flow-agreements__row"><!-- ko if: isCheckboxVisible -->
+<div class="input-row">
+    <input type="checkbox" class="input-row__hidden-control" id="job-alerts-checkbox" data-bind="checked: isChecked, preventEnter">
+
+    <label class="apply-flow-input-checkbox apply-flow-input-checkbox--focus-enabled" for="job-alerts-checkbox">
+        <span class="apply-flow-input-checkbox__button"></span>
+        <span class="apply-flow-input-checkbox__label" data-bind="i18n: 'talent-community.job-alerts-opt-in-label'">I agree to receive updates about new job opportunities.</span>
+    </label>
+</div>
+<!--/ko-->
+</job-alerts-opt-in>
+    <!-- /ko -->
+
+    <!-- ko if: flow().optIn.isEnabled && isOptInVisible -->
+    <opt-in class="apply-flow-agreements__row" params="optIn: flow().optIn"><!-- ko if: preferencesLoaded -->
+<div class="input-row" aria-labelledby="agreements-checkbox-label">
+    <label class="apply-flow-input-checkbox" id="opt-in-checkbox-label">
+        <input type="checkbox" class="input-row__hidden-control" data-bind="checked: optIn.isAccepted, preventEnter" aria-labelledby="opt-in-checkbox-label">
+        <span class="apply-flow-input-checkbox__button apply-flow-input-checkbox--focus-enabled" data-bind="css: {'apply-flow-input-checkbox__button--checked': optIn.isAccepted}"></span>
+        <span class="apply-flow-input-checkbox__label apply-flow-input-checkbox--focus-enabled">
+            <span class="agreements-label-text">
+                <!-- ko if: optIn.hasDescription() --><!-- /ko -->
+
+                <!-- ko ifnot: optIn.hasDescription() -->
+                <i18n params="key: 'apply-flow.opt-in.i-agree'"><span data-bind="i18n: {key: key, tokens: tokens}">I agree to receive <span data-i18n-token="open_dialog_link"> marketing communications </span></span>
+</i18n>
+                <!-- /ko -->
+            </span>
+        </span>
+    </label>
+</div>
+
+<agreement-dialog params="model: optIn, isVisible: isDialogVisible, headerText: dialogHeaderText, resetFocus: '#opt-in-link', isQuickApplyFlow : isQuickApplyFlow, isStandardApplyFlowEnabled : isStandardApplyFlowEnabled"><minimal-dialog params="isVisible: isVisible, ariaLabel: headerText, baseClass: baseClass, shouldMoveChatbot: false, onOjDialogClosed: onDialogClosed"><oj-dialog initial-visibility="hide" resize-behavior="none" drag-affordance="none" cancel-behavior="none" modality="{{modality}}" aria-modal="true" on-oj-focus="{{setFocusToBody}}" data-bind="focus: focusCallback,
+        attr:{
+            'aria-label': ariaLabel,
+            'aria-describedby': ariaDescribedBy,
+            'role': role
+        },
+        class: 'app-dialog font-family-primary ' + baseClass,
+        a11y.keysHandler: { keys: 'esc', handler: close },
+        moveChatBot: {
+            shouldMoveChatbot: shouldMoveChatbot
+        },
+        isDialogVisible: {
+            isVisible: isVisible,
+            afterClose: afterClose,
+            onOjDialogClosed: onOjDialogClosed,
+            className: isEnableBodyClass ? baseClass : null,
+        }" class="app-dialog font-family-primary standard-apply-flow-agreement__dialog oj-dialog oj-component oj-component-initnode oj-complete" aria-label="Marketing Communications" id="ui-id-9" tabindex="-1" role="dialog" style="display: none;">
+    
+
+    
+
+    
+<div class="oj-dialog-container" data-oj-context=""><div class="oj-dialog-header oj-dialog-header-decoration"><div class="oj-dialog-header app-dialog__hide-header" slot="header"></div></div><div class="oj-dialog-content oj-dialog-default-content"><div class="oj-dialog-body-wrapper"><div class="app-dialog__wrapper app-dialog__wrapper--align-center oj-dialog-body" data-bind="
+            css: { 'app-dialog__wrapper--active': isVisible },
+            class: 'app-dialog__wrapper--align-' + alignment()
+        " slot="body">
+        <div class="oj-dialog-body app-dialog__main background-color-dialog standard-apply-flow-agreement__dialog__main standard-apply-flow-agreement__dialog__main-center" data-bind="
+                class: dialogBaseClass,
+                a11y.setInitialFocus: {isVisible: isVisible, focusOn: '.app-dialog__content', delay: 1000 },
+                attr: { style: width() ? 'max-width: ' + width() : '' }
+            " tabindex="-1" style="">
+            <!-- ko if: !nodes['dialog-bar'] -->
+            <div class="app-dialog__bar text-color-secondary">
+                <button class="app-dialog__close focused-tooltip" data-bind="click: onClose, i18nAttr: {'title': 'apply-flow.a11y.close', 'aria-label': 'apply-flow.a11y.close'}" title="Close" aria-label="Close"></button>
+            </div>
+            <!-- /ko -->
+
+            <!-- ko template: { nodes: nodes['dialog-bar'], data: $parent } --><!-- /ko -->
+
+            <!-- ko template: { nodes: nodes['dialog-body'], data: $parent } -->
+        <div class="app-dialog__header">
+            <h1 class="heading" data-bind="text: headerText">Marketing Communications</h1>
+        </div>
+
+        <div aria-live="polite">
+            <div class="app-dialog__content basic-formatter" data-bind="html: model.description"></div>
+        </div>
+        <!-- ko if:!hideAcceptButton()-->
+        <div class="app-dialog__footer">
+            <div class="app-dialog__buttons-bar font-family-secondary text-color-primary">
+                <button class="button app-dialog__footer-button" data-bind="click: accept, hasFocus: true">
+                    <span class="button__label" data-bind="i18n: 'apply-flow.legal-disclaimer.accept-button'">Agree</span>
+                </button>
+            </div>
+        </div>
+        <!-- /ko -->
+    <!-- /ko -->
+        </div>
+    </div><div class="app-dialog__background oj-dialog-body" data-bind="
+            attr: { style: opacity() ? 'opacity: ' + opacity() : '' },
+            css: { 'app-dialog__background--no-animation': opacity() }
+        " style=""></div></div></div></div></oj-dialog>
+</minimal-dialog>
+</agreement-dialog>
+<!-- /ko -->
+</opt-in>
+    <!-- /ko -->
+</div>
+<!-- /ko -->
+<!-- /ko -->
+<!-- /ko -->
+    </div>
+</div>
+</apply-flow-block>
+            <!-- /ko -->
+        </li>
+        <!-- /ko -->
+    </ul>
+</div>
+</apply-flow-section>
+
+            <div class="talent-community-subscribe">
+                <talent-community-subscribe params="flow: flow, label: 'talent-community.action.subscribe', isVisible: isSubscribeButtonVisible, isValidationInProgress: isValidationInProgress, isStandardApplyFlowEnabled: isStandardApplyFlowEnabled"><div class="talent-community-subscribe__container">
+    <button type="button" class="button talent-community-subscribe__button theme-color-1 apply-flow-pagination__button" data-bind="visible: isVisible, enable: isEnabled, click: validateAndSubmit, css: {'apply-flow-pagination__button': isStandardApplyFlowEnabled}">
+        <inline-spinner params="isLoading: isValidationInProgress, i18n: label"><span class="inline-spinner" data-bind="css: cssClass">
+    <!-- ko if: label -->
+    <span class="inline-spinner__label" data-bind="i18n: label">Subscribe</span>
+    <!-- /ko -->
+    <span class="inline-spinner__icon-wrapper">
+        <span class="inline-spinner__icon"></span>
+    </span>
+</span>
+</inline-spinner>
+    </button>
+</div>
+</talent-community-subscribe>
+
+                <talent-community-summary params="flow: flow"><!-- ko if: progressVisible --><!-- /ko -->
+</talent-community-summary>
+            </div>
+
+            <!-- /ko -->
+        </div>
+
+        <indeterminate-progress-bar class="talent-community-flow__loading-bar talent-community-flow__loading-bar--hidden" data-bind="css: {'talent-community-flow__loading-bar--hidden': isFlowReady}"><div class="indeterminate-progress-bar">
+    <div class="indeterminate-progress-bar__background background-color-secondary"></div>
+    <div class="indeterminate-progress-bar__line background-color-1" role="progressbar"></div>
+</div>
+</indeterminate-progress-bar>
+    </form>
+
+    <!-- ko if: flow -->
+    <!-- ko if: performImportFromResume --><!-- /ko -->
+    <!-- /ko -->
+</section>
+
+<apply-flow-accessibility-messages><div aria-live="polite" aria-relevant="additions removals" class="oj-helper-hidden-accessible" data-bind="foreach: { data: messages, as: 'message' }"></div>
+
+<div role="alert" class="oj-helper-hidden-accessible" data-bind="text: alertMessage">Saving</div>
+</apply-flow-accessibility-messages>
+</talent-community-flow>
+</div>
+<!-- /ko --></div>
+        <!-- /ko -->
+    </div>
+</div>
+<!--/ko--></main>
+</body>
+</html>

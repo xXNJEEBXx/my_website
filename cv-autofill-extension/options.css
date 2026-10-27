@@ -1,0 +1,11 @@
+:root { color-scheme: dark; font-family: 'Segoe UI', Tahoma, sans-serif; background: #0d1523; color: #e9f0fb; }
+body { margin: 0; padding: 28px; } main { max-width: 800px; margin: auto; }
+h1 { font-size: 25px; } h2 { margin-top: 34px; font-size: 18px; }
+p { color: #a5b6cb; line-height: 1.8; }
+#fields { display: grid; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); gap: 16px; }
+label { display: flex; flex-direction: column; gap: 7px; margin: 8px 0; }
+input, button { font: inherit; border-radius: 7px; border: 1px solid #3c506d; padding: 10px; color: #eff5ff; background: #19273b; }
+button { cursor: pointer; margin: 8px 0 8px 8px; } button[type=submit] { background: #245bd4; }
+input:focus-visible, button:focus-visible { outline: 2px solid #7eb6ff; }
+.attachment, .rule { padding: 12px; border: 1px solid #2f425e; margin: 10px 0; border-radius: 9px; overflow-wrap: anywhere; }
+.rule small { display: block; color: #a5b6cb; } #status { color: #99ddbb; white-space: pre-wrap; }

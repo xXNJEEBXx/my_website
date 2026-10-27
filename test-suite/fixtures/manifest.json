@@ -1,0 +1,47 @@
+[
+  {
+    "id": "jisr-step1",
+    "file": "jisr-step1.html",
+    "platform": "jisr",
+    "url": "https://www.jisr.net/ar/zid/careers/e46331df-a23e-4f8a-a8cc-62f429d76d9d",
+    "fieldCount": 4,
+    "signature": "candidate_profile_name_ar|candidate_profile_name_en|candidate_profile_email|candidate_profile_phone_number",
+    "capturedAt": "2026-10-26T10:45:00.000Z"
+  },
+  {
+    "id": "jisr-step2",
+    "file": "jisr-step2.html",
+    "platform": "jisr",
+    "url": "https://www.jisr.net/ar/zid/careers/e46331df-a23e-4f8a-a8cc-62f429d76d9d",
+    "fieldCount": 7,
+    "signature": "candidate_profile_current_role|candidate_profile_city|react-select-2-input|cv-dropzone|cert-dropzone",
+    "capturedAt": "2026-10-26T10:48:00.000Z"
+  },
+  {
+    "id": "tawal-oracle-hcm",
+    "file": "oracle_hcm.html",
+    "platform": "oracle_hcm",
+    "url": "https://ialegs.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/jobs",
+    "fieldCount": 23,
+    "signature": "primary-email|first-name|last-name|phone-number|school-name|major|gpa|employer-name|job-title",
+    "capturedAt": "2026-10-26T11:45:00.000Z"
+  },
+  {
+    "id": "oracle_hcm-step1",
+    "file": "oracle_hcm-step1.html",
+    "platform": "oracle_hcm",
+    "url": "https://ialegs.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/join-talent-community",
+    "fieldCount": 39,
+    "signature": "INPUT|Phone Number|TEXTAREA|TEXTAREA|af-checkbox-graduatedFlag-26|attachment-upload|attachment-upload|citizenship|countryCode|educationalEstablishment|email|employerName|endDate|endDate|endDate|endDate|firstName|fromDate|fromDate|fromDate|gpa|job-alerts-checkbox|jobTitle|lastName|major|middleNames|oda-work-summary-text-area|input|phoneNumber|preferredJobFamilies|preferredLocations|responsibilities|siteLink-1|startDate|startDate|startDate|startDate|toDate|toDate|toDate",
+    "capturedAt": "2026-10-26T12:00:19.189Z"
+  },
+  {
+    "id": "oracle_hcm",
+    "file": "oracle_hcm.html",
+    "platform": "oracle_hcm",
+    "url": "https://ialegs.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/jobs",
+    "fieldCount": 3,
+    "signature": "keyword|location|oda-work-summary-text-area|input",
+    "capturedAt": "2026-10-26T14:12:13.858Z"
+  }
+]

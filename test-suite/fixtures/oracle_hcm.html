@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head><meta charset="UTF-8"><title>Fixture: Search Jobs - Join TAWAL Team Careers</title></head>
+<body>
+<main id="main" class="app__content" data-bind="view: 'main'" tabindex="-1"><!--ko [ search ]--><!-- ko ifnot: page --><!-- /ko -->
+
+<!-- ko if: page -->
+<!-- ko component: { name: 'cc-search', params: { page: page() } } --><div class="app__subpage app__subpage--custom-page">
+    <h1 class="oj-helper-hidden-accessible" data-bind="text: searchPageHeading">Search Jobs - Join TAWAL Team Careers</h1>
+    <!-- ko component: { 
+        name: 'cc-page',
+         params: {
+            page: page,
+            pageData: page,
+            classModifier: 'search-page' 
+        }
+        } --><div class="cc-page cc-page--boxed cc-page--search-page" data-bind="
+        css: {'cc-page--boxed': isPageDisplayBoxed},
+        class: classWithModifier
+    ">
+    <div class="cc-page__content">
+        <!-- ko foreach: { data: page.sections, as: 'section' } -->
+        <!-- ko component: {
+            name: 'cc-section',
+            params: {
+                section: section,
+                pageData: $parent.pageData,
+                onMessage: $parent.onMessage,
+            }
+        } --><div class="cc-section cc-section--width-" data-bind="css: cssClass, style: { backgroundColor: params.backgroundColor, backgroundImage: backgroundSrc }" style="background-color: rgba(255, 255, 255, 0);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled"><!-- ko if: isParallaxEnabled --><!-- /ko -->
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: section.params.backgroundVideo, videoWrapper: true, isFullscreen: false"><!-- ko if: videoUrl --><!-- /ko -->
+</cc-video-background>
+
+    <div class="cc-section__content">
+        <!-- ko foreach: { data: components, as: 'component' } --><!-- /ko -->
+
+        <!-- ko foreach: { data: rows, as: 'row' } -->
+        <!-- ko component: { name: 'cc-row', params: { row: row, pageData: $parent.pageData, onMessage: $parent.onMessage } } --><div class="cc-row">
+    <div class="cc-row__content cc-columns-count-1" data-bind="class: 'cc-columns-count-' + columns.length, style: { gap: gap}">
+        <!-- ko foreach: { data: columns, as: 'column' } -->
+        <!-- ko component: {
+            name: 'cc-column',
+            params: {
+                column: column,
+                pageData: $parent.pageData,
+                onMessage: $parent.onMessage,
+            }
+        } --><div class="cc-column cc-column--default" data-bind="style: { 
+        backgroundColor: params.backgroundColor,
+        backgroundImage: backgroundSrc,
+        borderRadius: borderRadius,
+        maxWidth:maxWidth,
+        height: height },
+               class: 'cc-column--' + size() + className" style="background-color: rgba(255, 255, 255, 0);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled"><!-- ko if: isParallaxEnabled --><!-- /ko -->
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: params.backgroundVideo, videoWrapper: true, isFullscreen: false"><!-- ko if: videoUrl --><!-- /ko -->
+</cc-video-background>
+
+    <div class="cc-column__content" data-bind="style:{padding: padding}">
+        <!-- ko foreach: { data: components, as: 'component' } -->
+        <!-- ko component: { name: component.params.type, params: component } --><div data-bind="class: uniqueWrapperClass" class="component-styling-wrapper-0">
+    <!-- ko if: customizationCompactParams && !isCustomSearch() --><!-- /ko -->
+
+    <!-- ko if: isCustomSearch() -->
+    
+    <!-- /ko -->
+
+    <div role="search" class="search-box-compact font-family-secondary" data-bind="class: customizationParams.commonParams ? customizationParams.commonParams.cssClass : '',
+        css: { 'search-box-compact--admin-mode': isAdminMode },
+        attr: { id: customizationParams.commonParams ? customizationParams.commonParams.cssId : '' },
+        customStyles: customizationParams.commonParams,
+        sticky: {
+            isEnabled: isStickySearchBarEnabled,
+            isReady: isReady,
+            className: 'search-box-compact--sticky'
+        }
+    ">
+        <div class="search-box-compact__form text-color-secondary">
+            <div class="search-box-compact__fieldset search-box-compact__fieldset--keyword" id="keyword-container">
+                <div class="search-box-compact__label text-color-secondary">
+                    <span data-bind="i18n: searchKeywordLabel">Find</span>
+                </div>
+                <div class="search-box-compact__field">
+                    <label for="keyword" class="oj-helper-hidden-accessible" data-bind="i18n: 'search.keyword-placeholder'">Job title, skill, keyword</label>
+                    <!-- ko component: { name: 'search-box-keyword',
+                    params: {
+                        value: keyword,
+                        action: performSearch } } --><input id="keyword" class="search-box-compact__input text-color-primary ui-autocomplete-input" type="text" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-owns="suggestions-keywords" aria-controls="suggestions-keywords" data-control-id="suggestions-keywords" data-qa="searchKeywordsInput" data-bind="textInput: keyword,
+        attr: {'aria-label': searchKeywordAriaLabel },
+        i18nAttr: { placeholder: searchKeywordPlaceHolder },
+        autocomplete: { model: keyword, source: fetch,
+        appendTo: '#keyword-container', id: 'suggestions-keywords',
+        select: (event, suggestion) =&gt; onSelectSuggestion(event, suggestion) },
+        a11y.keysHandler: { keys: 'enter', handler: action },
+        hasFocus: hasFocus" aria-label="Find jobs and events" placeholder="Job title, skill, keyword, event" autocomplete="off" aria-expanded="false">
+
+<!-- ko if: isWorking --><!-- /ko -->
+<!-- /ko -->
+                </div>
+            <ul id="suggestions-keywords" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete text-color-primary background-color-dropdown ui-front" role="listbox" style="display: none;"></ul></div>
+            <div class="search-box-compact__fieldset-spacer"></div>
+            <div class="search-box-compact__fieldset search-box-compact__fieldset--location" id="location-container">
+                <mode-menu><div class="search-box-compact__label text-color-secondary">
+    <!-- ko if: showSearchModeMenu -->
+    <button class="search-box-compact__menu-button" aria-haspopup="menu" aria-controls="search-box-compact__menu-list" data-bind="click: toggleModeMenu, boolAttr: {'aria-expanded': isModeMenuVisible}, i18nAttr: {'aria-label' : {key: 'search.mode-menu.selected-mode', tokens: { search_mode:toggleButtonText}}}" aria-expanded="false" aria-label="You've selected the Near Location search mode.">
+        <span data-bind="text: toggleButtonText">Near Location</span>
+        <em class="search-box-compact__menu-icon icon-triangle-down"></em>
+    </button>
+    <!-- /ko -->
+    <!-- ko ifnot: showSearchModeMenu --><!-- /ko -->
+</div>
+
+<div class="search-box-compact__menu" id="search-box-menu" role="group" data-bind="
+         css: { 'search-box-compact__menu--active': isModeMenuVisible },
+         a11y.trapFocus,
+         a11y.setInitialFocus: { isVisible: isModeMenuVisible, delay: 400 },
+         a11y.keysHandler: {keys: 'esc', handler: hideModeMenu},
+         clickOutside: { action: hideModeMenu, when: isModeMenuVisible, excludeElement: '.search-box-compact__menu-button' }" tabindex="-1">
+    <ul class="search-box-compact__menu-list" role="menu">
+        <!-- ko ifnot: isSearchByRecruitingLocationsModeEnabled -->
+        <li class="search-box-compact__menu-item" role="presentation">
+            <button role="menuitem" data-bind="
+                    click: handleModeSet.bind(this, MODES.LOCATION),
+                    attr: {'aria-current': mode() === 'location' ? 'true' : 'false'},
+                    i18nAttr: {'aria-label' : { key: 'search.mode-menu.search-context-label', tokens: {'VALUE': i18n('search.mode-menu.location')}}},
+                    i18n: 'search.mode-menu.location'" aria-current="true" aria-label="Search by Location">Location</button>
+        </li>
+        <!-- /ko -->
+        <!-- ko if: isSearchByRecruitingLocationsModeEnabled --><!-- /ko -->
+        <!-- ko if: isGeolocationEnabled -->
+        <li class="search-box-compact__menu-item" role="presentation">
+            <button role="menuitem" data-bind="
+                    click: handleModeSet.bind(this, MODES.GEO_LOCATION),
+                    attr: {'aria-current': mode() === 'geolocation' ? 'true' : 'false'},
+                    i18nAttr: {'aria-label' : { key: 'search.mode-menu.search-context-label', tokens: {'VALUE': i18n('search.mode-menu.geolocation')}}},
+                    i18n: 'search.mode-menu.geolocation'" aria-current="false" aria-label="Search by My Location">My Location</button>
+        </li>
+        <!-- /ko -->
+        <!-- ko if: isZipcodeEnabled -->
+        <li class="search-box-compact__menu-item" role="presentation">
+            <button role="menuitem" data-bind="
+                    click: handleModeSet.bind(this, MODES.ZIPCODE),
+                    attr: {'aria-current': mode() === 'zipcode' ? 'true' : 'false'},
+                    i18nAttr: {'aria-label' : { key: 'search.mode-menu.search-context-label', tokens: {'VALUE': i18n('search.mode-menu.zipcode')}}},
+                    i18n: 'search.mode-menu.zipcode'" aria-current="false" aria-label="Search by Postal Code">Postal Code</button>
+        </li>
+        <!-- /ko -->
+    </ul>
+</div>
+</mode-menu>
+                <div class="search-box-compact__field">
+                    <label for="location" class="oj-helper-hidden-accessible" data-bind="i18n: locationInputLabel">City, state, country</label>
+                    <!-- ko if: mode() === MODES.LOCATION -->
+                    <!-- ko component: { name: 'search-box-location',
+                        params: {
+                            value: location,
+                            action: performSearch,
+                            radiusValue: radiusValue,
+                            radiusUnit: radiusUnit } } --><input id="location" class="search-box-compact__input text-color-primary ui-autocomplete-input" type="text" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-owns="suggestions-locations" aria-controls="suggestions-locations" data-control-id="suggestions-locations" data-qa="searchLocationInput" data-bind="textInput: location,
+        disable: isDisabled,
+        hasFocus: hasFocus,
+        i18nAttr: { placeholder: 'location-bar.dropdown.location-input-label' },
+        autocomplete: { model: location, source: fetch, select: onSelect, appendTo: '#location-container',
+            response: onResponse, id: 'suggestions-locations'},
+        a11y.keysHandler: { keys: 'enter', handler: onPressEnter },
+        locationSearchFocus: { location: value }" placeholder="City, state, country" autocomplete="off" aria-expanded="false">
+
+<!-- ko if: isWorking --><!-- /ko -->
+
+<!-- ko if: showRadiusDisplay --><!-- /ko -->
+
+<!-- ko component: { name: 'search-box-popup', params: {
+    message: 'location-bar.dropdown.no-results',
+    value: showNoResultsHint,
+    focus: hasFocus,
+    restoreValue: true,
+    autoDismiss: false } } --><!-- ko if: visible --><!-- /ko -->
+<!-- /ko -->
+<!-- /ko -->
+                    <!-- /ko -->
+
+                    <!-- ko if: mode() === MODES.RECRUITING_LOCATION--><!-- /ko -->
+
+                    <!-- ko if: isGeolocationEnabled && mode() === MODES.GEO_LOCATION --><!-- /ko -->
+
+                    <!-- ko if: isZipcodeEnabled && mode() === MODES.ZIPCODE --><!-- /ko -->
+                </div>
+            <ul id="suggestions-locations" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete text-color-primary background-color-dropdown ui-front" role="listbox" style="display: none;"></ul></div>
+        </div>
+
+        <button class="search-box-compact__button text-color-secondary focused-tooltip" type="button" data-qa="searchStartBtn" data-bind="
+            click: performSearch,
+            i18nAttr: { title: searchTooltipLabel, 'aria-label': searchTooltipLabel }
+        " title="Search for Jobs and Events" aria-label="Search for Jobs and Events">
+            <em class="icon-search-thin theme-color-1"></em>
+
+            <span class="search-box-compact__button-background text-color-primary"></span>
+            <span class="search-box-compact__button-border text-color-secondary"></span>
+        </button>
+    </div>
+</div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        
+        <!-- ko component: { name: 'cc-row', params: { row: row, pageData: $parent.pageData, onMessage: $parent.onMessage } } --><div class="cc-row">
+    <div class="cc-row__content cc-columns-count-1" data-bind="class: 'cc-columns-count-' + columns.length, style: { gap: gap}">
+        <!-- ko foreach: { data: columns, as: 'column' } -->
+        <!-- ko component: {
+            name: 'cc-column',
+            params: {
+                column: column,
+                pageData: $parent.pageData,
+                onMessage: $parent.onMessage,
+            }
+        } --><div class="cc-column cc-column--default" data-bind="style: { 
+        backgroundColor: params.backgroundColor,
+        backgroundImage: backgroundSrc,
+        borderRadius: borderRadius,
+        maxWidth:maxWidth,
+        height: height },
+               class: 'cc-column--' + size() + className" style="background-color: rgba(255, 255, 255, 0);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled"><!-- ko if: isParallaxEnabled --><!-- /ko -->
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: params.backgroundVideo, videoWrapper: true, isFullscreen: false"><!-- ko if: videoUrl --><!-- /ko -->
+</cc-video-background>
+
+    <div class="cc-column__content" data-bind="style:{padding: padding}">
+        <!-- ko foreach: { data: components, as: 'component' } -->
+        <!-- ko component: { name: component.params.type, params: component } --><!-- ko if: filterPanelVisible-->
+<div data-bind="class: uniqueWrapperClass" class="component-styling-wrapper-0">
+    
+    <!-- ko if: isVerticalStyle --><!-- /ko -->
+
+    <!-- ko ifnot: isVerticalStyle -->
+    <search-filters-panel-horizontal params="
+            adminMode: adminMode,
+            loading: loading(),
+            totalCount: totalCount(),
+            totalJobsCount: totalJobsCount,
+            totalEventsCount: totalEventsCount,
+            filters: filters(),
+            customizationParams: customizationParams,
+            uniqueWrapperClass: uniqueWrapperClass,
+            areEventsEnabled: areEventsEnabled,
+            defaultSearchContext: defaultSearchContext,
+            selectedSearchContext: selectedSearchContext
+        "><div class="search-jobs-root-container" data-bind="switchFilterLayout: { popupFiltersOpened: popupFiltersOpened }">
+    <div class="search-jobs font-family-secondary search-jobs--horizontal search-box-no-result-tooltip" data-bind="
+            class: customizationParams.commonParams.cssClass,
+            attr: { id: customizationParams.commonParams.cssId },
+            customStyles: customizationParams.commonParams,
+            css: {'search-jobs--admin-mode': adminMode, 'search-box-no-result-tooltip': $parent.totalEventsCount() === 0}">
+        <div class="search-jobs__misc-wrapper">
+            <h2 class="search-jobs__filters-header" data-bind="i18n: 'search.filters-header-vertical'">Filter Results</h2>
+            <div class="search-jobs__misc search-jobs__misc-horizontal-filters search-jobs__misc--events-enabled" data-bind="css: {'search-jobs__misc--events-enabled': areEventsEnabled}">
+                <!-- ko if: areEventsEnabled -->
+                <search-context-switcher params="counters: {jobs: totalJobsCount, events: totalEventsCount}, 
+                defaultSearchContext: selectedSearchContext,
+                adminMode: adminMode,
+                loading: loading,
+                onChange: onChangeSearchContext"><ul class="search-context-switcher__container">
+    <!-- ko foreach: { data: Object.keys(searchContexts), as: 'key' } -->
+    <li>
+        <search-context-button params="{
+                        id: key,
+                        name: $parent.searchContexts[key].name,
+                        count: $parent.searchContexts[key].count,
+                        buttonAriaLabel: $parent.searchContexts[key].ariaLabel,
+                        isSelected: $parent.selectedSearchContext() === key,
+                        onClick: () =&gt; $parent.onClick(key),
+                        selectedSearchContext:$parent.selectedSearchContext(),
+                        loading: $parent.loading,
+                        contextKey: key,
+                        eventsUrl: $parent.eventsUrl,
+                        jobsUrl: $parent.jobsUrl
+                    }"><a class="search-context-button search-context-button--selected" role="button" data-bind="css: {'search-context-button--selected': isSelected  },
+    attr: {'aria-current': isSelected() ? 'page' : null, href: id === 'jobs' ? jobsUrl() :  eventsUrl() },
+    click: onClick" aria-current="page" href="https://ialegs.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/jobs">
+    <span class="search-context-button__title" data-bind="text:name">Jobs</span>
+    <span class="search-context-button__pill-counter" data-bind="text: count">0</span>
+</a>
+<!-- ko if: !loading() && isSelected() -->
+<div role="alert" class="oj-helper-hidden-accessible">
+    <span data-bind="text: getSelectedContextValue()">Job search results 0</span>
+</div>
+<!-- /ko -->
+</search-context-button>
+    </li>
+    
+    <li>
+        <search-context-button params="{
+                        id: key,
+                        name: $parent.searchContexts[key].name,
+                        count: $parent.searchContexts[key].count,
+                        buttonAriaLabel: $parent.searchContexts[key].ariaLabel,
+                        isSelected: $parent.selectedSearchContext() === key,
+                        onClick: () =&gt; $parent.onClick(key),
+                        selectedSearchContext:$parent.selectedSearchContext(),
+                        loading: $parent.loading,
+                        contextKey: key,
+                        eventsUrl: $parent.eventsUrl,
+                        jobsUrl: $parent.jobsUrl
+                    }"><a class="search-context-button" role="button" data-bind="css: {'search-context-button--selected': isSelected  },
+    attr: {'aria-current': isSelected() ? 'page' : null, href: id === 'jobs' ? jobsUrl() :  eventsUrl() },
+    click: onClick" href="https://ialegs.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/events">
+    <span class="search-context-button__title" data-bind="text:name">Events</span>
+    <span class="search-context-button__pill-counter" data-bind="text: count">0</span>
+</a>
+<!-- ko if: !loading() && isSelected() --><!-- /ko -->
+</search-context-button>
+    </li>
+    <!-- /ko -->
+</ul>
+</search-context-switcher>
+                <!-- /ko -->
+                <!-- ko ifnot: areEventsEnabled --><!-- /ko -->
+                <!-- ko if: filters().length && (totalCount() || selectedFiltersCount() > 0) --><!-- /ko -->
+            </div>
+        </div>
+
+        <search-filters-horizontal params="
+                filters: filters,
+                totalCount: totalCount,
+                adminMode: adminMode,
+                loading: loading,
+                clear: clearFilters,
+                defaultSearchContext: defaultSearchContext
+            "><div class="search-filters search-filters--horizontal search-filters--in-place no-filters" data-bind="css: {'smart-search-filters': isSmartSearch, 'no-filters': !anyFilterInFacetAvailable() }">
+    <!-- ko if: !$parent.areEventsEnabled --><!-- /ko -->
+
+    <ul class="search-filters__sections font-family-primary" data-bind="css: {'smart-search-location-filters': isSmartSearch}">
+        <!-- ko if: $parent.areEventsEnabled -->
+        <li>
+            <search-context-switcher params="counters: {jobs: $parent.totalJobsCount, events: $parent.totalEventsCount},
+                    defaultSearchContext: selectedSearchContext,
+                    adminMode: adminMode,
+                    onChange: onChangeSearchContext,
+                    loading: loading"><ul class="search-context-switcher__container">
+    <!-- ko foreach: { data: Object.keys(searchContexts), as: 'key' } -->
+    <li>
+        <search-context-button params="{
+                        id: key,
+                        name: $parent.searchContexts[key].name,
+                        count: $parent.searchContexts[key].count,
+                        buttonAriaLabel: $parent.searchContexts[key].ariaLabel,
+                        isSelected: $parent.selectedSearchContext() === key,
+                        onClick: () =&gt; $parent.onClick(key),
+                        selectedSearchContext:$parent.selectedSearchContext(),
+                        loading: $parent.loading,
+                        contextKey: key,
+                        eventsUrl: $parent.eventsUrl,
+                        jobsUrl: $parent.jobsUrl
+                    }"><a class="search-context-button search-context-button--selected" role="button" data-bind="css: {'search-context-button--selected': isSelected  },
+    attr: {'aria-current': isSelected() ? 'page' : null, href: id === 'jobs' ? jobsUrl() :  eventsUrl() },
+    click: onClick" aria-current="page" href="https://ialegs.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/jobs">
+    <span class="search-context-button__title" data-bind="text:name">Jobs</span>
+    <span class="search-context-button__pill-counter" data-bind="text: count">0</span>
+</a>
+<!-- ko if: !loading() && isSelected() -->
+<div role="alert" class="oj-helper-hidden-accessible">
+    <span data-bind="text: getSelectedContextValue()">Job search results 0</span>
+</div>
+<!-- /ko -->
+</search-context-button>
+    </li>
+    
+    <li>
+        <search-context-button params="{
+                        id: key,
+                        name: $parent.searchContexts[key].name,
+                        count: $parent.searchContexts[key].count,
+                        buttonAriaLabel: $parent.searchContexts[key].ariaLabel,
+                        isSelected: $parent.selectedSearchContext() === key,
+                        onClick: () =&gt; $parent.onClick(key),
+                        selectedSearchContext:$parent.selectedSearchContext(),
+                        loading: $parent.loading,
+                        contextKey: key,
+                        eventsUrl: $parent.eventsUrl,
+                        jobsUrl: $parent.jobsUrl
+                    }"><a class="search-context-button" role="button" data-bind="css: {'search-context-button--selected': isSelected  },
+    attr: {'aria-current': isSelected() ? 'page' : null, href: id === 'jobs' ? jobsUrl() :  eventsUrl() },
+    click: onClick" href="https://ialegs.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/events">
+    <span class="search-context-button__title" data-bind="text:name">Events</span>
+    <span class="search-context-button__pill-counter" data-bind="text: count">0</span>
+</a>
+<!-- ko if: !loading() && isSelected() --><!-- /ko -->
+</search-context-button>
+    </li>
+    <!-- /ko -->
+</ul>
+</search-context-switcher>
+        </li>
+        <!-- ko if: filterPresentInUrl() || hasSmartSearchFilters() || (totalCount() > 0 && filters().length) --><!-- /ko -->
+        <!-- /ko -->
+
+        <!-- ko if: showJobsCountForNoFilters --><!-- /ko -->
+
+        <!-- ko if: filters().length && !areRecommendedJobsEnabled() -->
+        <!-- ko if: !$parent.areEventsEnabled --><!-- /ko -->
+        <!-- ko template: { 
+            name: 'facet-list-template', 
+            data: { 
+                facets: orderedPrimaryFacets,
+                jobCount: totalCount
+            } 
+        } --><!-- ko foreach: { data: $data.facets, as: 'facet' } -->
+<!-- ko if: facet.name === "retailLocation" --><!-- /ko -->
+<!-- ko if: facet.items().length --><!-- /ko -->
+
+<!-- ko if: facet.name === "retailLocation" --><!-- /ko -->
+<!-- ko if: facet.items().length --><!-- /ko -->
+
+<!-- ko if: facet.name === "retailLocation" --><!-- /ko -->
+<!-- ko if: facet.items().length --><!-- /ko -->
+
+<!-- ko if: facet.name === "retailLocation" --><!-- /ko -->
+<!-- ko if: facet.items().length --><!-- /ko -->
+<!-- /ko -->
+<!-- /ko -->
+
+        <!-- /ko -->
+
+        <!-- TODO - Remove complete HTML block after new API implementation for recommended jobs -->
+        <!-- ko if: areRecommendedJobsEnabled() --><!-- /ko -->
+    </ul>
+
+    <!-- ko if: isSmartSearch && showSecondaryFacets() --><!-- /ko -->
+</div>
+
+<!-- ko ifnot: isSmartSearch -->
+<!-- ko template: { name: 'filter-actions-template' } --><!-- ko if: (filterPresentInUrl() || adminMode) && filters().length --><!-- /ko -->
+<!-- /ko -->
+<!-- /ko -->
+
+<!-- ko if: isSmartSearch --><!-- /ko -->
+</search-filters-horizontal>
+    </div>
+</div>
+
+<search-filters-mobile params="
+        hide: toggleFiltersPopup,
+        clear: clearFilters,
+        filters: filters,
+        adminMode: adminMode,
+        popupFiltersOpened: popupFiltersOpened,
+        uniqueWrapperClass: uniqueWrapperClass
+    "><minimal-dialog params="isVisible: popupFiltersOpened, modality: 'modal', ariaLabel: label, onOjFocus:handleModalFocus, baseClass: uniqueWrapperClass + ' search-filters-dialog'"><oj-dialog initial-visibility="hide" resize-behavior="none" drag-affordance="none" cancel-behavior="none" modality="{{modality}}" aria-modal="true" on-oj-focus="{{setFocusToBody}}" data-bind="focus: focusCallback,
+        attr:{
+            'aria-label': ariaLabel,
+            'aria-describedby': ariaDescribedBy,
+            'role': role
+        },
+        class: 'app-dialog font-family-primary ' + baseClass,
+        a11y.keysHandler: { keys: 'esc', handler: close },
+        moveChatBot: {
+            shouldMoveChatbot: shouldMoveChatbot
+        },
+        isDialogVisible: {
+            isVisible: isVisible,
+            afterClose: afterClose,
+            onOjDialogClosed: onOjDialogClosed,
+            className: isEnableBodyClass ? baseClass : null,
+        }" class="app-dialog font-family-primary component-styling-wrapper-0 search-filters-dialog oj-dialog oj-component oj-component-initnode oj-complete" aria-label="Filters" id="ui-id-7" tabindex="-1" role="dialog" style="display: none;">
+    
+
+    
+
+    
+<div class="oj-dialog-container" data-oj-context=""><div class="oj-dialog-header oj-dialog-header-decoration"><div class="oj-dialog-header app-dialog__hide-header" slot="header"></div></div><div class="oj-dialog-content oj-dialog-default-content"><div class="oj-dialog-body-wrapper"><div class="app-dialog__wrapper app-dialog__wrapper--align-center oj-dialog-body" data-bind="
+            css: { 'app-dialog__wrapper--active': isVisible },
+            class: 'app-dialog__wrapper--align-' + alignment()
+        " slot="body">
+        <div class="oj-dialog-body app-dialog__main background-color-dialog component-styling-wrapper-0 search-filters-dialog__main search-filters-dialog__main-center" data-bind="
+                class: dialogBaseClass,
+                a11y.setInitialFocus: {isVisible: isVisible, focusOn: '.app-dialog__content', delay: 1000 },
+                attr: { style: width() ? 'max-width: ' + width() : '' }
+            " tabindex="-1" style="">
+            <!-- ko if: !nodes['dialog-bar'] --><!-- /ko -->
+
+            <!-- ko template: { nodes: nodes['dialog-bar'], data: $parent } -->
+        <div class="app-dialog__bar search-jobs__popup-bar text-color-secondary">
+            <div class="app-dialog__bar-section">
+                <button class="app-dialog__close" data-bind="click: hide, i18nAttr: {'title': 'search.close-filters', 'aria-label': 'search.close-filters' }" title="Hide Filters" aria-label="Hide Filters"></button>
+            </div>
+
+            <div class="app-dialog__bar-section">
+                <button class="search-jobs__clear-filters app-dialog__action-button font-family-secondary" data-bind="i18n: 'search.clear-all-filters',
+                    css: {'theme-color-1': isSmartSearch},
+                    click: () =&gt; {
+                        clear();
+                        hide();
+                    }">Clear Filters</button>
+            </div>
+        </div>
+    <!-- /ko -->
+
+            <!-- ko template: { nodes: nodes['dialog-body'], data: $parent } -->
+        <search-filters-vertical params="
+                filters: filters,
+                adminMode: adminMode,
+                allExpanded: true,
+                popupFiltersOpened: popupFiltersOpened
+                clear: clearFilters
+                isMobile: true
+                "><div class="search-filters search-filters--vertical" data-bind="css: { 'search-filters--in-place': !popupFiltersOpened,
+                       'search-filters--in-dialog': popupFiltersOpened }">
+    <!-- ko if: !$parent.areEventsEnabled -->
+    <div aria-live="polite" class="oj-helper-hidden-accessible">
+        <!-- ko ifnot: $parent.loading -->
+        <span data-bind="i18n: { key: 'search.results-for-jobs', tokens: { 'TOTAL': totalCount } }, boolAttr: {'aria-hidden': isMobile}" aria-hidden="false">Job search results undefined</span>
+        <!-- /ko -->
+    </div>
+    <!-- /ko -->
+
+    <ul class="search-filters__sections font-family-primary">
+        <!-- ko foreach: { data: verticalOrderedFacets, as: 'facet' } -->
+        <!-- ko if: facet.name === "retailLocation" --><!-- /ko -->
+        <!-- ko ifnot: facet.name === "retailLocation" -->
+        <!-- ko component: { name: 'search-' + facet.name + '-facet-vertical',
+            params: { facet: facet, adminMode: $parent.adminMode, expandedFacetTypes: $parent.expandedFacetTypes }} --><!-- ko if: facet.items().length --><!-- /ko -->
+<!-- /ko -->
+        <!-- /ko -->
+        
+        <!-- ko if: facet.name === "retailLocation" --><!-- /ko -->
+        <!-- ko ifnot: facet.name === "retailLocation" -->
+        <!-- ko component: { name: 'search-' + facet.name + '-facet-vertical',
+            params: { facet: facet, adminMode: $parent.adminMode, expandedFacetTypes: $parent.expandedFacetTypes }} --><!-- ko if: facet.items().length --><!-- /ko -->
+<!-- /ko -->
+        <!-- /ko -->
+        
+        <!-- ko if: facet.name === "retailLocation" --><!-- /ko -->
+        <!-- ko ifnot: facet.name === "retailLocation" -->
+        <!-- ko component: { name: 'search-' + facet.name + '-facet-vertical',
+            params: { facet: facet, adminMode: $parent.adminMode, expandedFacetTypes: $parent.expandedFacetTypes }} --><!-- ko if: facet.items().length --><!-- /ko -->
+<!-- /ko -->
+        <!-- /ko -->
+        
+        <!-- ko if: facet.name === "retailLocation" --><!-- /ko -->
+        <!-- ko ifnot: facet.name === "retailLocation" -->
+        <!-- ko component: { name: 'search-' + facet.name + '-facet-vertical',
+            params: { facet: facet, adminMode: $parent.adminMode, expandedFacetTypes: $parent.expandedFacetTypes }} --><!-- ko if: facet.items().length --><!-- /ko -->
+<!-- /ko -->
+        <!-- /ko -->
+        <!-- /ko -->
+    </ul>
+</div>
+</search-filters-vertical>
+    <!-- /ko -->
+        </div>
+    </div><div class="app-dialog__background oj-dialog-body" data-bind="
+            attr: { style: opacity() ? 'opacity: ' + opacity() : '' },
+            css: { 'app-dialog__background--no-animation': opacity() }
+        " style=""></div></div></div></div></oj-dialog>
+</minimal-dialog>
+</search-filters-mobile>
+</search-filters-panel-horizontal>
+    <!-- /ko -->
+</div>
+<!-- /ko -->
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        
+        <!-- ko component: { name: 'cc-row', params: { row: row, pageData: $parent.pageData, onMessage: $parent.onMessage } } --><div class="cc-row">
+    <div class="cc-row__content cc-columns-count-1" data-bind="class: 'cc-columns-count-' + columns.length, style: { gap: gap}">
+        <!-- ko foreach: { data: columns, as: 'column' } -->
+        <!-- ko component: {
+            name: 'cc-column',
+            params: {
+                column: column,
+                pageData: $parent.pageData,
+                onMessage: $parent.onMessage,
+            }
+        } --><div class="cc-column cc-column--default" data-bind="style: { 
+        backgroundColor: params.backgroundColor,
+        backgroundImage: backgroundSrc,
+        borderRadius: borderRadius,
+        maxWidth:maxWidth,
+        height: height },
+               class: 'cc-column--' + size() + className" style="background-color: rgba(255, 255, 255, 0);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled"><!-- ko if: isParallaxEnabled --><!-- /ko -->
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: params.backgroundVideo, videoWrapper: true, isFullscreen: false"><!-- ko if: videoUrl --><!-- /ko -->
+</cc-video-background>
+
+    <div class="cc-column__content" data-bind="style:{padding: padding}">
+        <!-- ko foreach: { data: components, as: 'component' } -->
+        <!-- ko component: { name: component.params.type, params: component } --><!-- ko if: areRecommendedJobsEnabled && !isEventRouteEnabled() --><!-- /ko -->
+<!-- /ko -->
+        
+        <!-- ko component: { name: component.params.type, params: component } --><div data-bind="class: uniqueWrapperClass" class="component-styling-wrapper-0">
+    <!-- ko if: searchResultContextComponent() -->
+    <!-- ko component: {
+                    name: searchResultContextComponent,
+                    params: {
+                        contentComponent: contentComponent,
+                        uniqueWrapperClass: uniqueWrapperClass
+                    }
+            } --><div class="search-job-results layout1" data-bind="class: layoutStyle">
+    
+
+    <!-- ko if: loading --><!-- /ko -->
+
+    <!-- ko ifnot: loading -->
+
+    <!-- ko if: (areRecommendedJobsEnabled() && resumeParsingSuccessful() && hasResults() && !isCustomPage) || resumeReuploadEvent()--><!-- /ko -->
+    <div class="search-results-jobs-list jobs-list" data-bind="
+            class: listClass,
+            attr: { id: customizationParams.commonParams.cssId },
+            customStyles: customizationParams.commonParams,
+        ">
+        <!-- TODO - Remove areRecommendedJobsEnabled conditon after new API implementation for recommended jobs-->
+        <!-- ko if: hasResults --><!-- /ko -->
+    </div>
+
+    <!-- /ko -->
+    <!-- ko if: initialized() && !hasResults() -->
+    <!-- ko if: isSpellCheckEnabled -->
+    <div data-bind="css: { 'spell-check-no-results': !hasResults() }" class="spell-check-no-results">
+        <spell-check params="{
+            keyword: keyword,
+            correctedKeyword: correctedKeyword,
+            useExactKeywordFlag: useExactKeywordFlag,
+            suggestedKeyword: suggestedKeyword,
+        }"><div class="spell-check">
+    <!-- ko if: !useExactKeywordFlag() && correctedKeyword --><!-- /ko -->
+    <!-- ko if: useExactKeywordFlag() && suggestedKeyword --><!-- /ko -->
+</div>
+</spell-check>
+    </div>
+    <!-- /ko -->
+    <!-- ko ifnot: loading -->
+    <!-- ko component: { name: 'search-no-results',
+                        params: noSearchResultsParams } --><div class="search-no-results text-color-secondary">
+    <!-- ko if: talentCommunityTileEnabled -->
+
+    <!-- ko if: hasSearchCritera --><!-- /ko -->
+
+    <!-- ko ifnot: hasSearchCritera -->
+    <p class="search-no-results__header">
+        <span data-bind="i18n: 'search.no-'+context+'-posted-header'">There are currently no jobs available.</span>
+        <span data-bind="i18n: 'search.no-'+context+'-posted-subheader'">Try again later.</span>
+    </p>
+    <!-- /ko -->
+
+    <div class="search-no-results__talent-community">
+        <talent-community-tile><div class="talent-community-tile text-color-secondary" data-bind="css: className" data-qa="searchResultTCJoin">
+    <div class="talent-community-tile__line background-color-secondary"></div>
+
+    <h2 class="talent-community-tile__title text-color-primary" data-bind="text: labels.header">Tawal Talent Community</h2>
+    <p class="talent-community-tile__subheader" data-bind="text: labels.description">Join our Talent Community to stay connected with TAWAL and be considered for future career opportunities that match your skills and experience.</p>
+
+    <div class="talent-community-tile__actions">
+        <a class="button text-color-primary font-family-secondary" data-bind="click: openSignUpComponent, attr: {'href': url}" href="https://ialegs.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/join-talent-community">
+            <span class="button__label" data-bind="text: labels.button">Apply</span>
+        </a>
+    </div>
+
+    <div class="talent-community-tile__line background-color-secondary"></div>
+</div>
+</talent-community-tile>
+    </div>
+
+    <!-- /ko -->
+
+    <!-- ko ifnot: talentCommunityTileEnabled --><!-- /ko -->
+</div>
+<!-- /ko -->
+    <!-- /ko -->
+    <!-- /ko -->
+</div>
+<!-- /ko -->
+    <!-- /ko -->
+</div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+</div>
+<!-- /ko -->
+<!-- /ko -->
+<!--/ko--></main>
+</body>
+</html>

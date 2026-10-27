@@ -1,0 +1,12 @@
+{
+  "name": "cv-autofill-extension",
+  "version": "2.0.0",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/build.cjs",
+    "test": "node ../test-suite/run-tests.js",
+    "test:browser": "node ../test-suite/browser-tests.cjs",
+    "dev": "node dev-watcher.js"
+  },
+  "devDependencies": { "playwright": "1.58.2" }
+}

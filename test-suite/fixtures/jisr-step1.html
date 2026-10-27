@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>استمارة التقديم — منصة جسر (الخطوة 1)</title>
+  <style>
+    body { font-family: system-ui, sans-serif; background: #f8fafc; padding: 20px; direction: rtl; }
+    .card { max-width: 650px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+    .form-group { margin-bottom: 18px; }
+    label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 14px; }
+    input { width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; }
+    .btn { background: #2563eb; color: white; padding: 10px 24px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>المعلومات الشخصية</h2>
+    <form id="jisr-step1-form">
+      <div class="form-group">
+        <label for="candidate_profile_name_ar">الاسم الكامل بالعربية *</label>
+        <input type="text" id="candidate_profile_name_ar" name="candidate_profile[name_ar]" placeholder="الاسم الرباعي">
+      </div>
+      <div class="form-group">
+        <label for="candidate_profile_name_en">الاسم الكامل بالإنجليزية *</label>
+        <input type="text" id="candidate_profile_name_en" name="candidate_profile[name_en]" placeholder="Full Name in English">
+      </div>
+      <div class="form-group">
+        <label for="candidate_profile_email">البريد الإلكتروني *</label>
+        <input type="email" id="candidate_profile_email" name="candidate_profile[email]" placeholder="example@domain.com">
+      </div>
+      <div class="form-group">
+        <label for="candidate_profile_phone_number">رقم الهاتف *</label>
+        <div style="display: flex; gap: 8px;">
+          <span style="padding: 10px; background: #e2e8f0; border-radius: 6px;">+966</span>
+          <input type="tel" id="candidate_profile_phone_number" name="candidate_profile[phone_number]" placeholder="5XXXXXXXX">
+        </div>
+      </div>
+      <button type="button" id="btn-next-step" class="btn">التالي</button>
+    </form>
+  </div>
+</body>
+</html>

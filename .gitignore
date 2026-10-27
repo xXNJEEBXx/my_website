@@ -1,0 +1,8 @@
+node_modules/
+**/node_modules/
+*.log
+**/*.log
+scratch/
+.dev-runtime.json
+.DS_Store
+Thumbs.db

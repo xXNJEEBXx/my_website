@@ -1,18 +1,59 @@
 {
   "manifest_version": 3,
   "name": "CV AutoFill — Agent Tool",
-  "version": "1.0.0",
-  "description": "Auto-fills job application forms. Exposes window.__CV_AGENT.fill() for browser agent use.",
+  "version": "2.0.0",
+  "description": "Review, fill and verify forms using a private extension profile and on-demand attachments.",
   "icons": {
     "48": "icon48.png",
     "128": "icon128.png"
   },
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
-      "js": ["data.js", "site-rules.js", "ui.js", "engine.js", "content.js"],
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "page-bridge.js"
+      ],
       "all_frames": true,
       "world": "MAIN",
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "core/events.js",
+        "data.js",
+        "core/matching.js",
+        "core/dom.js",
+        "core/field-catalog.js",
+        "core/profile.js",
+        "adapters/registry.js",
+        "adapters/sites.js",
+        "adapters/jisr.js",
+        "adapters/oracle.js",
+        "site-rules.js",
+        "core/learning.js",
+        "drivers/native.js",
+        "drivers/combobox.js",
+        "drivers/upload.js",
+        "core/validation.js",
+        "core/scanner.js",
+        "core/planner.js",
+        "core/runner.js",
+        "engine.js",
+        "core/diagnostics.js",
+        "ui-styles.js",
+        "core/dashboard.js",
+        "ui.js",
+        "core/improvement.js",
+        "core/controller.js",
+        "content.js"
+      ],
+      "all_frames": true,
+      "world": "ISOLATED",
       "run_at": "document_idle"
     }
   ],
@@ -20,5 +61,18 @@
     "default_popup": "popup.html",
     "default_title": "CV AutoFill"
   },
-  "permissions": ["scripting", "activeTab"]
+  "background": {
+    "service_worker": "background.js"
+  },
+  "options_page": "options.html",
+  "permissions": [
+    "scripting",
+    "activeTab",
+    "storage",
+    "alarms",
+    "tabs"
+  ],
+  "host_permissions": [
+    "http://127.0.0.1:8989/*"
+  ]
 }

@@ -1,34 +1,28 @@
-// =============================================================================
-// ⛔ CORE CV DATA — DO NOT MODIFY WITHOUT EXPLICIT USER PERMISSION ⛔
-// =============================================================================
-// This file contains the user's personal CV data and the universal field
-// matching patterns. It is the single source of truth for all autofill data.
-//
-// WHY IS THIS LOCKED?
-// Any accidental modification (wrong email, wrong phone, typo in a regex)
-// will silently corrupt ALL future job applications across ALL platforms.
-//
-// RULES:
-// 1. Agents/scripts MUST NOT edit this file unless the user explicitly says so.
-// 2. To add site-specific selectors or platform rules, use `site-rules.js`.
-// 3. To add new CV fields, ASK the user first, then add here.
-// =============================================================================
-
-window.__CV_APP = window.__CV_APP || {};
-
-// ─────────────────────────────────────────────
-// SECTION 1: Personal Information
-// ─────────────────────────────────────────────
-window.__CV_APP.CV = {
+// Personal profile. Values preserved from the user's existing profile.
+// Update personal facts only with the user's authorization. Matching rules live in core/.
+(() => {
+  'use strict';
+  globalThis.__CV_APP = globalThis.__CV_APP || {};
+globalThis.__CV_APP.CV = {
   firstName: 'Najeeb',
-  lastName: 'Almusawi',
-  fullName: 'Najeeb Murtadha Abdulmohsen Almusawi',
+  firstNameAr: 'نجيب',
   middleName: 'Murtadha',
+  middleNameAr: 'مرتضى',
+  fatherName: 'Murtadha',
+  fatherNameAr: 'مرتضى',
+  grandfatherName: 'Abdulmohsen',
+  grandfatherNameAr: 'عبدالمحسن',
+  lastName: 'Almusawi',
+  lastNameAr: 'الموسوي',
+  fullName: 'Najeeb Murtadha Abdulmohsen Almusawi',
+  fullNameAr: 'نجيب مرتضى عبدالمحسن الموسوي',
   displayName: 'Najeeb Almusawi',
+  displayNameAr: 'نجيب الموسوي',
   email: 'najeebxalmusawi@gmail.com',
   phone: '+966568199827',
   phoneClean: '966568199827',
   phoneLocal: '0568199827',
+  phoneWithoutZero: '568199827',
   nationalId: '1112191778',
   nationality: 'Saudi',
   nationalityAr: 'سعودي',
@@ -50,24 +44,37 @@ window.__CV_APP.CV = {
   region: 'Eastern Province',
   regionAr: 'المنطقة الشرقية',
   country: 'Saudi Arabia',
-  countryAr: 'السعودية',
+  countryAr: 'المملكة العربية السعودية',
   countryCode: 'SA',
   address: 'Building No. 3754, Street: Kharash Al Kalbi Alsaluli, District: Ar Rashidyah 1st, Postal Code: 36342',
+  addressAr: 'مبنى 3754، شارع خراش الكلبي السلولي، حي الراشدية الأولى، الأحساء 36342',
   postalCode: '36342',
   shortAddress: 'FMAH3754',
   fullLocation: 'Al-Ahsa, Eastern Province, Saudi Arabia',
+  fullLocationAr: 'الأحساء، المنطقة الشرقية، المملكة العربية السعودية',
 
   // ─────────────────────────────────────────────
-  // SECTION 3: Education
+  // SECTION 3: Education & Co-op Details
   // ─────────────────────────────────────────────
   university: 'King Faisal University',
   universityAr: 'جامعة الملك فيصل',
+  college: 'College of Computer Science and Information Technology',
+  collegeAr: 'كلية علوم الحاسب وتقنية المعلومات',
   degree: 'Bachelor of Computer Information Systems',
   degreeAr: 'بكالوريوس نظم المعلومات الحاسوبية',
+  major: 'Computer Information Systems',
+  majorAr: 'نظم المعلومات الحاسوبية',
+  academicLevel: 'Senior (Expected Graduate)',
+  academicLevelAr: 'سنة رابعة / متوقع تخرجه',
   gpa: '2.53',
   gpaScale: '4.0',
   graduationDate: '2026-12-07',
   graduationYear: '2026',
+  trainingType: 'Co-op Training',
+  trainingTypeAr: 'تدريب تعاوني',
+  trainingDuration: '6 months (24 weeks)',
+  trainingDurationAr: '6 أشهر (24 أسبوع)',
+  trainingStartDate: '2026-06-07',
 
   // ─────────────────────────────────────────────
   // SECTION 4: Links
@@ -128,82 +135,4 @@ window.__CV_APP.CV = {
   coverLetterFileName: 'KFU COOP Letter.pdf',
   cvFileName: 'My CV NAJEEB ALMUSAWI.pdf',
 };
-
-const CV = window.__CV_APP.CV;
-
-// =============================================================================
-// UNIVERSAL FIELD PATTERNS — Smart Scan Matching Rules
-// =============================================================================
-// These patterns match against field hints (name, id, placeholder, label, aria-label).
-// They work across ALL platforms. Ordered by specificity (most specific first).
-// The `exclude` regex prevents false matches (e.g. "email address" ≠ "address").
-//
-// ⛔ DO NOT MODIFY without user permission. Add site-specific rules in site-rules.js.
-// =============================================================================
-
-window.__CV_APP.FIELD_PATTERNS = [
-  // --- Identity ---
-  { pattern: /first.?name|fname|\bfn\b|given.?name|الاسم.?الأول/i, value: CV.firstName },
-  { pattern: /last.?name|lname|\bln\b|family.?name|surname|اسم.?العائلة/i, value: CV.lastName },
-  { pattern: /full.?name|الاسم.?الكامل|your.?name/i, value: CV.displayName, exclude: /first|last|user|company|middle/ },
-  { pattern: /middle.?name|\bmn\b/i, value: CV.middleName },
-  { pattern: /e.?mail|\bem\b|البريد/i, value: CV.email },
-  { pattern: /phone|mobile|tel|\bmno\b|هاتف|جوال/i, value: CV.phone },
-
-  // --- Location ---
-  { pattern: /city|مدينة/i, value: CV.city, exclude: /country|state/ },
-  { pattern: /country|بلد|دولة/i, value: CV.country },
-  { pattern: /state|province|region|منطقة|ولاية/i, value: CV.region },
-  { pattern: /postal|zip|postcode|الرمز.?البريدي/i, value: CV.postalCode },
-  { pattern: /address|عنوان/i, value: CV.address, exclude: /email|e.?mail|ip/ },
-
-  // --- Education ---
-  { pattern: /university|جامعة|school|institution|مؤسسة/i, value: CV.university },
-  { pattern: /degree|الدرجة|qualification/i, value: CV.degree },
-  { pattern: /gpa|المعدل|grade/i, value: CV.gpa },
-  { pattern: /graduation|تخرج/i, value: CV.graduationYear },
-
-  // --- Links ---
-  { pattern: /linkedin/i, value: CV.linkedin },
-  { pattern: /github/i, value: CV.github },
-  { pattern: /portfolio|website|موقع/i, value: CV.portfolio, exclude: /company/ },
-
-  // --- Work ---
-  { pattern: /responsibilities|المسؤوليات|duties|job.?description|وصف/i, value: CV.responsibilities, exclude: /team|project.?name/ },
-  { pattern: /summary|about|why|نبذة|ملخص|cover.?letter/i, value: CV.summary },
-  { pattern: /job.?title|title|المسمى/i, value: CV.jobTitle },
-  { pattern: /employer|company|الشركة/i, value: CV.companyName },
-  { pattern: /start.?date|من.?تاريخ/i, value: CV.startDate },
-
-  // --- Personal ---
-  { pattern: /national.?id|هوية|رقم.?الهوية|id.?number/i, value: CV.nationalId },
-  { pattern: /nationality|جنسية/i, value: CV.nationality },
-  { pattern: /date.?of.?birth|birth.?date|تاريخ.?الميلاد|dob/i, value: CV.dob },
-  { pattern: /gender|sex|الجنس|النوع/i, value: CV.gender },
-
-  // --- Preferences ---
-  { pattern: /salary|راتب|مكافأة/i, value: CV.desiredSalary },
-  { pattern: /notice.?period/i, value: CV.noticePeriod },
-  { pattern: /experience|خبرة/i, value: '5' },
-
-  // --- Skills ---
-  { pattern: /skill|مهار/i, value: CV.mainSkills },
-
-  // --- Misc ---
-  { pattern: /issuing|جهة|organization/i, value: CV.issuingOrg },
-  { pattern: /language|لغة/i, value: CV.languageNative },
-];
-
-// =============================================================================
-// SELECT / DROPDOWN SYNONYMS
-// =============================================================================
-// When matching dropdown <option> text, these synonyms help find the right one.
-// =============================================================================
-
-window.__CV_APP.SELECT_SYNONYMS = {
-  [CV.country]: ['saudi', 'ksa', 'arabia', 'السعودية'],
-  [CV.nationality]: ['saudi', 'سعودي', 'saudian'],
-  [CV.gender]: ['male', 'm', 'ذكر'],
-  [CV.university]: ['king faisal', 'kfu', 'فيصل'],
-  [CV.degree]: ['bachelor', 'bs', 'bsc', 'undergrad', 'بكالوريوس'],
-};
+})();

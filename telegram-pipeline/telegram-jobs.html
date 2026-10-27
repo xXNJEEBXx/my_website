@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>متصفح وظائف التيلجرام</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .filter-group label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #3b82f6;
+        }
+
+        .filter-group input,
+        .filter-group select {
+            padding: 10px;
+            border: 1px solid #e1e8ed;
+            border-radius: 8px;
+            font-family: inherit;
+        }
+
+        .jobs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .job-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border-right: 4px solid #3b82f6;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .job-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: #1e293b;
+        }
+
+        .job-company {
+            font-weight: 500;
+            color: #64748b;
+            margin-bottom: 15px;
+        }
+
+        .job-detail {
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .job-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+
+        .job-tag {
+            background: #eff6ff;
+            color: #2563eb;
+            font-size: 0.8rem;
+            padding: 4px 8px;
+            border-radius: 15px;
+            font-weight: 500;
+        }
+
+        .job-links {
+            margin-top: auto;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .job-link {
+            background: #3b82f6;
+            color: white;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .job-link:hover {
+            background: #2563eb;
+        }
+
+        .count-badge {
+            background: #10b981;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-right: 10px;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="main-content" style="margin: 0 auto; max-width: 1200px; padding: 30px;">
+        <a href="index.html" class="back-link">← العودة للخطة الرئيسية</a>
+
+        <header class="section-header">
+            <h2>🔍 متصفح فرص التيلجرام <span id="jobsCount" class="count-badge" style="background:#3b82f6; font-size:1rem; margin-right:15px; padding: 6px 15px;">عدد النتائج: 0</span></h2>
+        </header>
+
+        <div class="filters">
+            <div class="filter-group">
+                <label>بحث عام</label>
+                <input type="text" id="searchInput" placeholder="ابحث باسم الشركة، المسمى، التفاصيل..." />
+            </div>
+            <div class="filter-group">
+                <label>المدينة</label>
+                <select id="locationFilter">
+                    <option value="">الكل</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>المكافأة</label>
+                <select id="salaryFilter">
+                    <option value="">الكل</option>
+                    <option value="مكافأة_مذكورة">يوجد مكافأة مذكورة</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>التخصص / الكلمات الدلالية</label>
+                <select id="tagFilter">
+                    <option value="">الكل</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>التاريخ</label>
+                <select id="dateFilter">
+                    <option value="">جميع التواريخ</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="jobsGrid" class="jobs-grid">
+            <!-- Jobs will be rendered here -->
+        </div>
+    </main>
+
+    <script src="telegram-data.js"></script>
+    <script src="telegram-browser.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,7 @@
+:root { color-scheme: dark; font-family: 'Segoe UI', Tahoma, sans-serif; background: #101827; color: #eef4ff; }
+body { margin: 0; } header { padding: 16px 22px; border-bottom: 1px solid #37485f; } h1 { font-size: 20px; margin: 0; }
+p { color: #a5b6cc; line-height: 1.7; } .tools { display: flex; gap: 8px; flex-wrap: wrap; }
+button, select { font: inherit; color: #edf4ff; background: #24364e; border: 1px solid #46617e; border-radius: 6px; padding: 8px 12px; }
+main { display: grid; grid-template-columns: 1fr minmax(280px,360px); height: calc(100vh - 170px); }
+iframe { width: 100%; height: 100%; border: 0; background: white; } pre { padding: 15px; margin: 0; overflow: auto; white-space: pre-wrap; direction: ltr; font-size: 12px; }
+@media(max-width:700px) { main { grid-template-columns: 1fr; } pre { max-height: 220px; } }
