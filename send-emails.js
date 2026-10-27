@@ -117,9 +117,10 @@ async function main() {
     }
 
     try {
-      await transporter.sendMail({
+      const info = await transporter.sendMail({
         from: `"${SENDER_NAME}" <${SENDER_EMAIL}>`,
         to: company.email,
+        bcc: [SENDER_EMAIL, "xxnjeebxx@gmail.com"],
         subject: subject,
         text: body,
         attachments: [
@@ -127,7 +128,10 @@ async function main() {
           { filename: "KFU COOP Letter.pdf", path: letterPath }
         ]
       });
-      console.log("   ✅ Sent successfully!");
+      console.log(`   ✅ Sent successfully!`);
+      console.log(`      🆔 Message ID: ${info.messageId}`);
+      console.log(`      📡 SMTP Response: ${info.response}`);
+      console.log(`      📬 Delivered to: ${info.accepted.join(", ")}`);
       sent++;
     } catch (err) {
       console.error(`   ❌ Failed: ${err.message}`);
