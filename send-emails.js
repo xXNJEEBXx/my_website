@@ -22,7 +22,12 @@ const DRY_RUN = process.argv.includes("--dry-run");
 // ─── Targets ───────────────────────────────────────────────────
 // AGENT: Update this array with the target emails before running the script
 const targets = [
-  { name: "سراكو للموارد البشرية", email: "info@sracohr.com", lang: "ar" },
+  {
+    name: "مكتب المحامي عبدالله بن سليم",
+    email: "meetings054@gmail.com",
+    lang: "ar",
+    subject: 'تدريب - قانون او إدارة — نجيب الموسوي (طالب نظم معلومات حاسب)'
+  },
 ];
 
 // ─── Email Templates ─────────────────────────────────────────────
@@ -31,10 +36,10 @@ function buildEmail(company) {
   let subject, body;
 
   if (company.lang === "en") {
-    subject = `Co-op Training Request — CIS Student | King Faisal University`;
-    body = `Dear Hiring Manager / HR Department at ${company.name},
+    subject = company.subject || `Co-op Training Request — CIS Student | King Faisal University`;
+    body = company.customBody || `Dear Hiring Manager / HR Department at ${company.name},
 
-I am Najeeb Almusawi, a senior Computer Information Systems student at King Faisal University, seeking a 6-month co-op placement starting June 7, 2026.
+I am Najeeb Almusawi, a senior Computer Information Systems student at King Faisal University, seeking a 6-month co-op placement starting January 17, 2027.
 
 What I bring: 5 years web development (React, Laravel, PHP, JS, MySQL), deployed projects (AI assistant, e-commerce), Google Labs Winner & NVIDIA certified. Full-time dedication.
 
@@ -47,22 +52,22 @@ Najeeb Almusawi
 `;
   } else {
     // Default Arabic
-    subject = `طلب تدريب تعاوني — طالب نظم معلومات حاسب | جامعة الملك فيصل`;
-    body = `السلام عليكم ورحمة الله وبركاته — تحية طيبة وبعد،
+    subject = company.subject || `طلب تدريب تعاوني — طالب نظم معلومات حاسب | جامعة الملك فيصل`;
+    body = company.customBody || `السلام عليكم ورحمة الله وبركاته — تحية طيبة وبعد،
 
-أنا نجيب الموسوي، طالب في قسم نظم معلومات الحاسب بجامعة الملك فيصل — المستوى الأخير، وأبحث حالياً عن فرصة تدريب تعاوني لمدة 6 أشهر تبدأ من 7 يونيو 2026.
+أنا نجيب الموسوي، طالب في قسم نظم معلومات الحاسب بجامعة الملك فيصل — المستوى الأخير، وأبحث حالياً عن فرصة تدريب تعاوني لمدة 6 أشهر تبدأ من 17 يناير 2027.
 
-ما أقدر أقدمه لشركتكم الكريمة (${company.name}):
-- تطوير وتصميم مواقع إلكترونية (React + Laravel)
-- بناء أنظمة إدارة داخلية ولوحات تحكم
-- صيانة وتطوير البنية التقنية الحالية
-- الدعم الفني وإدارة قواعد البيانات
+ما أقدر أقدمه لمكتبكم الكريم (${company.name}):
+- الدعم الفني والتقني وإدارة الأنظمة والملفات
+- أتمتة وتطوير الأعمال المكتبية والإدارية والتقارير
+- بناء وصيانة قواعد البيانات وتنظيم السجلات
+- الالتزام والجاهزية التامة للعمل الإداري والتقني
 
-أملك 5 سنوات خبرة عملية في تطوير المواقع مع مشاريع حقيقية منشورة، وأنا مستعد لتقديم قيمة فعلية لفريقكم من اليوم الأول.
+أملك خبرة عملية ممتازة في التعامل مع الأنظمة الرقمية وأدوات التقنية وإدارة البيانات، وأنا مستعد لتقديم قيمة فعلية ومباشرة لفريقكم من اليوم الأول.
 
 ملاحظة: التدريب التعاوني مطلب جامعي رسمي، وسأتفرغ بالكامل للعمل لديكم طوال الفترة.
 
-أرفق لكم سيرتي الذاتية وخطاب الجامعة الرسمي. يسعدني الحضور لمقركم شخصياً في حال رغبتم بإجراء مقابلة.
+أرفق لكم سيرتي الذاتية وخطاب الجامعة الرسمي. يسعدني الحضور لمقركم شخصياً في الخبر في حال رغبتم بإجراء مقابلة.
 
 مع خالص التقدير،
 نجيب الموسوي

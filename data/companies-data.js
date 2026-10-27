@@ -1760,7 +1760,6 @@ window.__PREVIOUS_COMPANIES = [
     "notes": "📌 تم التسجيل بنجاح في بوابة المواهب (Talent Community) عبر Oracle HCM."
   }
 ];
-
 window.__CURRENT_COMPANIES = [
   {
     "name": "وزارة السياحة (Ministry of Tourism)",
@@ -2645,9 +2644,9 @@ window.__CURRENT_COMPANIES = [
     "salary": "مكافأة تنافسية",
     "link": "mailto:meetings054@gmail.com",
     "trackLink": "",
-    "status": "pending",
+    "status": "applied",
     "region": "sa",
-    "notes": "فرصة تدريب تعاوني بالخبر الشمالية في القانون والإدارة - واتساب 0530606660",
+    "notes": "فرصة تدريب تعاوني بالخبر الشمالية في القانون والإدارة - واتساب 0530606660 | تم التقديم في 2026-10-27: تم إرسال الإيميل الرسمي مع السيرة الذاتية وخطاب الجامعة إلى meetings054@gmail.com بنجاح",
     "postDate": "2026-10-26"
   },
   {

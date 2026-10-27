@@ -100,6 +100,10 @@ Two-tool system: first converts course files into flashcards (summarize, transla
 
 ## Applicant-specific preferences
 
+1. **Target Selection & Priority Order**
+   - When selecting companies to apply to from `jobs-dashboard.html`, always start from the newest announcement date first (Newest First / الأحدث تاريخاً) and proceed chronologically.
+   - Always use the built-in project tools (`node data/tracker.js`, `send-emails.js`, telegram-pipeline/scratch data tools) to look up job announcements, verify requirements, and manage records.
+
 3. **Login / Account Creation**
 
    Try Google sign-in first, then LinkedIn.
