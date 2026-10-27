@@ -120,7 +120,6 @@ async function main() {
       const info = await transporter.sendMail({
         from: `"${SENDER_NAME}" <${SENDER_EMAIL}>`,
         to: company.email,
-        bcc: [SENDER_EMAIL, "xxnjeebxx@gmail.com"],
         subject: subject,
         text: body,
         attachments: [
