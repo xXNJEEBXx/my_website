@@ -1381,6 +1381,27 @@
         if (c.status === 'rejected') { statusClass = 'status-rejected'; statusLabel = 'مرفوض'; }
         if (c.status === 'failed') { statusClass = 'status-failed'; statusLabel = 'معطل'; }
 
+        let linkIcon = '🔗';
+        let linkTitle = 'فتح رابط التقديم';
+        if (c.link) {
+          if (c.link.startsWith('mailto:')) {
+            linkIcon = '✉️';
+            linkTitle = `إرسال سيرة ذاتية إلى: ${c.link.replace('mailto:', '')}`;
+          } else if (c.link.includes('wa.me') || c.link.includes('whatsapp')) {
+            linkIcon = '💬';
+            linkTitle = 'مراسلة التوظيف عبر واتساب (WhatsApp)';
+          } else if (c.link.startsWith('tel:')) {
+            linkIcon = '📞';
+            linkTitle = `اتصال مباشر: ${c.link.replace('tel:', '')}`;
+          } else if (c.link.includes('forms.gle') || c.link.includes('forms.google') || c.link.includes('forms.cloud.microsoft') || c.link.includes('script.google') || c.link.includes('monday.com')) {
+            linkIcon = '📝';
+            linkTitle = 'تعبئة استمارة التقديم (Form)';
+          } else if (c.link.includes('linkedin.com')) {
+            linkIcon = '💼';
+            linkTitle = 'التقديم عبر لينكدإن (LinkedIn)';
+          }
+        }
+
         return `
           <tr>
             <td class="col-idx" style="font-family: 'JetBrains Mono', monospace; color: var(--text-dim);">${idx + 1}</td>
@@ -1406,7 +1427,7 @@
               </span>
             </td>
             <td class="col-links">
-              ${c.link ? `<a href="${c.link}" target="_blank" rel="noopener noreferrer" class="action-icon-btn" title="فتح الرابط">🔗</a>` : '-'}
+              ${c.link ? `<a href="${c.link}" target="_blank" rel="noopener noreferrer" class="action-icon-btn" title="${linkTitle}">${linkIcon}</a>` : '-'}
             </td>
             <td class="col-notes">
               <span class="notes-preview" onclick="alert('${(c.notes || 'لا توجد ملاحظات').replace(/'/g, "\\'")}')" title="انقر لعرض الملاحظة كاملة">

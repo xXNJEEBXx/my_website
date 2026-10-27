@@ -1760,17 +1760,18 @@ window.__PREVIOUS_COMPANIES = [
     "notes": "📌 تم التسجيل بنجاح في بوابة المواهب (Talent Community) عبر Oracle HCM."
   }
 ];
+
 window.__CURRENT_COMPANIES = [
   {
     "name": "وزارة السياحة (Ministry of Tourism)",
     "field": "IT Support & Systems Specialist",
     "location": "الرياض",
     "salary": "مكافأة تنافسية",
-    "link": "",
+    "link": "https://darbak.space/where-to-train/opportunity/6abd0b0ae5d98f0f41f41a2d?source=telegram&type=opportunity",
     "trackLink": "",
     "status": "pending",
     "region": "sa",
-    "notes": "برنامج التدريب التعاوني عبر منصة هدف (صندوق تنمية الموارد البشرية)",
+    "notes": "برنامج التدريب التعاوني عبر منصة هدف ودربك في منشآت القطاع السياحي",
     "postDate": "2026-10-01"
   },
   {
@@ -1794,7 +1795,7 @@ window.__CURRENT_COMPANIES = [
     "trackLink": "",
     "status": "pending",
     "region": "sa",
-    "notes": "تدريب تعاوني في التصميم الجرافيكي والمونتاج وإدارة الأعمال",
+    "notes": "تدريب تعاوني في تقنية المعلومات IT والتصميم والمونتاج والإدارة",
     "postDate": "2026-10-01"
   },
   {
@@ -1806,7 +1807,7 @@ window.__CURRENT_COMPANIES = [
     "trackLink": "",
     "status": "pending",
     "region": "sa",
-    "notes": "فرصة تدريب تعاوني حضوري في بريدة لمصممي الجرافيكس",
+    "notes": "تدريب تعاوني حضوري بمدينة بريدة لمصممي الجرافيك والموشن جرافيك",
     "postDate": "2026-10-01"
   },
   {
@@ -2006,11 +2007,11 @@ window.__CURRENT_COMPANIES = [
     "field": "IT Support & Systems Specialist",
     "location": "الدمام / الخبر",
     "salary": "مكافأة تنافسية",
-    "link": "",
+    "link": "mailto:Career-saudi@tuvsud.com",
     "trackLink": "",
     "status": "pending",
     "region": "sa",
-    "notes": "تدريب في جدة والخبر في الهندسة الميكانيكية والمحاسبة والموارد البشرية",
+    "notes": "تدريب في جدة والخبر (هندسة ميكانيكية، محاسبة، موارد بشرية) - إرسال السيرة والخطاب الجامعي",
     "postDate": "2026-10-04"
   },
   {
@@ -2042,11 +2043,11 @@ window.__CURRENT_COMPANIES = [
     "field": "IT Support & Systems Specialist",
     "location": "الرياض",
     "salary": "مكافأة تنافسية",
-    "link": "",
+    "link": "https://wa.me/966533863155",
     "trackLink": "",
     "status": "pending",
     "region": "sa",
-    "notes": "تدريب تعاوني فرع النرجس بالرياض في التربية وعلم النفس",
+    "notes": "تدريب تعاوني فرع النرجس بالرياض في التربية وعلم النفس - واتساب 0533863155",
     "postDate": "2026-10-04"
   },
   {
@@ -2054,7 +2055,7 @@ window.__CURRENT_COMPANIES = [
     "field": "IT Support & Systems Specialist",
     "location": "الرياض",
     "salary": "مكافأة تنافسية",
-    "link": "",
+    "link": "https://forms.gle/LHQ3rhbF1nqhjivj7",
     "trackLink": "",
     "status": "pending",
     "region": "sa",
@@ -2082,7 +2083,7 @@ window.__CURRENT_COMPANIES = [
     "trackLink": "",
     "status": "pending",
     "region": "sa",
-    "notes": "برنامج التدريب التعاوني عن بُعد في شركة زد",
+    "notes": "برنامج التدريب التعاوني لشركة زد للتجارة الإلكترونية والتقنية",
     "postDate": "2026-10-04"
   },
   {
@@ -2138,11 +2139,11 @@ window.__CURRENT_COMPANIES = [
     "field": "IT Support & Systems Specialist",
     "location": "الرياض",
     "salary": "مكافأة تنافسية",
-    "link": "",
+    "link": "mailto:job@bluetoktok.com",
     "trackLink": "",
     "status": "pending",
     "region": "sa",
-    "notes": "تدريب تعاوني لطلاب وطالبات البكالوريوس في سلاسل الإمداد والتسويق والجودة",
+    "notes": "تدريب تعاوني لطلاب وطالبات البكالوريوس في سلاسل الإمداد والتسويق والجودة - إرسال السيرة والخطاب",
     "postDate": "2026-10-05"
   },
   {
@@ -2162,11 +2163,11 @@ window.__CURRENT_COMPANIES = [
     "field": "IT Support & Systems Specialist",
     "location": "الرياض",
     "salary": "مكافأة تنافسية",
-    "link": "https://forms.gle/ToZpPYQyiYpmEGFp7",
+    "link": "https://docs.google.com/forms/d/e/1FAIpQLSeaM_67r1ZBQXcIEn9lRhdGjWHi8O-SAwm1wdx_gng4tu3HPw/viewform?usp=publish-editor",
     "trackLink": "",
     "status": "pending",
     "region": "sa",
-    "notes": "برنامج التدريب التعاوني في التسويق والإدارة المكتبية",
+    "notes": "تدريب تعاوني بالرياض حي الوزارات في التسويق والإدارة والعلاقات العامة",
     "postDate": "2026-10-06"
   },
   {
@@ -2174,11 +2175,11 @@ window.__CURRENT_COMPANIES = [
     "field": "Full-Stack Web Developer",
     "location": "الرياض (عن بعد)",
     "salary": "مكافأة تنافسية",
-    "link": "",
+    "link": "https://training.at-group.me/",
     "trackLink": "",
     "status": "pending",
     "region": "sa",
-    "notes": "تدريب حضوري أو عن بُعد في تطوير المواقع والبرمجة وتحليل البيانات",
+    "notes": "تدريب حضوري بالرياض أو عن بُعد في تطوير المواقع والبرمجة وتحليل البيانات والتسويق",
     "postDate": "2026-10-05"
   },
   {
@@ -2186,11 +2187,11 @@ window.__CURRENT_COMPANIES = [
     "field": "IT Support & Systems Specialist",
     "location": "الرياض",
     "salary": "مكافأة تنافسية",
-    "link": "",
+    "link": "https://forms.gle/coMjqkaqC2mV87oi9",
     "trackLink": "",
     "status": "pending",
     "region": "sa",
-    "notes": "فرص تدريب تعاوني لعدة تخصصات بمكافآت وحوافز للمتميزين",
+    "notes": "فرص تدريب تعاوني لعدة تخصصات بمكافآت وحوافز للمتميزين وإمكانية توظيف",
     "postDate": "2026-10-06"
   },
   {
@@ -2210,7 +2211,7 @@ window.__CURRENT_COMPANIES = [
     "field": "IT Support & Systems Specialist",
     "location": "الرياض",
     "salary": "مكافأة تنافسية",
-    "link": "",
+    "link": "https://bit.ly/4kkqb0Q",
     "trackLink": "",
     "status": "pending",
     "region": "sa",
@@ -2282,7 +2283,7 @@ window.__CURRENT_COMPANIES = [
     "field": "IT Support & Systems Specialist",
     "location": "الرياض",
     "salary": "مكافأة تنافسية",
-    "link": "",
+    "link": "mailto:bd@damalmashru.com",
     "trackLink": "",
     "status": "pending",
     "region": "sa",
@@ -2294,11 +2295,11 @@ window.__CURRENT_COMPANIES = [
     "field": "IT Support & Systems Specialist",
     "location": "الرياض",
     "salary": "مكافأة تنافسية",
-    "link": "https://lik.ad/tv31w",
+    "link": "https://m.alfanar.com/3UfCAfd?r=qr",
     "trackLink": "",
     "status": "pending",
     "region": "sa",
-    "notes": "برنامج التدريب التعاوني 2026 / 2027 م لمختلف التخصصات الهندسية والإدارية والتقنية",
+    "notes": "برنامج التدريب التعاوني لشركة الفنار للجنسين في الهندسة والتقنية والإدارة",
     "postDate": "2026-10-12"
   },
   {
@@ -2354,11 +2355,11 @@ window.__CURRENT_COMPANIES = [
     "field": "IT Support & Systems Specialist",
     "location": "الرياض",
     "salary": "مكافأة تنافسية",
-    "link": "https://career.elm.sa/elm/go/Coop-Trainee-and-Training-Programs/7792200/",
+    "link": "https://x.com/TheFtnSa/status/2112597240334221748",
     "trackLink": "",
     "status": "pending",
     "region": "sa",
-    "notes": "برنامج التدريب التعاوني دفعة يناير 2027 بمكافأة شهرية وإشراف وتوجيه",
+    "notes": "برنامج التدريب التعاوني لدفعة يناير 2027 بالرياض في علوم الحاسب والبرمجيات وتقنية المعلومات",
     "postDate": "2026-10-19"
   },
   {
@@ -2402,11 +2403,11 @@ window.__CURRENT_COMPANIES = [
     "field": "Cybersecurity Analyst (SOC / Security)",
     "location": "الرياض",
     "salary": "مكافأة تنافسية",
-    "link": "",
+    "link": "mailto:digital@enzar.com",
     "trackLink": "",
     "status": "pending",
     "region": "sa",
-    "notes": "متدرب أمن سيبراني (GRC) - الأمن السيبراني والحوكمة والمخاطر والالتزام",
+    "notes": "متدرب أمن سيبراني (GRC) - الأمن السيبراني والحوكمة والمخاطر والالتزام لدفعة نوفمبر",
     "postDate": "2026-10-21"
   },
   {
@@ -2414,11 +2415,11 @@ window.__CURRENT_COMPANIES = [
     "field": "IT Support & Systems Specialist",
     "location": "الرياض",
     "salary": "مكافأة تنافسية",
-    "link": "mailto:info@frontline-sa.com",
+    "link": "https://docs.google.com/forms/d/e/1FAIpQLScjaWH9WOAeeYr_LSuzZPgApzQtCB9NkU7NJoAMnnSUS_SCRw/viewform?usp=dialog",
     "trackLink": "",
     "status": "pending",
     "region": "sa",
-    "notes": "فرص تدريب تعاوني في مجالات التسويق والإعلام والصحافة",
+    "notes": "تدريب تعاوني بالرياض في التسويق والإعلام والصحافة - إيميل info@frontline-sa.com",
     "postDate": "2026-10-21"
   },
   {
@@ -2426,11 +2427,11 @@ window.__CURRENT_COMPANIES = [
     "field": "IT Support & Systems Specialist",
     "location": "الأحساء",
     "salary": "مكافأة تنافسية",
-    "link": "",
+    "link": "mailto:info@muetmadcpa.com",
     "trackLink": "",
     "status": "pending",
     "region": "sa",
-    "notes": "تدريب تعاوني لمدة 6 أشهر في فرعي الأحساء والخبر لطلاب المحاسبة",
+    "notes": "تدريب تعاوني 6 أشهر بفرعي الأحساء والخبر لطلاب المحاسبة (معدل جيد جداً فأعلى)",
     "postDate": "2026-10-21"
   },
   {
@@ -2450,7 +2451,7 @@ window.__CURRENT_COMPANIES = [
     "field": "IT Support & Systems Specialist",
     "location": "الرياض",
     "salary": "مكافأة تنافسية",
-    "link": "tel:0508359967",
+    "link": "https://wa.me/966508359967",
     "trackLink": "",
     "status": "pending",
     "region": "sa",
@@ -2474,11 +2475,11 @@ window.__CURRENT_COMPANIES = [
     "field": "IT Support & Systems Specialist",
     "location": "الرياض",
     "salary": "مكافأة تنافسية",
-    "link": "https://v3international.com/co-op-training-2/",
+    "link": "https://forms.gle/XpSYxgLuVFF8DWht6",
     "trackLink": "",
     "status": "pending",
     "region": "sa",
-    "notes": "تدريب تعاوني في مجال الهندسة لطلاب الجامعات - https://forms.gle/XpSYxgLuVFF8DWht6",
+    "notes": "تدريب تعاوني في مجال الهندسة لطلاب الجامعات - https://v3international.com/co-op-training-2/",
     "postDate": "2026-10-21"
   },
   {
@@ -2490,7 +2491,7 @@ window.__CURRENT_COMPANIES = [
     "trackLink": "",
     "status": "pending",
     "region": "sa",
-    "notes": "تدريب تعاوني في الذكاء الاصطناعي وتقنية المعلومات IT والتسويق والموارد البشرية",
+    "notes": "تدريب تعاوني بالرياض في الذكاء الاصطناعي، تقنية المعلومات، والتسويق",
     "postDate": "2026-10-21"
   },
   {
@@ -2498,11 +2499,11 @@ window.__CURRENT_COMPANIES = [
     "field": "IT Support & Systems Specialist",
     "location": "الرياض",
     "salary": "مكافأة تنافسية",
-    "link": "",
+    "link": "mailto:Job@kalderea.com",
     "trackLink": "",
     "status": "pending",
     "region": "sa",
-    "notes": "فرصة تدريب تعاوني قسم المالية لطلاب وطالبات الجامعات",
+    "notes": "فرصة تدريب تعاوني قسم المالية بحي السلي بالرياض لطلاب وطالبات الجامعات",
     "postDate": "2026-10-22"
   },
   {
@@ -2510,11 +2511,11 @@ window.__CURRENT_COMPANIES = [
     "field": "IT Support & Systems Specialist",
     "location": "الرياض",
     "salary": "مكافأة تنافسية",
-    "link": "",
+    "link": "https://script.google.com/macros/s/AKfycbxs8muKy-1jAJn_yJxhFBAQqKljsj5v21o6G-pb22-A879iLJ5FZkYvmaDyt2oAOWh6/exec?group=interns",
     "trackLink": "",
     "status": "pending",
     "region": "sa",
-    "notes": "تدريب عملي ومشاريع حقيقية للطلاب والخريجين الجدد",
+    "notes": "تدريب عملي ومشاريع حقيقية في التصميم والبرمجة والتسويق والمشاريع بالرياض",
     "postDate": "2026-10-22"
   },
   {
@@ -2522,11 +2523,11 @@ window.__CURRENT_COMPANIES = [
     "field": "IT Support & Systems Specialist",
     "location": "جدة",
     "salary": "مكافأة تنافسية",
-    "link": "",
+    "link": "mailto:Job@reval-sa.com",
     "trackLink": "",
     "status": "pending",
     "region": "sa",
-    "notes": "إعلان فرص تدريب تعاوني بجدة لطلاب وطالبات الجامعات",
+    "notes": "إعلان فرص تدريب تعاوني بجدة لطلاب وطالبات الجامعات في الإدارة والتسويق والتصميم",
     "postDate": "2026-10-22"
   },
   {
@@ -2534,7 +2535,7 @@ window.__CURRENT_COMPANIES = [
     "field": "IT Support & Systems Specialist",
     "location": "جدة",
     "salary": "مكافأة تنافسية",
-    "link": "",
+    "link": "https://docs.google.com/forms/d/e/1FAIpQLScEKHVdmcDis0gozv1yADILr6523PK6zuandOldSVOt2hDgCA/viewform?pli=1",
     "trackLink": "",
     "status": "pending",
     "region": "sa",
@@ -2558,11 +2559,11 @@ window.__CURRENT_COMPANIES = [
     "field": "Full-Stack Web Developer",
     "location": "الرياض",
     "salary": "مكافأة تنافسية",
-    "link": "",
+    "link": "https://docs.google.com/forms/d/e/1FAIpQLSceGkWt92MXZqw1dW5uyWhx7V395ujLoh4NO5Z4Khtus9RZBw/viewform",
     "trackLink": "",
     "status": "pending",
     "region": "sa",
-    "notes": "برنامج التدريب التقني لدعم وتطوير البرمجيات وتطبيقات الويب",
+    "notes": "برنامج التدريب التقني عن بعد لدعم وتطوير البرمجيات وتطبيقات الويب وUX/UI",
     "postDate": "2026-10-25"
   },
   {
@@ -2618,11 +2619,11 @@ window.__CURRENT_COMPANIES = [
     "field": "IT Support & Systems Specialist",
     "location": "الرياض",
     "salary": "مكافأة تنافسية",
-    "link": "",
+    "link": "https://www.linkedin.com/jobs/view/4478993931",
     "trackLink": "",
     "status": "pending",
     "region": "sa",
-    "notes": "تدريب تعاوني في التجارة الإلكترونية E-Commerce والتسويق الرقمي",
+    "notes": "تدريب تعاوني بالرياض في التجارة الإلكترونية E-Commerce والتسويق الرقمي ونظم المعلومات",
     "postDate": "2026-10-25"
   },
   {
@@ -2630,11 +2631,11 @@ window.__CURRENT_COMPANIES = [
     "field": "IT Support & Systems Specialist",
     "location": "جدة",
     "salary": "مكافأة تنافسية",
-    "link": "",
+    "link": "https://www.linkedin.com/jobs/view/4476403977",
     "trackLink": "",
     "status": "pending",
     "region": "sa",
-    "notes": "برنامج التدريب Internship Program 2026–2027 للطلاب في المشاريع والهندسة",
+    "notes": "برنامج التدريب Internship Program 2026–2027 بجدة للطلاب في المشاريع والهندسة",
     "postDate": "2026-10-25"
   },
   {
@@ -2646,7 +2647,7 @@ window.__CURRENT_COMPANIES = [
     "trackLink": "",
     "status": "pending",
     "region": "sa",
-    "notes": "تدريب تعاوني بالخبر الشمالية في التخصصات الإدارية والقانونية - واتساب 0530606660",
+    "notes": "فرصة تدريب تعاوني بالخبر الشمالية في القانون والإدارة - واتساب 0530606660",
     "postDate": "2026-10-26"
   },
   {
@@ -2654,7 +2655,7 @@ window.__CURRENT_COMPANIES = [
     "field": "IT Support & Systems Specialist",
     "location": "جدة",
     "salary": "مكافأة تنافسية",
-    "link": "",
+    "link": "mailto:rahaf@ipcsa.com",
     "trackLink": "",
     "status": "pending",
     "region": "sa",
@@ -2666,11 +2667,11 @@ window.__CURRENT_COMPANIES = [
     "field": "AI / Machine Learning Engineer",
     "location": "الرياض",
     "salary": "مكافأة تنافسية",
-    "link": "",
+    "link": "mailto:aforward29@gmail.com",
     "trackLink": "",
     "status": "pending",
     "region": "sa",
-    "notes": "فرصة تدريبية 6 أشهر بحي النرجس في الذكاء الاصطناعي وAI Agents والتقنية المالية",
+    "notes": "فرصة تدريبية 6 أشهر بحي النرجس بالرياض في الذكاء الاصطناعي وAI Agents وفنتك",
     "postDate": "2026-10-26"
   },
   {
@@ -2678,7 +2679,7 @@ window.__CURRENT_COMPANIES = [
     "field": "IT Support & Systems Specialist",
     "location": "الرياض",
     "salary": "مكافأة تنافسية",
-    "link": "",
+    "link": "https://wdeftksa.com/sa/jobs/100869",
     "trackLink": "",
     "status": "pending",
     "region": "sa",
