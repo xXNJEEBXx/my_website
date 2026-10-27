@@ -954,6 +954,7 @@
               <option value="Cloud & DevOps Engineer">☁️ Cloud & DevOps Engineer (بنية تحتية وسحابي)</option>
               <option value="IT Support & Network Specialist">🔌 IT Support & Systems (دعم فني وشبكات)</option>
               <option value="UI/UX Designer">✨ UI/UX Designer (تصميم واجهات وتجربة)</option>
+              <option value="غير مذكور">❓ غير مذكور / تدريب عام (Not Specified)</option>
               <option value="custom">✏️ مجال مخصص آخر (إدخال يدوي)...</option>
             </select>
             <input type="text" id="fFieldCustom" placeholder="اكتب المسمى الوظيفي المخصص..." style="display: none; margin-top: 6px;" />
@@ -1962,7 +1963,7 @@
       // Compute final values from structured controls
       const fieldSelect = document.getElementById('fFieldSelect');
       const finalField = fieldSelect.value === 'custom' 
-        ? (document.getElementById('fFieldCustom').value.trim() || 'Software Engineer Intern') 
+        ? (document.getElementById('fFieldCustom').value.trim() || 'غير مذكور') 
         : fieldSelect.value;
 
       const finalLocation = updateLocationPreview();

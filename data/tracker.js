@@ -59,7 +59,15 @@ const STANDARD_ROLES = {
   'cloud': 'Cloud & DevOps Engineer',
   'it': 'IT Support & Systems Specialist',
   'ui': 'UI/UX Designer',
-  'ux': 'UI/UX Designer'
+  'ux': 'UI/UX Designer',
+  'none': 'غير مذكور',
+  'unknown': 'غير مذكور',
+  'unspecified': 'غير مذكور',
+  'not-specified': 'غير مذكور',
+  'غير مذكور': 'غير مذكور',
+  'غير-مذكور': 'غير مذكور',
+  'عام': 'غير مذكور',
+  'general': 'غير مذكور'
 };
 
 const CITY_LOOKUP = {
@@ -130,7 +138,7 @@ const CITY_LOOKUP = {
 };
 
 function normalizeRole(input) {
-  if (!input) return 'Software Engineer Intern';
+  if (!input) return 'غير مذكور';
   const clean = String(input).trim().toLowerCase();
   for (const [key, val] of Object.entries(STANDARD_ROLES)) {
     if (clean === key || clean.includes(key)) return val;
@@ -664,6 +672,8 @@ function cmdOptions() {
    - ai         -> AI / Machine Learning Engineer
    - devops     -> Cloud & DevOps Engineer
    - it         -> IT Support & Systems Specialist
+   - ui / ux    -> UI/UX Designer
+   - none / غير مذكور -> غير مذكور (تدريب عام أو غير محدد بالإعلان)
 
 2. المدن والدول المدعومة تلقائياً (--city / --country):
    🇸🇦 السعودية (sa): الأحساء, الرياض, الدمام, الخبر, الظهران, الجبيل, جدة, نيوم
