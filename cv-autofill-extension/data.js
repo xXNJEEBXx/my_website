@@ -66,7 +66,7 @@ globalThis.__CV_APP.CV = {
   majorAr: 'نظم المعلومات الحاسوبية',
   academicLevel: 'Senior (Expected Graduate)',
   academicLevelAr: 'سنة رابعة / متوقع تخرجه',
-  gpa: '2.53',
+  gpa: '2.76',
   gpaScale: '4.0',
   graduationDate: '2026-12-07',
   graduationYear: '2026',
@@ -74,7 +74,7 @@ globalThis.__CV_APP.CV = {
   trainingTypeAr: 'تدريب تعاوني',
   trainingDuration: '6 months (24 weeks)',
   trainingDurationAr: '6 أشهر (24 أسبوع)',
-  trainingStartDate: '2026-06-07',
+  trainingStartDate: '2027-01-17',
 
   // ─────────────────────────────────────────────
   // SECTION 4: Links
@@ -108,7 +108,7 @@ globalThis.__CV_APP.CV = {
   // ─────────────────────────────────────────────
   // SECTION 7: Professional Summary
   // ─────────────────────────────────────────────
-  summary: '5 years of freelance web development experience (HTML, CSS, JavaScript, PHP, MySQL), 3 years with React and Laravel, and 1 year at vibcoding. Highly adaptable and eager to learn. Actively seeking a 6-month hybrid Co-op placement starting from the upcoming summer.',
+  summary: 'Full-Stack Web Developer with 5 years of hands-on coding experience, specializing for the past 3 years in React and Laravel alongside JavaScript, PHP, and MySQL. Backed by 1 year of professional experience at Vibcoding, I quickly adapt to new technologies and focus on delivering clean, scalable web solutions. Fully available for a 6-month Co-op placement starting January 17, 2027.',
 
   // ─────────────────────────────────────────────
   // SECTION 8: Skills
@@ -126,7 +126,7 @@ globalThis.__CV_APP.CV = {
   // SECTION 10: Job Preferences
   // ─────────────────────────────────────────────
   noticePeriod: '2 weeks',
-  trainingPeriod: '6 months starting June 7, 2026',
+  trainingPeriod: '6 months starting January 17, 2027',
   desiredSalary: '4000',
 
   // ─────────────────────────────────────────────

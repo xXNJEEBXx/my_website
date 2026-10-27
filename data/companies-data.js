@@ -2680,7 +2680,7 @@ window.__CURRENT_COMPANIES = [
     "salary": "راتب شهري",
     "link": "https://wdeftksa.com/sa/jobs/100869",
     "trackLink": "",
-    "status": "pending",
+    "status": "failed",
     "region": "sa",
     "notes": "فرص وظيفية وتدريبية للطلاب بساعات عمل مرنة تناسب الجدول الدراسي وراتب شهري",
     "postDate": "2026-10-26"
