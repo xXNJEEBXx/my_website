@@ -340,27 +340,29 @@ function printCompaniesTable(companies, title = "النتائج") {
   }
 
   console.log(`\n📊 ${title} (${companies.length} فرصة):\n`);
-  console.log('='.repeat(95));
+  console.log('='.repeat(110));
   console.log(
     '#'.padEnd(4) +
     'الشركة'.padEnd(26) +
     'التخصص'.padEnd(24) +
-    'الموقع'.padEnd(20) +
+    'الموقع'.padEnd(18) +
+    'تاريخ الإعلان'.padEnd(16) +
     'المكافأة'.padEnd(14) +
     'الحالة'
   );
-  console.log('-'.repeat(95));
+  console.log('-'.repeat(110));
 
   companies.forEach((c, idx) => {
     const flag = REGIONS[c.region]?.flag || '🌐';
     const name = `${flag} ${(c.name || 'غير محدد')}`.substring(0, 24).padEnd(26);
     const field = (c.field || '-').substring(0, 22).padEnd(24);
-    const location = (c.location || '-').substring(0, 18).padEnd(20);
+    const location = (c.location || '-').substring(0, 16).padEnd(18);
+    const postDate = (c.postDate || c.date || '-').padEnd(16);
     const salary = (c.salary || '-').substring(0, 12).padEnd(14);
     const statusObj = STATUS_MAP[c.status] || { icon: '⚪', label: c.status || 'unknown' };
     const status = `${statusObj.icon} ${statusObj.label}`;
 
-    console.log(`${String(idx + 1).padEnd(4)}${name}${field}${location}${salary}${status}`);
+    console.log(`${String(idx + 1).padEnd(4)}${name}${field}${location}${postDate}${salary}${status}`);
     if (c.link) {
       console.log(`    🔗 الرابط: ${c.link}`);
     }
@@ -368,7 +370,7 @@ function printCompaniesTable(companies, title = "النتائج") {
       console.log(`    💡 ملاحظات: ${c.notes}`);
     }
   });
-  console.log('='.repeat(95) + '\n');
+  console.log('='.repeat(110) + '\n');
 }
 
 // ─── Command Handlers ────────────────────────────────────────────────────────
@@ -396,12 +398,14 @@ function cmdAdd(flags) {
   const salary = normalizeSalary(flags, region);
   const rawStatus = (flags.status || 'pending').toLowerCase();
   const status = STATUS_MAP[rawStatus] ? rawStatus : 'pending';
+  const postDate = (flags.postDate || flags['post-date'] || flags.date || flags['announcement-date'] || getTodayDate()).trim();
 
   const newCompany = {
     name: name.trim(),
     field,
     location,
     salary,
+    postDate,
     link: (flags.link || flags.url || '').trim(),
     trackLink: (flags.trackLink || '').trim(),
     status,
@@ -415,6 +419,7 @@ function cmdAdd(flags) {
     console.log(`   🏢 الاسم: ${newCompany.name}`);
     console.log(`   💼 المسمى: ${newCompany.field}`);
     console.log(`   📍 الموقع: ${newCompany.location} (${REGIONS[newCompany.region]?.flag || '🌐'})`);
+    console.log(`   📅 تاريخ الإعلان: ${newCompany.postDate}`);
     console.log(`   💰 المكافأة: ${newCompany.salary}`);
     console.log(`   📊 الحالة: ${STATUS_MAP[newCompany.status]?.icon} ${STATUS_MAP[newCompany.status]?.label}`);
   }
@@ -488,6 +493,9 @@ function cmdStatus(flags) {
   }
   if (flags.notes) {
     target.notes = target.notes ? `${target.notes} | ${flags.notes}` : flags.notes;
+  }
+  if (flags.date || flags.postDate || flags['post-date']) {
+    target.postDate = (flags.date || flags.postDate || flags['post-date']).trim();
   }
 
   if (saveCurrentJson(current)) {
@@ -635,6 +643,11 @@ function cmdCopyPrevious(flags) {
   }
 }
 
+function cmdClear() {
+  saveCurrentJson([]);
+  console.log('✅ تم مسح جميع تقديمات السمستر الحالي من لوحة التحكم بنجاح.');
+}
+
 function cmdOptions() {
   console.log(`
 🎯 الخيارات والأنماط المعيارية المعتمدة (Zero-Error Presets)
@@ -728,6 +741,10 @@ const flags = parseArgs(args.slice(1));
 switch (command) {
   case 'add':
     cmdAdd(flags);
+    break;
+  case 'clear':
+  case 'reset':
+    cmdClear();
     break;
   case 'options':
   case 'presets':
